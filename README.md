@@ -27,6 +27,9 @@ We're excited that you're interested in contributing to RateMyCourse! As a new p
 
 These are the maintainers for this project for FOSS Overflow 2023:
 
+- [@chaitanyabisht](https://github.com/chaitanyabisht)
+- [@VickyMerzOwn](https://github.com/VickyMerzOwn)
+
 
 ## License
 
