@@ -2,8 +2,11 @@
 module.exports = {
   content: ["./src/**/*.{html,js}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        Dosis: ["Dosis", "sans-serif"],
+      },
+    },
   },
   plugins: [],
-}
-
+};
