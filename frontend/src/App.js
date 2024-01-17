@@ -4,14 +4,16 @@ import { Layout } from "./Layout";
 import { Home } from "./Pages/Home";
 import { Login } from "./Pages/Login";
 import { Signup } from "./Pages/Signup";
+import { TeacherOrStudent } from "./Pages/TeacherOrStudent";
 
 function App() {
   return (
-    <div>
+    <div >
       <Router>
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/teacherorstudent" element={<TeacherOrStudent />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
           </Routes>

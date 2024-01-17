@@ -71,7 +71,7 @@ const Navbar = () => {
               Login
             </Link>
             <Link
-              to="/signup"
+              to="/teacherorstudent"
               className="block py-2 hover:text-red-400 active:text-red-500 transition duration-300 ease-in-out"
             >
               <FontAwesomeIcon icon={faUserPlus} className="mr-2" />
@@ -107,7 +107,7 @@ const Navbar = () => {
           Login
         </Link>
         <Link
-          to="/signup"
+          to="/teacherorstudent"
           className="mx-2 hover:text-red-400 active:text-red-500 transition duration-300 ease-in-out"
         >
           Signup
