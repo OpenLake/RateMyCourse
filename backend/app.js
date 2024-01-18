@@ -1,7 +1,12 @@
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser'); 
+const mongoose = require('mongoose')
+
 const authRoutes = require('./src/routes/auth.routes'); 
+require('dotenv').config();
+
+const url = process.env.MONGODB_URI;
 
 const app = express();
 
@@ -15,12 +20,16 @@ app.use(session({
 // Middleware to parse JSON request bodies
 app.use(bodyParser.json());
 
-// Additional middleware can be added here
-
 // Use the authentication routes
 app.use('/auth', authRoutes);
 
-// Add any additional middleware and routes as needed
+mongoose.connect(url)
+  .then( () => {
+      console.log('Connected to database ')
+  })
+  .catch( (err) => {
+      console.error(`Error connecting to the database. \n${err}`);
+  })
 
 const port = process.env.PORT || 3000;
 
