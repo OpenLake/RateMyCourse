@@ -2,13 +2,14 @@ const jwt = require('jsonwebtoken');
 
 function authenticateUser(req, res, next) {
   const token = req.headers.authorization || req.cookies.token;
+  console.log(token);
 
   if (!token) {
     return res.status(401).json({ message: 'Unauthorized: Missing token' });
   }
 
   // Verify the token
-  jwt.verify(token, 'your-secret-key', (err, decoded) => {
+  jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
     if (err) {
       return res.status(401).json({ message: 'Unauthorized: Invalid token' });
     }

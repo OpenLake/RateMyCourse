@@ -10,17 +10,14 @@ const url = process.env.MONGODB_URI;
 
 const app = express();
 
-// Use sessions to track authentication state
 app.use(session({
-  secret: 'your-secret-key', // Replace with a strong secret
+  secret: process.env.SESSION_SECRET_KEY, 
   resave: false,
   saveUninitialized: true,
 }));
 
-// Middleware to parse JSON request bodies
 app.use(bodyParser.json());
 
-// Use the authentication routes
 app.use('/auth', authRoutes);
 
 mongoose.connect(url)

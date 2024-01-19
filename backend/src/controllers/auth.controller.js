@@ -5,10 +5,9 @@ async function loginUser(req, res) {
   const { username, password } = req.body;
 
   try {
-    // Check if user exists and credentials are valid (replace with database check)
     const user = await User.findOne({ username });
 
-    if (!user || !(await user.comparePassword(password))) {
+    if (!user || !(await password===user.password)) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
@@ -28,11 +27,22 @@ async function loginUser(req, res) {
 async function createUser(req,res){
   const {username, password, email}=req.body;
 
+  console.log(username);
+
   try {
-    
+    const newUser=new User({
+      username:username,
+      password:password,
+      email:email
+    });
+
+    const savedUser = await newUser.save();
+    console.log("User Saved!", savedUser);
+    res.json({ message: 'User saved successfully', user: savedUser });
+
   } catch (error) {
     console.log(error);
-    res.status(500).json({message: ''})
+    res.status(500).json({message: 'Something went wrong.'})
   }
 }
 
@@ -43,6 +53,7 @@ function logoutUser(req, res) {
 }
 
 module.exports = {
+  createUser,
   loginUser,
   logoutUser,
 };
