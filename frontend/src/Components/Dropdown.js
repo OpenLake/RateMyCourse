@@ -7,14 +7,13 @@ const Dropdown = () => {
       // Add additional classes or event handlers as needed
     >
       <option value="" disabled selected>
-        Select branch
+        Filter by branch
       </option>
       <option value="CSE">CSE</option>
       <option value="DS&AI">DS & AI</option>
       <option value="EE">EE</option>
       <option value="Mechanical">Mechanical</option>
       <option value="Mechatronics">Mechatronics</option>
-
     </select>
   );
 };

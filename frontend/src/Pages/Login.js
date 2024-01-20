@@ -12,7 +12,7 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log(email , password);
+    console.log(email, password);
   };
 
   return (
@@ -40,7 +40,10 @@ const Login = () => {
         </form>
         <p className="mt-4 text-center">
           Don't have an account?{" "}
-          <Link to="/teacherorstudent" className="text-blue-500 hover:underline">
+          <Link
+            to="/teacherorstudent"
+            className="text-blue-500 hover:underline"
+          >
             Sign Up
           </Link>
         </p>
