@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import bcrypt from "bcryptjs";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Input } from "../Components/Input";
@@ -17,15 +16,13 @@ const TeacherSignup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const hashedPassword = bcrypt.hashSync(password, 10);
-    console.log(name, email, teacherId, dept, hashedPassword);
     try {
       const res = await axios.post("/api/teacherSignup", {
         name: name,
         email: email,
         teacherId: teacherId,
         dept: dept,
-        password: hashedPassword,
+        password: password,
       });
       console.log(res);
       setLoading(false);

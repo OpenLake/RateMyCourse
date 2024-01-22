@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import bcrypt from "bcryptjs";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Input } from "../Components/Input";
@@ -8,7 +7,7 @@ import { BlueButton } from "../Components/Buttons";
 const StudentSignup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [roll, setRoll] = useState();
+  const [roll, setRoll] = useState("");
   const [branch, setBranch] = useState("");
   const [year, setYear] = useState("");
   const [password, setPassword] = useState("");
@@ -18,8 +17,6 @@ const StudentSignup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const hashedPassword = bcrypt.hashSync(password, 10);
-    console.log(name, email, roll, branch, year, hashedPassword);
     try {
       const res = await axios.post("/api/studentSignup", {
         name: name,
@@ -27,7 +24,7 @@ const StudentSignup = () => {
         roll: roll,
         branch: branch,
         year: year,
-        password: hashedPassword,
+        password: password,
       });
       console.log(res);
       setLoading(false);
