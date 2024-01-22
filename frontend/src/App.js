@@ -6,6 +6,7 @@ import { Login } from "./Pages/Login";
 import { StudentSignup } from "./Pages/StudentSignup";
 import { TeacherSignup } from "./Pages/TeacherSignup";
 import { TeacherOrStudent } from "./Pages/TeacherOrStudent";
+import { CourseDetails } from "./Pages/CourseDetails";
 
 function App() {
   return (
@@ -14,10 +15,11 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/teacherorstudent" element={<TeacherOrStudent />} />
+            <Route path="/teacherOrStudent" element={<TeacherOrStudent />} />
             <Route path="/studentSignup" element={<StudentSignup />} />
             <Route path="/teacherSignup" element={<TeacherSignup />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/courseDetails" element={<CourseDetails />} />
           </Routes>
         </Layout>
       </Router>
