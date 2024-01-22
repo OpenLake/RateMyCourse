@@ -1,27 +1,46 @@
 import React, { useState } from "react";
+import bcrypt from "bcryptjs";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { Input } from "../Components/Input";
 import { BlueButton } from "../Components/Buttons";
 
-const Signup = () => {
+const TeacherSignup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [branch, setBranch] = useState("");
-  const [year, setYear] = useState("");
+  const [teacherId, setTeacherId] = useState("");
+  const [dept, setDept] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   // Function to handle signup
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log(name, email, branch, year, password);
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    console.log(name, email, teacherId, dept, hashedPassword);
+    try {
+      const res = await axios.post("/api/teacherSignup", {
+        name: name,
+        email: email,
+        teacherId: teacherId,
+        dept: dept,
+        password: hashedPassword,
+      });
+      console.log(res);
+      setLoading(false);
+      alert("Email verification link sent. Click to verify.");
+    } catch (error) {
+      console.error("Error during post request:", error);
+    }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
       <div className="bg-gray-800 p-8 rounded-lg shadow-md w-96">
-        <h2 className="text-2xl font-semibold mb-4 text-center">Sign Up</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-center">
+          Teacher Sign Up
+        </h2>
         <form onSubmit={handleSignup}>
           <Input
             label="Name"
@@ -37,39 +56,20 @@ const Signup = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              Branch
-            </label>
-            <div className="mt-1">
-              <select
-                id="branch"
-                name="branch"
-                className="w-full text-gray-700 px-3 py-2 border rounded-lg focus:outline-none "
-                value={branch}
-                onChange={(e) => setBranch(e.target.value)}
-              >
-                <option value="" disabled >
-                  Select Branch
-                </option>
-                <option value="CSE">CSE</option>
-                <option value="IT">IT</option>
-                <option value="ECE">ECE</option>
-                <option value="EE">EE</option>
-                <option value="MECH">MECH</option>
-                <option value="CIVIL">CIVIL</option>
-                <option value="CHEM">CHEM</option>
-                <option value="BIOTECH">BIOTECH</option>
-              </select>
-            </div>
-          </div>
+          <Input
+            label="TeacherId"
+            type="text"
+            placeholder="Enter teacher ID"
+            value={teacherId}
+            onChange={(e) => setTeacherId(e.target.value)}
+          />
 
           <Input
-            label="Year"
+            label="Dept"
             type="text"
-            placeholder="Enter your year"
-            value={year}
-            onChange={(e) => setYear(e.target.value)}
+            placeholder="Enter department name"
+            value={dept}
+            onChange={(e) => setDept(e.target.value)}
           />
 
           <Input
@@ -94,4 +94,4 @@ const Signup = () => {
   );
 };
 
-export { Signup };
+export { TeacherSignup };
