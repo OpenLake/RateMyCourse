@@ -17,37 +17,33 @@ const addCourseReview = async (req, res) => {
       semesterOffered: req.body.semesterOffered,
     };
 
-    // Check if the course exists
     let course = await Course.findOne({ ccode: userCourseData.ccode });
 
     if (!course) {
-      // If the course doesn't exist, create it
       const newCourse = new Course(userCourseData);
       course = await newCourse.save();
       console.log('Course created:', course);
     }
 
-    // Check if the iteration with the given semesterOffered exists
     let iteration = await Iteration.findOne({
       ccode: userIterationData.ccode,
       semesterOffered: userIterationData.semesterOffered,
     });
 
     if (!iteration) {
-      // If the iteration doesn't exist, create it
       const newIteration = new Iteration({
         ccode: userIterationData.ccode,
         instructorName: userIterationData.instructorName,
         courseRating: userIterationData.courseRating,
         semesterOffered: userIterationData.semesterOffered,
+        ratingsCount: 1, 
       });
 
       iteration = await newIteration.save();
       console.log('Iteration created:', iteration);
     } else {
-      // If the iteration exists, update the courseRating
-      iteration.courseRating =
-        (iteration.courseRating + userIterationData.courseRating) / 2;
+      iteration.ratingsCount += 1;
+      iteration.courseRating = ((iteration.courseRating * (iteration.ratingsCount - 1)) + userIterationData.courseRating) / iteration.ratingsCount;
       await iteration.save();
       console.log('Iteration updated:', iteration);
     }

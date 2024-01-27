@@ -49,6 +49,10 @@ const iterationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  ratingsCount: {
+    type: Number,
+    default: 0,
+  },
 });
 
 const Course = mongoose.model('Course', courseSchema, 'courses');
