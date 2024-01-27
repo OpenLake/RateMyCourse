@@ -13,6 +13,10 @@ const courseSchema = new mongoose.Schema({
     unique: true,
     trim: true,
   },
+  cdescription:{
+    type: String,
+    required: false,
+  },
   ccredits: {
     type: Number,
     required: true,

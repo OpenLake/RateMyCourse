@@ -8,7 +8,7 @@ function authenticateUser(req, res, next) {
     return res.status(401).json({ message: 'Unauthorized: Missing token' });
   }
 
-  jwt.verify(token, process.env.JWT_USER_SECRET_KEY, (err, decoded) => {
+  jwt.verify(token, process.env.JWT_ADMIN_SECRET_KEY, (err, decoded) => {
     if (err) {
       return res.status(401).json({ message: 'Unauthorized: Invalid token' });
     }
