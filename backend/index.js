@@ -25,13 +25,12 @@ app.use('/courses',courseRoutes);
 mongoose.connect(url)
   .then( () => {
       console.log('Connected to database ')
+      const port = process.env.PORT || 3000;
+      app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
   })
   .catch( (err) => {
       console.error(`Error connecting to the database. \n${err}`);
   })
 
-const port = process.env.PORT || 3000;
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
