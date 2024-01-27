@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose')
 
 const authRoutes = require('./src/routes/auth.routes'); 
+const courseRoutes=require('./src/routes/courses.routes')
 require('dotenv').config();
 
 const url = process.env.MONGODB_URI;
@@ -19,6 +20,7 @@ app.use(session({
 app.use(bodyParser.json());
 
 app.use('/auth', authRoutes);
+app.use('/courses',courseRoutes);
 
 mongoose.connect(url)
   .then( () => {

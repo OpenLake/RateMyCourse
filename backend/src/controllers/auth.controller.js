@@ -1,5 +1,8 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/user.model'); 
+const User = require('../models/user.model');
+const bcrypt = require('bcrypt');
+
+const saltRounds = 10;
 
 async function loginUser(req, res) {
   const { username, password } = req.body;
@@ -7,14 +10,16 @@ async function loginUser(req, res) {
   try {
     const user = await User.findOne({ username });
 
-    if (!user || !(await password===user.password)) {
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // Generate a JWT token
-    const token = jwt.sign({ userId: user.id, username: user.username }, process.env.SECRET_KEY, { expiresIn: '1h' });
+    const token = jwt.sign(
+      { userId: user.id, username: user.username },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: '1h' }
+    );
 
-    // Store the token in the session
     req.session.token = token;
 
     res.json({ message: 'Login successful', token });
@@ -24,25 +29,40 @@ async function loginUser(req, res) {
   }
 }
 
-async function createUser(req,res){
-  const {username, password, email}=req.body;
+async function createHash(password) {
+  return new Promise((resolve, reject) => {
+    bcrypt.genSalt(saltRounds, (err, salt) => {
+      if (err) {
+        reject(err);
+      }
+      bcrypt.hash(password, salt, (err, hash) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(hash);
+      });
+    });
+  });
+}
 
-  console.log(username);
+async function createUser(req, res) {
+  const { username, password, email } = req.body;
 
   try {
-    const newUser=new User({
-      username:username,
-      password:password,
-      email:email
+    const hash = await createHash(password);
+
+    const newUser = new User({
+      username: username,
+      password: hash,
+      email: email,
     });
 
     const savedUser = await newUser.save();
-    console.log("User Saved!", savedUser);
+    console.log('User Saved!', savedUser);
     res.json({ message: 'User saved successfully', user: savedUser });
-
   } catch (error) {
-    console.log(error);
-    res.status(500).json({message: 'Something went wrong.'})
+    console.error(error);
+    res.status(500).json({ message: 'Something went wrong.' });
   }
 }
 
