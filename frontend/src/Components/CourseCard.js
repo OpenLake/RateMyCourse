@@ -1,9 +1,19 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Image from "../Assets/Student.svg";
 
-const Card = () => {
+const CourseCard = () => {
+  const navigate = useNavigate();
+
+  const gotoIterations = () => {
+    navigate("/iterations");
+  };
+
   return (
-    <div className=" w-40 md:w-52 lg:w-60 xl:w-72 my-4 mx-3 md:mx-4 lg:mx-7 bg-gray-200 shadow-md rounded p-4 font-sans">
+    <div
+      onClick={gotoIterations}
+      className=" w-40 md:w-52 lg:w-60 xl:w-72 my-4 mx-3 md:mx-4 lg:mx-7 bg-gray-200 shadow-md rounded p-4 font-sans"
+    >
       <div>
         <img src={Image} alt="" />
       </div>
@@ -18,4 +28,4 @@ const Card = () => {
   );
 };
 
-export { Card };
+export { CourseCard };

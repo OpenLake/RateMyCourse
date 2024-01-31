@@ -57,7 +57,7 @@ const Navbar = () => {
               Courses
             </Link>
             <Link
-              to="/instructors"
+              to="/teachers"
               className="block py-2 hover:text-red-400 active:text-red-500 transition duration-300 ease-in-out"
             >
               <FontAwesomeIcon icon={faChalkboardTeacher} className="mr-2" />
@@ -95,7 +95,7 @@ const Navbar = () => {
           Courses
         </Link>
         <Link
-          to="/instructors"
+          to="/teachers"
           className="mx-2 hover:text-red-400 active:text-red-500 transition duration-300 ease-in-out"
         >
           Instructors
