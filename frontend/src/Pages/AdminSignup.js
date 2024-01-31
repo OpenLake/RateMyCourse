@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import { Input } from "../Components/Input";
 import { BlueButton } from "../Components/Buttons";
 
-const TeacherSignup = () => {
+const AdminSignup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [teacherId, setTeacherId] = useState("");
-  const [dept, setDept] = useState("");
+  // const [adminId, setAdminId] = useState("");
+  // const [dept, setDept] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -17,17 +17,19 @@ const TeacherSignup = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post("/api/teacherSignup", {
+      const res = await axios.post("/auth/admin/register", {
         name: name,
         email: email,
-        teacherId: teacherId,
-        dept: dept,
+        // adminId: adminId,
+        // dept: dept,
         password: password,
       });
       console.log(res);
       setLoading(false);
       alert("Email verification link sent. Click to verify.");
     } catch (error) {
+      setLoading(false);
+      alert("Signup Failed");
       console.error("Error during post request:", error);
     }
   };
@@ -36,7 +38,7 @@ const TeacherSignup = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
       <div className="bg-gray-800 p-8 rounded-lg shadow-md w-96">
         <h2 className="text-2xl font-semibold mb-4 text-center">
-          Teacher Sign Up
+          Admin Sign Up
         </h2>
         <form onSubmit={handleSignup}>
           <Input
@@ -53,12 +55,12 @@ const TeacherSignup = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <Input
-            label="TeacherId"
+          {/* <Input
+            label="AdminId"
             type="text"
-            placeholder="Enter teacher ID"
-            value={teacherId}
-            onChange={(e) => setTeacherId(e.target.value)}
+            placeholder="Enter admin ID"
+            value={adminId}
+            onChange={(e) => setAdminId(e.target.value)}
           />
 
           <Input
@@ -67,7 +69,7 @@ const TeacherSignup = () => {
             placeholder="Enter department name"
             value={dept}
             onChange={(e) => setDept(e.target.value)}
-          />
+          /> */}
 
           <Input
             label="Password"
@@ -91,4 +93,4 @@ const TeacherSignup = () => {
   );
 };
 
-export { TeacherSignup };
+export { AdminSignup };

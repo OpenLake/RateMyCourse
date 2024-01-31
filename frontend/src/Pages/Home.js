@@ -22,7 +22,7 @@ const Home = () => {
           <BlueButton val="Discover Courses" navigation="/courses" />
         </div>
         <div>
-          <BlueButton val="Discover Instructors" navigation="/teachers" />
+          <BlueButton val="Discover Instructors" navigation="/instructors" />
         </div>
       </div>
     </div>

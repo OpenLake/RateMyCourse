@@ -31,9 +31,9 @@ const AddIteration = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
-      <div className="bg-gray-800 p-8 rounded-lg shadow-md w-96">
-        <h2 className="text-2xl font-semibold mb-4 text-center">
+    <div className="flex items-center justify-center min-h-screen bg-gray-900">
+      <div className="bg-gray-800 p-8 rounded-lg shadow-md w-1/2">
+        <h2 className="text-2xl font-semibold mb-4 text-center text-white">
           Add Course Iteration
         </h2>
         <form onSubmit={handleSubmit}>
@@ -52,8 +52,8 @@ const AddIteration = () => {
             onChange={(e) => setSem(e.target.value)}
           />
           <textarea
-            cols="30"
             rows="10"
+            className="px-3 py-2 rounded border focus:outline-none w-full"
             value={description}
             placeholder="Enter Description"
             onChange={(e) => setDescription(e.target.value)}

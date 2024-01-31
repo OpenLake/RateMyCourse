@@ -4,7 +4,7 @@ const Description = () => {
   return (
     <div>
       <div className="mx-14">
-        <p className="font-Dosis text-4xl">Course Description :</p>
+        <p className="font-Dosis text-4xl">Description :</p>
         <p className="my-3 text-lg">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel
           libero vitae magna vulputate ultricies. Donec euismod, nisl vitae

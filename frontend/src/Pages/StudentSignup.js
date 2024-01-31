@@ -7,9 +7,9 @@ import { BlueButton } from "../Components/Buttons";
 const StudentSignup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [roll, setRoll] = useState("");
-  const [branch, setBranch] = useState("");
-  const [year, setYear] = useState("");
+  // const [roll, setRoll] = useState("");
+  // const [branch, setBranch] = useState("");
+  // const [year, setYear] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -18,18 +18,20 @@ const StudentSignup = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post("/api/studentSignup", {
+      const res = await axios.post("/auth/user/register", {
         name: name,
         email: email,
-        roll: roll,
-        branch: branch,
-        year: year,
+        // roll: roll,
+        // branch: branch,
+        // year: year,
         password: password,
       });
       console.log(res);
       setLoading(false);
       alert("Email verification link sent. Click to verify.");
     } catch (error) {
+      setLoading(false);
+      alert("Signup Failed");
       console.error("Error during post request:", error);
     }
   };
@@ -55,7 +57,7 @@ const StudentSignup = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <Input
+          {/* <Input
             label="RollNumber"
             type="number"
             placeholder="Enter your roll number"
@@ -92,7 +94,7 @@ const StudentSignup = () => {
             placeholder="Enter your year"
             value={year}
             onChange={(e) => setYear(e.target.value)}
-          />
+          /> */}
 
           <Input
             label="Password"

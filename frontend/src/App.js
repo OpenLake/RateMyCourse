@@ -1,19 +1,22 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Layout } from "./Layout";
+import axios from "axios";
 
 import { Home } from "./Pages/Home";
 import { Courses } from "./Pages/Courses";
 import { Iterations } from "./Pages/Iterations";
-import { Teachers } from "./Pages/Teachers";
+import { Instructors } from "./Pages/Instructors";
 import { Login } from "./Pages/Login";
 import { StudentSignup } from "./Pages/StudentSignup";
-import { TeacherSignup } from "./Pages/TeacherSignup";
-import { TeacherOrStudent } from "./Pages/TeacherOrStudent";
+import { AdminSignup } from "./Pages/AdminSignup";
+import { AdminOrStudent } from "./Pages/AdminOrStudent";
 import { CourseDetails } from "./Pages/CourseDetails";
 import { AddCourse } from "./Pages/AdminPages/AddCourse";
 import { AddIteration } from "./Pages/AdminPages/AddIterations";
-import { TeacherDetails } from "./Pages/TeacherDetails";
+import { InstructorDetails } from "./Pages/InstructorDetails";
+
+axios.defaults.baseURL = "https://rmc-backend.cyclic.app/";
 
 function App() {
   return (
@@ -25,14 +28,11 @@ function App() {
             <Route path="/courses" element={<Courses />} />
             <Route path="/iterations" element={<Iterations />} />
             <Route path="/courseDetails" element={<CourseDetails />} />
-            <Route path="/teachers" element={<Teachers />} />
-            <Route path="/teacherDetails" element={<TeacherDetails />} />
-            <Route
-              path="/teacherOrStudent"
-              element={<TeacherOrStudent />}
-            />{" "}
+            <Route path="/instructors" element={<Instructors />} />
+            <Route path="/instructorDetails" element={<InstructorDetails />} />
+            <Route path="/adminOrStudent" element={<AdminOrStudent />} />
             <Route path="/studentSignup" element={<StudentSignup />} />
-            <Route path="/teacherSignup" element={<TeacherSignup />} />
+            <Route path="/adminSignup" element={<AdminSignup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/addCourse" element={<AddCourse />} />
             <Route path="/addIteration" element={<AddIteration />} />

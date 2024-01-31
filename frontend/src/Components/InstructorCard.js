@@ -2,11 +2,11 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Image from "../Assets/Student.svg";
 
-const TeacherCard = () => {
+const InstructorCard = () => {
   const navigate = useNavigate();
 
   const gotoDetails = () => {
-    navigate("/teacherDetails");
+    navigate("/instructorDetails");
   };
 
   return (
@@ -19,13 +19,13 @@ const TeacherCard = () => {
       </div>
       <div className="mt-4 text-sm md:text-base">
         <h2 className="text-xl md:text-2xl font-bold text-gray-800 font-Dosis">
-          Teacher Name
+          Instructor Name
         </h2>
         <p>Department : ABC</p>
-        <p>Teacher Ratings : 3.5/5</p>
+        <p>Instructor Ratings : 3.5/5</p>
       </div>
     </div>
   );
 };
 
-export { TeacherCard };
+export { InstructorCard };

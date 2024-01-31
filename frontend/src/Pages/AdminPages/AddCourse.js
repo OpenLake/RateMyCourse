@@ -14,7 +14,7 @@ const AddCourse = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post("/api/studentSignup", {
+      const res = await axios.post("/courses/addCourse", {
         cname: cname,
         ccode: ccode,
       });

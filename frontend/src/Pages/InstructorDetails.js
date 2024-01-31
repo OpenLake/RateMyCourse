@@ -5,7 +5,7 @@ import { ThemeButton } from "../Components/Buttons";
 import { Description } from "../Components/Description";
 import Image from "../Assets/Student.svg";
 
-const TeacherDetails = () => {
+const InstructorDetails = () => {
   return (
     <div className="mt-10">
       <Heading val="Instructor Details" />
@@ -26,7 +26,7 @@ const TeacherDetails = () => {
             Instructor ID : <span className="font-normal">IGSUB102</span>
           </p>
           <div className="w-auto">
-            <ThemeButton val="Rate Instructor" navigation="/rateTeacher" />
+            <ThemeButton val="Rate Instructor" navigation="/rateInstructor" />
           </div>
         </div>
         <div className="w-1/6">
@@ -43,4 +43,4 @@ const TeacherDetails = () => {
   );
 };
 
-export { TeacherDetails };
+export { InstructorDetails };

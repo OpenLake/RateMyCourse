@@ -1,10 +1,10 @@
 import React from "react";
 import { Heading } from "../Components/Heading";
-import { TeacherCard } from "../Components/TeacherCard";
+import { InstructorCard } from "../Components/InstructorCard";
 import { Searchbar } from "../Components/Searchbar";
 import { Dropdown } from "../Components/Dropdown";
 
-const Teachers = () => {
+const Instructors = () => {
   return (
     <div className="mt-10">
       <Heading val="All Courses" />
@@ -13,17 +13,17 @@ const Teachers = () => {
         <Dropdown />
       </div>
       <div className="flex flex-wrap justify-center m-4">
-        <TeacherCard />
-        <TeacherCard />
-        <TeacherCard />
-        <TeacherCard />
-        <TeacherCard />
-        <TeacherCard />
-        <TeacherCard />
-        <TeacherCard />
+        <InstructorCard />
+        <InstructorCard />
+        <InstructorCard />
+        <InstructorCard />
+        <InstructorCard />
+        <InstructorCard />
+        <InstructorCard />
+        <InstructorCard />
       </div>
     </div>
   );
 };
 
-export { Teachers };
+export { Instructors };

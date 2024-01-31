@@ -1,21 +1,21 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Student from "../Assets/Student.svg";
-import Teacher from "../Assets/Teacher.svg";
+import Admin from "../Assets/Admin.svg";
 
-const TeacherOrStudent = () => {
+const AdminOrStudent = () => {
   const navigate = useNavigate();
 
   const studentSignup = () => {
     navigate("/studentSignup");
   };
-  const teacherSignup = () => {
-    navigate("/teacherSignup");
+  const adminSignup = () => {
+    navigate("/adminSignup");
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-      <h1 className=" text-3xl">Are you a student or a teacher?</h1>
+      <h1 className=" text-3xl">Are you a student or an admin?</h1>
       <div className="flex flex-row ">
         <div className="flex flex-col items-center">
           <img
@@ -30,13 +30,13 @@ const TeacherOrStudent = () => {
         </div>
         <div className="flex flex-col items-center">
           <img
-            src={Teacher}
-            alt="Teacher"
+            src={Admin}
+            alt="Admin"
             className="h-52 mt-5 mx-10 cursor-pointer"
-            onClick={teacherSignup}
+            onClick={adminSignup}
           />
-          <p className="text-xl cursor-pointer" onClick={teacherSignup}>
-            Teacher
+          <p className="text-xl cursor-pointer" onClick={adminSignup}>
+            Admin
           </p>
         </div>
       </div>
@@ -44,4 +44,4 @@ const TeacherOrStudent = () => {
   );
 };
 
-export { TeacherOrStudent };
+export { AdminOrStudent };
