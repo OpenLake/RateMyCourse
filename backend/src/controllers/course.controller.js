@@ -68,7 +68,34 @@ const addReview = async (req, res) => {
   }
 };
 
+const getCourses = async (req, res) => {
+  try {
+    const courses = await Course.find();
+    if (!courses) {
+      return res.status(404).json({ message: "No courses found" });
+    } else {
+      // console.log();
+      return res.json({ courses });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getIterations = async (req, res) => {
+  try {
+    const courseCode = req.body.ccode;
+    const courseReviews = await Iteration.find({ ccode: courseCode });
+
+    return res.json({ courseReviews });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   addCourse,
   addReview,
+  getCourses,
+  getIterations,
 };
