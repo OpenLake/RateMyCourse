@@ -12,8 +12,8 @@ router.post('/user/login', userAuthController.loginUser);
 router.post('/user/logout', userAuthMiddleware, userAuthController.logoutUser);
 
 // Routes for admin authentication
-router.post('/admin/register',adminAuthController.createAdmin);
+router.post('/admin/register', adminAuthMiddleware.authenticateAdmin, adminAuthMiddleware.checkSuperAdmin, adminAuthController.createAdmin);
 router.post('/admin/login', adminAuthController.loginAdmin);
-router.post('/admin/logout', adminAuthMiddleware, adminAuthController.logoutAdmin);
+router.post('/admin/logout', adminAuthMiddleware.authenticateAdmin, adminAuthController.logoutAdmin);
 
 module.exports = router;
