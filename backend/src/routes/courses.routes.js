@@ -7,6 +7,6 @@ const router = express.Router();
 
 // Routes for user authentication
 router.post('/addReview', userAuthMiddleware, courseController.addReview);
-router.post('/addCourse', adminAuthMiddleware, courseController.addCourse);
+router.post('/addCourse', adminAuthMiddleware.authenticateAdmin, courseController.addCourse);
 
 module.exports = router;
