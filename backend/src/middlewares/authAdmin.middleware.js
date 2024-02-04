@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 function authenticateAdmin(req, res, next) {
   const token = req.headers.authorization || req.cookies.token;
-  console.log(token);
+  // console.log(token);
 
   if (!token) {
     return res.status(401).json({ message: 'Unauthorized: Missing token' });
@@ -22,8 +22,8 @@ function authenticateAdmin(req, res, next) {
 function checkSuperAdmin(req, res, next) {
   // console.log(req.headers);
 
-  const adminType = req.headers['admintype']; 
-  console.log(adminType);
+  const adminType = req.headers.admintype; 
+  // console.log(adminType);
   if (adminType == 2) {
     next();
   } else {

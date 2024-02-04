@@ -21,7 +21,9 @@ async function loginAdmin(req, res) {
     );
 
     req.session.token = token;
-    req.session.adminPriv=user.type;
+    req.session.adminType=user.type;
+
+    // console.log(req.session);
 
     res.json({ message: 'Login successful', token });
   } catch (error) {
