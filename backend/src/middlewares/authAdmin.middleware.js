@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 
 function authenticateAdmin(req, res, next) {
-function authenticateAdmin(req, res, next) {
   const token = req.headers.authorization || req.cookies.token;
   // console.log(token);
 
@@ -37,4 +36,4 @@ function checkSuperAdmin(req, res, next) {
 }
 
 
-module.exports = {authenticateAdmin, checkSuperAdmin};
+module.exports = {authenticateAdmin, checkSuperAdmin}
