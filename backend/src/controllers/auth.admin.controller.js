@@ -25,6 +25,7 @@ async function loginAdmin(req, res) {
 
     // console.log(req.session);
 
+
     res.json({ message: 'Login successful', token });
   } catch (error) {
     console.error(error);
