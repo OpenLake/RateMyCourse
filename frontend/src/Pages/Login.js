@@ -5,7 +5,7 @@ import { Input } from "../Components/Input";
 import { BlueButton } from "../Components/Buttons";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [type, setType] = useState("");
   const [loading, setLoading] = useState(false);
@@ -13,7 +13,7 @@ const Login = () => {
   const studentLogin = async () => {
     try {
       const res = await axios.post("/auth/user/login", {
-        email: email,
+        username: username,
         password: password,
       });
       console.log(res);
@@ -29,7 +29,7 @@ const Login = () => {
   const adminLogin = async () => {
     try {
       const res = await axios.post("/auth/admin/login", {
-        email: email,
+        username: username,
         password: password,
       });
       console.log(res);
@@ -54,19 +54,19 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-full bg-gray-900 text-white">
+    <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
       <div className="bg-gray-800 p-8 rounded-lg shadow-md w-96">
         <h2 className="text-2xl font-semibold mb-4 text-center">Login</h2>
         <form onSubmit={handleLogin}>
           <Input
-            label="Email"
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            label="Username"
+            type="text"
+            placeholder="Enter your username"
+            value={username}
+            onChange={(e) => setUserName(e.target.value)}
           />
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm mb-2 text-white">
               Select user type :
             </label>
             <div className="mt-1">

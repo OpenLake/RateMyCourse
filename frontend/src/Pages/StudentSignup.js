@@ -19,7 +19,7 @@ const StudentSignup = () => {
     setLoading(true);
     try {
       const res = await axios.post("/auth/user/register", {
-        name: name,
+        username: name,
         email: email,
         // roll: roll,
         // branch: branch,

@@ -17,6 +17,7 @@ import { AddIteration } from "./Pages/AdminPages/AddIterations";
 import { InstructorDetails } from "./Pages/InstructorDetails";
 
 axios.defaults.baseURL = "https://rmc-backend.cyclic.app/";
+// axios.defaults.baseURL = "http://localhost:5000/";
 
 function App() {
   return (

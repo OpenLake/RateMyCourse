@@ -18,7 +18,7 @@ const AdminSignup = () => {
     setLoading(true);
     try {
       const res = await axios.post("/auth/admin/register", {
-        name: name,
+        username: name,
         email: email,
         // adminId: adminId,
         // dept: dept,
