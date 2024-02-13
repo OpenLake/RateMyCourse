@@ -122,9 +122,20 @@ const getIterations = async (req, res) => {
   }
 };
 
+const getInstructors = async (req, res) => {
+  try {
+    const allInstructors = await Instructor.find({});
+    return res.json({ allInstructors });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   addCourse,
   addReview,
   getCourses,
   getIterations,
+  getInstructors,
 };

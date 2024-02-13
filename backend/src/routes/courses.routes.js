@@ -11,5 +11,6 @@ router.post('/addCourse', adminAuthMiddleware.authenticateAdmin, courseControlle
 
 router.get('/getCourses', courseController.getCourses);
 router.get('/getIterations', courseController.getIterations);
+router.get('/getInstructors', courseController.getInstructors);
 
 module.exports = router;
