@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Course, Iteration } = require("../models/course.model");
+const { Instructor } = require("../models/instructor.model");
 
 const addCourse = async (req, res) => {
   try {
@@ -61,7 +62,35 @@ const addReview = async (req, res) => {
       console.log("Iteration updated:", iteration);
     }
 
-    res.status(200).json({ message: "Rating added/updated successfully" });
+    const userInstructorName = userIterationData.instructorName;
+
+    let instructExists = await Instructor.findOne({
+      instructorName: userInstructorName,
+    });
+
+    if (instructExists) {
+      instructExists.instructRatingCount += 1;
+
+      instructExists.instructRating =
+        (instructExists.instructRating *
+          (instructExists.instructRatingCount - 1) +
+          userIterationData.courseRating) /
+        instructExists.instructRatingCount;
+      await instructExists.save();
+    } else {
+      const newInstructor = new Instructor({
+        instructorName: userIterationData.instructorName,
+        instructRating: userIterationData.courseRating,
+        instructRatingCount: 1,
+      });
+
+      const createInstructor = await newInstructor.save();
+      console.log("Instructor Created");
+    }
+
+    res
+      .status(200)
+      .json({ message: "Iteration Rating added/updated successfully" });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal Server Error" });

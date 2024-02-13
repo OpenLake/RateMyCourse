@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const courseSchema = new mongoose.Schema({
   ccode: {
@@ -13,7 +13,7 @@ const courseSchema = new mongoose.Schema({
     unique: true,
     trim: true,
   },
-  cdescription:{
+  cdescription: {
     type: String,
     required: false,
   },
@@ -28,7 +28,7 @@ const courseSchema = new mongoose.Schema({
   iterations: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Iteration',
+      ref: "Iteration",
     },
   ],
 });
@@ -59,8 +59,8 @@ const iterationSchema = new mongoose.Schema({
   },
 });
 
-const Course = mongoose.model('Course', courseSchema, 'courses');
-const Iteration = mongoose.model('Iteration', iterationSchema, 'iterations');
+const Course = mongoose.model("Course", courseSchema, "courses");
+const Iteration = mongoose.model("Iteration", iterationSchema, "iterations");
 
 module.exports = {
   Course,
