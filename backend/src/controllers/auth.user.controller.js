@@ -80,7 +80,7 @@ async function sendOTPForNewUser(req, res) {
     res.status(200).json({
       success: true,
       message: "OTP sent successfully",
-      otp,
+      // otp,
     });
   } catch (error) {
     console.log(error.message);
