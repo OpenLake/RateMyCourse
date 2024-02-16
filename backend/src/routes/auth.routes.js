@@ -7,7 +7,8 @@ const adminAuthMiddleware=require('../middlewares/authAdmin.middleware')
 const router = express.Router();
 
 // Routes for user authentication
-router.post('/user/register',userAuthController.createUser);
+router.post('/user/register',userAuthController.sendOTPForNewUser);
+router.post('/user/verifyOTP',userAuthController.createUser);
 router.post('/user/login', userAuthController.loginUser);
 router.post('/user/logout', userAuthMiddleware, userAuthController.logoutUser);
 
