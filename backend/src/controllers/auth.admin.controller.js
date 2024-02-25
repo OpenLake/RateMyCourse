@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt');
 
 const saltRounds = 10;
 
+// The testing Admin is admin1@gmail.com, admin and admin
+
 async function loginAdmin(req, res) {
   const { username, password } = req.body;
 

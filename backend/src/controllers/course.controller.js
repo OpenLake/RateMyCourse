@@ -9,6 +9,8 @@ const addCourse = async (req, res) => {
       cname: req.body.cname,
       ccredits: req.body.ccredits,
       cdept: req.body.cdept,
+      crating: 0,
+      ccount: 0,
     };
 
     let course = await Course.findOne({ ccode: userCourseData.ccode });
@@ -61,6 +63,21 @@ const addReview = async (req, res) => {
       await iteration.save();
       console.log("Iteration updated:", iteration);
     }
+    
+    let course=await Course.findOne({
+      ccode: userIterationData.ccode,
+    })
+
+    let ogRating=course.crating;
+    let ogCount=course.ccount;
+    // console.log("The old course count is", ogCount);
+    course.ccount+=1;
+    // console.log("The new course count is", course.ccount);
+    // console.log("The old course rating is", ogRating);
+    course.crating=((ogRating*ogCount)+userIterationData.courseRating)/(course.ccount);
+    // console.log("The new course rating is",course.crating);
+    await course.save();
+    console.log("Overall Course Rating Updated.")
 
     const userInstructorName = userIterationData.instructorName;
 

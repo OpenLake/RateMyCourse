@@ -7,6 +7,8 @@ const { sendVerificationEmail } = require("../../utils/mailSender");
 
 const saltRounds = 10;
 
+// The testing User is adityasa@iitbhilai.ac.in, test and test
+
 async function loginUser(req, res) {
   const { username, password } = req.body;
 

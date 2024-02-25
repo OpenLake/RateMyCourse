@@ -25,6 +25,17 @@ const courseSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  crating: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 5,
+  },
+  ccount: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
   iterations: [
     {
       type: mongoose.Schema.Types.ObjectId,

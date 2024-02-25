@@ -10,7 +10,7 @@ router.post('/addReview', userAuthMiddleware, courseController.addReview);
 router.post('/addCourse', adminAuthMiddleware.authenticateAdmin, courseController.addCourse);
 
 router.get('/getCourses', courseController.getCourses);
-router.get('/getIterations', courseController.getIterations);
+router.post('/getIterations', courseController.getIterations);
 router.get('/getInstructors', courseController.getInstructors);
 
 module.exports = router;
