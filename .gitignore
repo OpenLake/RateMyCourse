@@ -3,3 +3,4 @@ serviceAccountKey.json
 *.env
 .env.local
 .next
+/scripts/venv
