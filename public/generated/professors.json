@@ -1,0 +1,1243 @@
+[
+  {
+    "name": "Prof. Santosh Biswas",
+    "email": "santosh@iitbhilai.ac.in",
+    "research_interests": [
+      "Cyber Security",
+      "Computer Networks",
+      "VLSI Testing",
+      "Embedded Systems",
+      "Fault Tolerance"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=santosh",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_santosh",
+    "department": "Department of Computer Science and Engineering"
+  },
+  {
+    "name": "Dr. Souradyuti Paul",
+    "email": "souradyuti@iitbhilai.ac.in",
+    "research_interests": [
+      "Blockchains and Cryptocurrencies Cryptographic modes and protocols Computer networks and security",
+      "Multiparty computation"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=souradyuti",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_soura",
+    "department": "Department of Computer Science and Engineering"
+  },
+  {
+    "name": "Dr. Anil Kumar Sao",
+    "email": "anil@iitbhilai.ac.in",
+    "research_interests": [
+      "Sparse representation",
+      "Medical Image Processing",
+      "functional magnetic resonance imaging fMRI"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=anil",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_anil",
+    "department": "Department of Computer Science and Engineering"
+  },
+  {
+    "name": "Dr. Gagan Raj Gupta",
+    "email": "gagan@iitbhilai.ac.in",
+    "research_interests": [
+      "Big Data",
+      "Machine Learning",
+      "Algorithms",
+      "Performance Analysis",
+      "Networks"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=gagan",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_gagan",
+    "department": "Department of Computer Science and Engineering"
+  },
+  {
+    "name": "Dr. Rishi Ranjan Singh",
+    "email": "rishi@iitbhilai.ac.in",
+    "research_interests": [
+      "Social & Complex Network Analysis",
+      "Approximation Algorithms",
+      "Combinatorial Optimization"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=rishi",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_rishi",
+    "department": "Department of Computer Science and Engineering"
+  },
+  {
+    "name": "Dr. Sk Subidh Ali",
+    "email": "subidh@iitbhilai.ac.in",
+    "research_interests": [
+      "Cyber and Hardware Security Adversarial Machine Learning"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=subidh",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_ali",
+    "department": "Department of Computer Science and Engineering"
+  },
+  {
+    "name": "Dr. Dhiman Saha",
+    "email": "dhiman@iitbhilai.ac.in",
+    "research_interests": [
+      "Cryptography",
+      "Theoretical Cryptanalysis",
+      "Hash functions",
+      "5G Security"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=dhiman",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_saha",
+    "department": "Department of Computer Science and Engineering"
+  },
+  {
+    "name": "Dr. Barun Gorain",
+    "email": "barun@iitbhilai.ac.in",
+    "research_interests": [
+      "Approximation Algorithms",
+      "Distributed Algorithms",
+      "Algorithmic Graph Theory"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=barun",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_barun",
+    "department": "Department of Computer Science and Engineering"
+  },
+  {
+    "name": "Dr. Amit Kumar Dhar",
+    "email": "amitkdhar@iitbhilai.ac.in",
+    "research_interests": [
+      "Formal Methods Model-Checking Applied formal verification Algorithms and Complexity"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=amitkdhar",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_amitkdhar",
+    "department": "Department of Computer Science and Engineering"
+  },
+  {
+    "name": "Dr. Vinod Reddy",
+    "email": "vinod@iitbhilai.ac.in",
+    "research_interests": [
+      "Graph Algorithms",
+      "Parameterized Complexity",
+      "Combinatorics"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=vinod",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_vinodr",
+    "department": "Department of Computer Science and Engineering"
+  },
+  {
+    "name": "Dr. Anand M. Baswade",
+    "email": "anand@iitbhilai.ac.in",
+    "research_interests": [
+      "Wireless & Mobile Networks",
+      "5G Network & Systems",
+      "Software Defined Networks."
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=anand",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_anand",
+    "department": "Department of Computer Science and Engineering"
+  },
+  {
+    "name": "Dr. Vishwesh Jatala",
+    "email": "vishwesh@iitbhilai.ac.in",
+    "research_interests": [
+      "Graphics Processing Units (GPUs)",
+      "Optimizing Compilers for",
+      "GPU Performance and Energy",
+      "Computer Architecture"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=vishwesh",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_vishwesh",
+    "department": "Department of Computer Science and Engineering"
+  },
+  {
+    "name": "Dr. Soumajit Pramanik",
+    "email": "soumajit@iitbhilai.ac.in",
+    "research_interests": [
+      "Information Retrieval",
+      "Machine Learning",
+      "Social Computing and Complex Networks."
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=soumajit",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_soumajit",
+    "department": "Department of Computer Science and Engineering"
+  },
+  {
+    "name": "Dr. Rajesh Kumar Mundotiya",
+    "email": "rmundotiya@iitbhilai.ac.in",
+    "research_interests": [
+      "Natural Language Processing",
+      "Deep Learning",
+      "Information Retrieval",
+      "Speech Processing."
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=rmundotiya",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_rmundotiya",
+    "department": "Department of Computer Science and Engineering"
+  },
+  {
+    "name": "Dr. Nitin Khanna",
+    "email": "nitin@iitbhilai.ac.in",
+    "research_interests": [
+      "Signal",
+      "image",
+      "and video processing",
+      "Computer vision",
+      "Multimedia security",
+      "Analysis of remotely sensed images"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=nitin",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_nitin",
+    "department": "Department of Electrical Engineering"
+  },
+  {
+    "name": "Dr. Arzad Alam Kherani",
+    "email": "arzad.alam@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=arzad",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_arzad",
+    "department": "Department of Electrical Engineering"
+  },
+  {
+    "name": "Dr. Nikhil Chander",
+    "email": "nikhil@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=nikhil",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_nikhil",
+    "department": "Department of Electrical Engineering"
+  },
+  {
+    "name": "Dr. Sreejith T. V",
+    "email": "sreejith@iitbhilai.ac.in",
+    "research_interests": [
+      "Stochastic geometry for wireless",
+      "communications",
+      "5G non terrestrial communications studies"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=sreejith",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_sreejith",
+    "department": "Department of Electrical Engineering"
+  },
+  {
+    "name": "Dr. Prashant Agnihotri",
+    "email": "pagnihotri@iitbhilai.ac.in",
+    "research_interests": [
+      "Data Analytics application in Smart",
+      "Grid HVDC and FACTS",
+      "Power system dynamics and control",
+      "Machine Learning and Deep Learning"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=pagnihotri",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_pagnihotri",
+    "department": "Department of Electrical Engineering"
+  },
+  {
+    "name": "Dr. Avishek Adhikary",
+    "email": "avisheka@iitbhilai.ac.in",
+    "research_interests": [
+      "Machine Learning for Biosensors",
+      "UAV (drone): GNC Algorithm",
+      "Smart Instruments",
+      "Point of Care Systems",
+      "Microelectronics & Device Fabrication ReadMore"
+    ],
+    "website": "",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_avisheka",
+    "department": "Department of Electrical Engineering"
+  },
+  {
+    "name": "Dr. Shashank Kurm",
+    "email": "kurmshashank@iitbhilai.ac.in",
+    "research_interests": [
+      "High power density converters with an emphasis on automotive and aerospace applications",
+      "DC/DC converters",
+      "inverters",
+      "multi port converters"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=kurmshashank",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_kurmshashank",
+    "department": "Department of Electrical Engineering"
+  },
+  {
+    "name": "Dr. Shailendra Kumar",
+    "email": "skumaree@iitbhilai.ac.in",
+    "research_interests": [
+      "Multifunctional Charging Systems for EVs",
+      "Grid Integration of Renewable Energy Resources",
+      "PV Inverters",
+      "Microgrids",
+      "Power Quality",
+      "and PV Water Pumping Systems"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=skumaree",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_skumaree",
+    "department": "Department of Electrical Engineering"
+  },
+  {
+    "name": "Dr. Katchala Nanaji",
+    "education": "Ph.D. (IIT Madras)",
+    "post": "Adjunct Faculty",
+    "email": "nanaji@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=nanaji",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_nanaji",
+    "department": "Department of Electrical Engineering"
+  },
+  {
+    "name": "Dr. Krishna Murari",
+    "email": "kmurari@iitbhilai.ac.in",
+    "research_interests": [
+      "Load-Flow Studies",
+      "Optimal Power Flow",
+      "Fault analysis",
+      "Distribution network pricing",
+      "Demand side management",
+      "Distributed control"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=kmurari",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_kmurari",
+    "department": "Department of Electrical Engineering"
+  },
+  {
+    "name": "Prof Rajiv Prakash",
+    "education": "Director",
+    "post": "director[at]iitbhilai.ac.in",
+    "email": "director@iitbhilai.ac.in",
+    "research_interests": [
+      "Materials Technology",
+      "Nano-composites",
+      "Organic Electronics and Sensors."
+    ],
+    "website": "",
+    "avatar_url": "",
+    "department": "Mechanical Engineering"
+  },
+  {
+    "name": "Dr. Soumya Gangopadhyay",
+    "education": "Ph.D. (IIT Kharagpur)",
+    "post": "Associate Professor",
+    "email": "soumya@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=soumya",
+    "avatar_url": "",
+    "department": "Mechanical Engineering"
+  },
+  {
+    "name": "Dr. Vijay S. Duryodhan",
+    "education": "Ph.D. (IIT Bombay)",
+    "post": "Assistant Professor",
+    "email": "vijayd@iitbhilai.ac.in",
+    "research_interests": [
+      "Microfluidics",
+      "Heat transfer",
+      "Rarefied Gas Flow",
+      "Cogeneration"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=vijayd",
+    "avatar_url": "",
+    "department": "Mechanical Engineering"
+  },
+  {
+    "name": "Dr. Anshul Faye",
+    "education": "Ph.D. (IIT Kanpur)",
+    "post": "Assistant Professor",
+    "email": "afaye@iitbhilai.ac.in",
+    "research_interests": [
+      "Fracture Mechanics",
+      "Mechanics of Materials",
+      "Experimental Solid Mechanics",
+      "Computational Solid Mechanics"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=afaye",
+    "avatar_url": "",
+    "department": "Mechanical Engineering"
+  },
+  {
+    "name": "Dr. Jose Immanuel R",
+    "education": "Ph.D. (IIT Madras)",
+    "post": "Assistant Professor",
+    "email": "jose@iitbhilai.ac.in",
+    "research_interests": [
+      "Severe Plastic Deformation",
+      "Machinability of Advanced Materials",
+      "Material Characterisation"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=jose",
+    "avatar_url": "",
+    "department": "Mechanical Engineering"
+  },
+  {
+    "name": "Dr. Pravesh Chandra Shukla",
+    "education": "Ph.D. (IIT Kanpur)",
+    "post": "Associate Professor",
+    "email": "pravesh@iitbhilai.ac.in",
+    "research_interests": [
+      "Alternative Fuels",
+      "Diesel Emissions and their Control"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=pravesh",
+    "avatar_url": "",
+    "department": "Mechanical Engineering"
+  },
+  {
+    "name": "Dr. Rahul Jain",
+    "education": "Ph.D. (IIT Kharagpur)",
+    "post": "Associate Professor",
+    "email": "rahul@iitbhilai.ac.in",
+    "research_interests": [
+      "Friction stir welding",
+      "modeling of manufacturing processes",
+      "machining"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=rahul",
+    "avatar_url": "",
+    "department": "Mechanical Engineering"
+  },
+  {
+    "name": "Dr. Udayraj",
+    "education": "Ph.D. (IIT Delhi)",
+    "post": "Associate Professor",
+    "email": "udayraj@iitbhilai.ac.in",
+    "research_interests": [
+      "Computational Fluid Dynamics",
+      "Thermal Comfort/Protection",
+      "Inverse Heat Transfer",
+      "Continuous Casting"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=udayraj",
+    "avatar_url": "",
+    "department": "Mechanical Engineering"
+  },
+  {
+    "name": "Dr. Kaushik Bandyopadhyay",
+    "education": "Ph.D. (IIT Kharagpur)",
+    "post": "Assistant Professor",
+    "email": "kaushik@iitbhilai.ac.in",
+    "research_interests": [
+      "Sheet Metal Forming",
+      "Constitutive modelling",
+      "Failure Analysis",
+      "Laser Material Processing"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=kaushik",
+    "avatar_url": "",
+    "department": "Mechanical Engineering"
+  },
+  {
+    "name": "Dr. Balkrishna Mehta",
+    "education": "Ph.D. (IIT Kanpur)",
+    "post": "Associate Professor",
+    "email": "krishnab@iitbhilai.ac.in",
+    "research_interests": [
+      "Fluids and Thermal Sciences"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=krishnab",
+    "avatar_url": "",
+    "department": "Mechanical Engineering"
+  },
+  {
+    "name": "Dr Nagesh Devidas Patil",
+    "education": "Ph.D. (IIT Bombay)",
+    "post": "Associate Professor",
+    "email": "nageshpatil@iitbhilai.ac.in",
+    "research_interests": [
+      "Droplets and Interface Science",
+      "Computation Fluid Dynamics",
+      "Multiphase flows"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=nageshpatil",
+    "avatar_url": "",
+    "department": "Mechanical Engineering"
+  },
+  {
+    "name": "Dr. Purnendu Das",
+    "education": "Ph.D. (IIT Kharagpur)",
+    "post": "Assistant Professor",
+    "email": "purnendu@iitbhilai.ac.in",
+    "research_interests": [
+      "Surface Engineering",
+      "Tribology",
+      "Mechanical Alloying",
+      "Powder Metallurgy",
+      "Metal cutting and machine tools",
+      "Surface Finishing Processes."
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=purnendu",
+    "avatar_url": "",
+    "department": "Mechanical Engineering"
+  },
+  {
+    "name": "Dr Ganesh Kolappan Geetha",
+    "education": "Ph.D. (IISc, Bangalore)",
+    "post": "Assistant Professor",
+    "email": "ganeshkg@iitbhilai.ac.in",
+    "research_interests": [
+      "Structural health monitoring; Ultrasonic wave propagation; Vibro-thermography; Computer vision",
+      "Machine learning and deep learning; Point clouds & digital twin"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=ganeshkg",
+    "avatar_url": "",
+    "department": "Mechanical Engineering"
+  },
+  {
+    "name": "Dr. Aditya Singh",
+    "email": "adityasingh@iitbhilai.ac.in",
+    "research_interests": [
+      "Antenna Design for 6G",
+      "MIMO Antenna Systems",
+      "Reconfigurable/On-chip Antenna"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=adityasingh",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_adityasingh",
+    "department": "Department of Electronics and Communication Engineering"
+  },
+  {
+    "name": "Dr. Hathiram Nenavath",
+    "email": "hathiram@iitbhilai.ac.in",
+    "research_interests": [
+      "Computer Vision",
+      "Evolutionary Algorithms",
+      "Deep Learning",
+      "Augmented & Virtual Reality"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=hathiram",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_hathiram",
+    "department": "Department of Electronics and Communication Engineering"
+  },
+  {
+    "name": "Dr. Manish Pandey",
+    "email": "mpandey@iitbhilai.ac.in",
+    "research_interests": [
+      "Semiconductor and Device Physics",
+      "Flexible Electronics",
+      "Organic Semiconductors",
+      "Thin Film Growth & TFTs"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=mpandey",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_mpandey",
+    "department": "Department of Electronics and Communication Engineering"
+  },
+  {
+    "name": "Dr. Nikhil Chander",
+    "email": "nikhil@iitbhilai.ac.in",
+    "research_interests": [
+      "Photovoltaics",
+      "Stability/Reliability PV Moldules",
+      "Nanotechnology",
+      "Sensors"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=nikhil",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_nikhil",
+    "department": "Department of Electronics and Communication Engineering"
+  },
+  {
+    "name": "Dr. Nitanhsu Chauhan",
+    "email": "nitanshuc@iitbhilai.ac.in",
+    "research_interests": [
+      "Microelectronics & VLSI",
+      "CMOS Analog & Digital Circuits"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=nitanshuc",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_nitanshuc",
+    "department": "Department of Electronics and Communication Engineering"
+  },
+  {
+    "name": "Dr. Vivek Raghuwanshi",
+    "email": "vivekr@iitbhilai.ac.in",
+    "research_interests": [
+      "Flexible Large Area Electronics",
+      "Organic Electronics",
+      "Microelectronics"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=vivekr",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_vivekr",
+    "department": "Department of Electronics and Communication Engineering"
+  },
+  {
+    "name": "Dr. Arzad Alam Kherani",
+    "email": "arzad.alam@iitbhilai.ac.in",
+    "research_interests": [
+      "Computer Networks",
+      "Queueing Systems",
+      "Wireless Communication"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=arzad",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_arzad",
+    "department": "Department of Electronics and Communication Engineering"
+  },
+  {
+    "name": "Dr. Sreejith T V",
+    "email": "sreejith@iitbhilai.ac.in",
+    "research_interests": [
+      "Stochastic Geometry",
+      "Wireless Networks",
+      "Massive MIMO"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=sreejith",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_sreejith",
+    "department": "Department of Electronics and Communication Engineering"
+  },
+  {
+    "name": "Prof Rajiv Prakash",
+    "education": "Professor and Director",
+    "post": "rajivprakash[at]iitbhilai.ac.in",
+    "email": "rajivprakash@iitbhilai.ac.in",
+    "research_interests": [
+      "Materials Technology",
+      "Nano-composites",
+      "Organic Electronics and Sensors."
+    ],
+    "website": "",
+    "avatar_url": "",
+    "department": "Materials Science and Metallurgical Engineering"
+  },
+  {
+    "name": "Dr. Arvind Singh",
+    "education": "Ph.D. MNNIT Allahabad",
+    "post": "Assistant Professor",
+    "email": "arvindsingh@iitbhilai.ac.in",
+    "research_interests": [
+      "Energy Storage & Conversion Devices",
+      "Li/Na Batteries",
+      "Supercapacitors",
+      "Fuel Cells"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=arvindsingh",
+    "avatar_url": "",
+    "department": "Materials Science and Metallurgical Engineering"
+  },
+  {
+    "name": "Dr. Ashutosh Kumar",
+    "education": "Ph.D. (IIT Patna)",
+    "post": "Assistant Professor",
+    "email": "ashutosh@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=profile_ashutosh",
+    "avatar_url": "",
+    "department": "Materials Science and Metallurgical Engineering"
+  },
+  {
+    "name": "Dr. Nithin",
+    "education": "Ph.D. IIT Madras",
+    "post": "Assistant Professor",
+    "email": "nithin@iitbhilai.ac.in",
+    "research_interests": [
+      "Alloy Design and Development for high-temperature applications",
+      "Correlative Microscopy",
+      "Superalloys"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=profile_",
+    "avatar_url": "",
+    "department": "Materials Science and Metallurgical Engineering"
+  },
+  {
+    "name": "Dr. Shobhit Pratap Singh",
+    "education": "Ph.D. IISc, Bengaluru",
+    "post": "Assistant Professor",
+    "email": "shobhitsingh@iitbhilai.ac.in",
+    "research_interests": [
+      "High-temperature deformation mechanisms",
+      "Digital image correlation",
+      "Grain-boundary sliding",
+      "Microstructural characterization"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=profile_",
+    "avatar_url": "",
+    "department": "Materials Science and Metallurgical Engineering"
+  },
+  {
+    "name": "Dr. Yagnesh Shadangi",
+    "education": "Ph.D. IIT-BHU",
+    "post": "Assistant Professor",
+    "email": "yshadangi@iitbhilai.ac.in",
+    "research_interests": [
+      "Physical metallurgy",
+      "X-ray Diffraction",
+      "Advanced Materials Processing",
+      "Electron Microscopy",
+      "Alloys design & development"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=profile_yshadangi",
+    "avatar_url": "",
+    "department": "Materials Science and Metallurgical Engineering"
+  },
+  {
+    "name": "Dr. Sanjib Banerjee",
+    "education": "Ph.D. (IACS Kolkata)",
+    "post": "Associate Professor",
+    "email": "sanjib.banerjee@iitbhilai.ac.in",
+    "research_interests": [
+      "Polymer Chemistry",
+      "Bio-inspired Macromolecules",
+      "Stimuli-responsive Materials",
+      "Nano-engineered Molecular Materials"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=sanjib",
+    "avatar_url": "",
+    "department": "Materials Science and Metallurgical Engineering"
+  },
+  {
+    "name": "Dr. Sudhanwa Patra",
+    "education": "Ph.D. (PRL Ahmedabad)",
+    "post": "Associate Professor",
+    "email": "sudhanwa@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=sudhanwa",
+    "avatar_url": "",
+    "department": "Department of Physics"
+  },
+  {
+    "name": "Dr. Sabyasachi Ghosh",
+    "education": "Ph.D. (VECC Kolkata)",
+    "post": "Associate Professor",
+    "email": "sabya@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=sabya",
+    "avatar_url": "",
+    "department": "Department of Physics"
+  },
+  {
+    "name": "Dr. Sesha Vempati",
+    "education": "Ph.D. (Queen's University UK)",
+    "post": "Associate Professor",
+    "email": "sesha@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=sesha",
+    "avatar_url": "",
+    "department": "Department of Physics"
+  },
+  {
+    "name": "Dr. Dhruv Pratap Singh",
+    "education": "Ph.D. (IIT Delhi)",
+    "post": "Associate Professor",
+    "email": "dhruv@iitbhilai.ac.in",
+    "research_interests": [
+      "Artificial active matter systems Active colloids Swimming at low Reynolds number."
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=dhruv",
+    "avatar_url": "",
+    "department": "Department of Physics"
+  },
+  {
+    "name": "Dr. Mahavir Sharma",
+    "education": "Ph.D. (RRI Bangalore)",
+    "post": "Assistant Professor",
+    "email": "mahavir@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=mahavir",
+    "avatar_url": "",
+    "department": "Department of Physics"
+  },
+  {
+    "name": "Dr. Praveen Kumar",
+    "education": "Ph.D. (IIT Patna)",
+    "post": "Assistant Professor",
+    "email": "praveen@iitbhilai.ac.in",
+    "research_interests": [
+      "Applied Optics"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=praveen",
+    "avatar_url": "",
+    "department": "Department of Physics"
+  },
+  {
+    "name": "Dr. Anjali Chaudhary",
+    "education": "Ph.D. (IIT Indore)",
+    "post": "Assistant Professor",
+    "email": "achaudhary@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=achaudhary",
+    "avatar_url": "",
+    "department": "Department of Physics"
+  },
+  {
+    "name": "Dr. Avijit Saha",
+    "education": "Ph.D. (JNCASR Bangalore)",
+    "post": "Assistant Professor",
+    "email": "avijitsaha@iitbhilai.ac.in",
+    "research_interests": [
+      "Quantum dots"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=avijitsaha",
+    "avatar_url": "",
+    "department": "Department of Physics"
+  },
+  {
+    "name": "Dr. Rukmankesh",
+    "education": "PhD: CSIR-Indian Institute of Integrative Medicine (IIIM), Jammu",
+    "post": "Assistant Professor, IIT Bhilai",
+    "email": "rukmankesh@iitbhilai.ac.in",
+    "research_interests": [
+      "Bioinformatics",
+      "computational chemistry",
+      "molecular modeling and drug designing"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=rukmankesh_bsbme",
+    "avatar_url": "",
+    "department": "Bioscience and Biomedical Engineering"
+  },
+  {
+    "name": "Dr Nagesh Devidas Patil",
+    "education": "Ph.D. (IIT Bombay)",
+    "post": "Assistant Professor",
+    "email": "nageshpatil@iitbhilai.ac.in",
+    "research_interests": [
+      "Droplets and Interface Science",
+      "Computation Fluid Dynamics",
+      "Multiphase flows"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=nageshpatil_bsbme",
+    "avatar_url": "",
+    "department": "Bioscience and Biomedical Engineering"
+  },
+  {
+    "name": "Dr. Arun K. Upadhyay",
+    "education": "Ph.D. Indian Institute of Technology Jodhpur",
+    "post": "Assistant Professor",
+    "email": "arun@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=arun_bsbme",
+    "avatar_url": "",
+    "department": "Bioscience and Biomedical Engineering"
+  },
+  {
+    "name": "Dr. Ramasamy Mayilmurugan",
+    "education": "Ph.D. (Bharathidasan University, Tiruchirappalli, India)",
+    "post": "Assistant Professor",
+    "email": "murugan@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=murugan_bsbme",
+    "avatar_url": "",
+    "department": "Bioscience and Biomedical Engineering"
+  },
+  {
+    "name": "Dr. Suchetan Pal",
+    "education": "Ph.D. (Arizona State University)",
+    "post": "Assistant Professor",
+    "email": "suchetanp@iitbhilai.ac.in",
+    "research_interests": [
+      "Nanobiotechnology",
+      "Smart nanomaterials",
+      "Bioimaging",
+      "Self-assembly"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=suchetanp_bsbme",
+    "avatar_url": "",
+    "department": "Bioscience and Biomedical Engineering"
+  },
+  {
+    "name": "Dr. Arup Mukherjee",
+    "education": "Ph.D. (IISER Kolkata)",
+    "post": "Associate Professor",
+    "email": "arup@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=arup",
+    "avatar_url": "",
+    "department": "Department of Chemistry"
+  },
+  {
+    "name": "Dr. Sanjib Banerjee",
+    "education": "Ph.D. (IACS Kolkata)",
+    "post": "Associate Professor",
+    "email": "sanjib.banerjee@iitbhilai.ac.in",
+    "research_interests": [
+      "Polymer Chemistry",
+      "Bio-inspired Macromolecules",
+      "Stimuli-responsive Materials",
+      "Nano-engineered Molecular Materials"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=sanjib",
+    "avatar_url": "",
+    "department": "Department of Chemistry"
+  },
+  {
+    "name": "Dr. Satyajit Gupta",
+    "education": "Ph.D. (IISc Bangalore)",
+    "post": "Associate Professor",
+    "email": "satyajit@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=satyajit",
+    "avatar_url": "",
+    "department": "Department of Chemistry"
+  },
+  {
+    "name": "Dr. Suchetan Pal",
+    "education": "Ph.D. (Arizona State University)",
+    "post": "Associate Professor",
+    "email": "suchetanp@iitbhilai.ac.in",
+    "research_interests": [
+      "Nanobiotechnology",
+      "Smart nanomaterials",
+      "Bioimaging",
+      "Self-assembly"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=suchetanp",
+    "avatar_url": "",
+    "department": "Department of Chemistry"
+  },
+  {
+    "name": "Dr. Raghavender Medishetty",
+    "education": "Ph.D. (National Univ. Singapore)",
+    "post": "Assistant Professor",
+    "email": "raghavender@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=raghavender",
+    "avatar_url": "",
+    "department": "Department of Chemistry"
+  },
+  {
+    "name": "Dr. MD. Mehboob Alam",
+    "education": "Ph.D. (University of Calcutta)",
+    "post": "Assistant Professor",
+    "email": "mehboob@iitbhilai.ac.in",
+    "research_interests": [
+      "Theoretical Chemistry",
+      "Computational Chemistry",
+      "Multiphoton Absorption",
+      "Non-linear optics"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=profile_drmehboob",
+    "avatar_url": "",
+    "department": "Department of Chemistry"
+  },
+  {
+    "name": "Dr. GANAPATHY D",
+    "education": "Ph.D. (IIT Madras)",
+    "post": "Assistant Professor",
+    "email": "ganapathy@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=ganapathy",
+    "avatar_url": "",
+    "department": "Department of Chemistry"
+  },
+  {
+    "name": "Dr. Rukmankesh",
+    "education": "PhD: CSIR-Indian Institute of Integrative Medicine (IIIM), Jammu",
+    "post": "Assistant Professor",
+    "email": "rukmankesh@iitbhilai.ac.in",
+    "research_interests": [
+      "Bioinformatics",
+      "computational chemistry",
+      "molecular modeling and drug designing"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=rukmankesh",
+    "avatar_url": "",
+    "department": "Department of Chemistry"
+  },
+  {
+    "name": "Dr. Ramasamy Mayilmurugan",
+    "education": "Ph.D. (Bharathidasan University, Tiruchirappalli, India)",
+    "post": "Associate Professor",
+    "email": "murugan@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=murugan",
+    "avatar_url": "",
+    "department": "Department of Chemistry"
+  },
+  {
+    "name": "Dr. Hemanta Kumar Kisan",
+    "education": "PhD: IIT Bombay",
+    "post": "Assistant Professor",
+    "email": "hemant@iitbhilai.ac.in",
+    "research_interests": [
+      "Computational Organic Chemistry",
+      "Computational Asymmetric Catalysis",
+      "Heterobimetallic Catalysis",
+      "Enzyme Catalysis."
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=hemant",
+    "avatar_url": "",
+    "department": "Department of Chemistry"
+  },
+  {
+    "name": "Dr. Katchala Nanaji",
+    "education": "Ph.D. (IIT Madras)",
+    "post": "Assistant Professor",
+    "email": "nanaji@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=nanaji",
+    "avatar_url": "",
+    "department": "Department of Chemistry"
+  },
+  {
+    "name": "Dr. Gagan Raj Gupta",
+    "email": "gagan@iitbhilai.ac.in",
+    "research_interests": [
+      "Bio-Medical Devices",
+      "Data driven Control"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=gagan",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_gagan",
+    "department": "Discipline of MT_people"
+  },
+  {
+    "name": "Dr. Nitin Khanna",
+    "email": "nitin@iitbhilai.ac.in",
+    "research_interests": [
+      "Sustainable Mechatronic Systems for Precision Agriculture"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=nitin",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_nitin",
+    "department": "Discipline of MT_people"
+  },
+  {
+    "name": "Dr. Vijay S. Duryodhan",
+    "education": "Ph.D. (IIT Bombay)",
+    "post": "Assistant Professor",
+    "email": "vijayd@iitbhilai.ac.in",
+    "research_interests": [
+      "Microfluidics",
+      "Heat transfer",
+      "Rarefied Gas Flow",
+      "Cogeneration"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=vijayd",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_vijaya",
+    "department": "Discipline of MT_people"
+  },
+  {
+    "name": "Dr. Jose Immanuel R",
+    "education": "Ph.D. (IIT Madras)",
+    "post": "Assistant Professor",
+    "email": "jose@iitbhilai.ac.in",
+    "research_interests": [
+      "AI in manufacturing",
+      "Digital twin",
+      "Industry 4.0",
+      "Data driven material modelling"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=jose",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_jose",
+    "department": "Discipline of MT_people"
+  },
+  {
+    "name": "Dr. Avishek Adhikary",
+    "email": "avisheka@iitbhilai.ac.in",
+    "research_interests": [
+      "Multiagent and Distributed Control",
+      "Image Painting",
+      "Guidance and Nevigation of UAV",
+      "Data collection using underwater drone",
+      "ReadMore"
+    ],
+    "website": "",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_avisheka",
+    "department": "Discipline of MT_people"
+  },
+  {
+    "name": "Dr. Kaushik Bandyopadhyay",
+    "education": "Ph.D. (IIT Kharagpur)",
+    "post": "Assistant Professor",
+    "email": "kaushik@iitbhilai.ac.in",
+    "research_interests": [
+      "Digital manufacturing in the field of laser material processing and sheet metal forming",
+      "Creating digital twin system for above mentioned manufacturing processes."
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=kaushik",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_kaushik",
+    "department": "Discipline of MT_people"
+  },
+  {
+    "name": "Dr. Purnendu Das",
+    "education": "Ph.D. (IIT Kharagpur)",
+    "post": "Assistant Professor",
+    "email": "purnendu@iitbhilai.ac.in",
+    "research_interests": [
+      "Smart Manufacturing",
+      "Automation",
+      "Robotic Manipulation"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=purnendu",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_purnendu",
+    "department": "Discipline of MT_people"
+  },
+  {
+    "name": "Dr. Soumajit Pramanik",
+    "email": "soumajit@iitbhilai.ac.in",
+    "research_interests": [
+      "Drone based disaster Management",
+      "Drone based Precision Agriculture",
+      "Drone Navigation",
+      "Guidance and Control"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=soumajit",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_soumajit",
+    "department": "Discipline of MT_people"
+  },
+  {
+    "name": "Dr. Ashish Kumar Sahu",
+    "education": "Ph.D. (IIT Delhi)",
+    "post": "Assistant Professor",
+    "email": "ashishsahu@iitbhilai.ac.in",
+    "research_interests": [
+      "Industrial Automation",
+      "Smart Manufacturing",
+      "Industry 4.0",
+      "Cyber-Physical Systems",
+      "Micromachining"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=profile_ashishsahu",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_ashishsahu",
+    "department": "Discipline of MT_people"
+  },
+  {
+    "name": "Dr. Saikat Sahoo",
+    "email": "saikat@iitbhilai.ac.in",
+    "research_interests": [
+      "Wearable Robotics",
+      "Healthcare Robotics",
+      "Human-robot Interaction"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=profile_saikat",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_saikat",
+    "department": "Discipline of MT_people"
+  },
+  {
+    "name": "Dr. Kedarisetty Siddhardha",
+    "education": "Ph.D. (IIT Madras)",
+    "post": "Assistant Professor",
+    "email": "siddhardhak@iitbhilai.ac.in",
+    "research_interests": [
+      "Control and Guidance of UAVs",
+      "Experimental Robotics",
+      "Urban Air Mobility Systems"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=profile_siddhardhak",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_siddhardhak",
+    "department": "Discipline of MT_people"
+  },
+  {
+    "name": "Dr. Anindita Ghosh",
+    "education": "Ph.D. (IIT Hyderabad)",
+    "post": "Assistant Professor",
+    "email": "anindita@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=anindita",
+    "avatar_url": "",
+    "department": "Liberal Arts"
+  },
+  {
+    "name": "Dr. Anubhav Pradhan",
+    "education": "Ph.D. (Jamia Millia Islamia)",
+    "post": "Assistant Professor",
+    "email": "anubhavp@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=anubhavp",
+    "avatar_url": "",
+    "department": "Liberal Arts"
+  },
+  {
+    "name": "Dr. Sruthi Vinayan",
+    "education": "Ph.D. (IIT Madras)",
+    "post": "Assistant Professor",
+    "email": "sruthi@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=sruthi",
+    "avatar_url": "",
+    "department": "Liberal Arts"
+  },
+  {
+    "name": "Dr. Rekha Ravindran",
+    "education": "Ph.D. (IIT Madras)",
+    "post": "Assistant Professor",
+    "email": "rekha@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=rekha",
+    "avatar_url": "",
+    "department": "Liberal Arts"
+  },
+  {
+    "name": "Dr. Rajkumar Eslavath",
+    "education": "Ph.D. (Central University of Karnataka (CUK))",
+    "post": "Assistant Professor",
+    "email": "rajkumar@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=rajkumar",
+    "avatar_url": "",
+    "department": "Liberal Arts"
+  },
+  {
+    "name": "Dr. Sreelakshmi R.",
+    "education": "Ph.D. (IIT Madras)",
+    "post": "Assistant Professor",
+    "email": "sreelakshmi@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=sreelakshmi",
+    "avatar_url": "",
+    "department": "Liberal Arts"
+  },
+  {
+    "name": "Dr. Asrifa Sultana",
+    "education": "Ph.D. (IIT Madras)",
+    "post": "Assistant Professor",
+    "email": "asrifa@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=asrifa",
+    "avatar_url": "",
+    "department": "Department of Mathematics"
+  },
+  {
+    "name": "Dr. Avijit Pal",
+    "education": "Ph.D. (IISc Bangalore)",
+    "post": "Assistant Professor",
+    "email": "avijit@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=avijit",
+    "avatar_url": "",
+    "department": "Department of Mathematics"
+  },
+  {
+    "name": "Dr. Kuldeep Kumar Kataria",
+    "education": "Ph.D. (IIT Bombay)",
+    "post": "Associate Professor",
+    "email": "kuldeepk@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=profile_drkuldeep",
+    "avatar_url": "",
+    "department": "Department of Mathematics"
+  },
+  {
+    "name": "Dr. Raj Kumar Mistri",
+    "education": "Ph.D. (IIT Patna)",
+    "post": "Assistant Professor",
+    "email": "rkmistri@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=profile_drrajkumarmistri",
+    "avatar_url": "",
+    "department": "Department of Mathematics"
+  },
+  {
+    "name": "Dr. Lakshmi Kanta Patra",
+    "education": "Ph.D. (IIT Kharagpur)",
+    "post": "Assistant Professor",
+    "email": "lkpatra@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=lkpatra",
+    "avatar_url": "",
+    "department": "Department of Mathematics"
+  },
+  {
+    "name": "Dr. Pawan Kumar Mishra",
+    "education": "Ph.D. (IIT Delhi)",
+    "post": "Assistant Professor",
+    "email": "pawan@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=pawan",
+    "avatar_url": "",
+    "department": "Department of Mathematics"
+  },
+  {
+    "name": "Dr. Arnab Patra",
+    "education": "Ph.D. (IIT Kharagpur)",
+    "post": "Assistant Professor",
+    "email": "arnabp@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=arnabp",
+    "avatar_url": "",
+    "department": "Department of Mathematics"
+  },
+  {
+    "name": "Dr. Anurag Singh",
+    "education": "Ph.D. (IIT Kanpur)",
+    "post": "Assistant Professor",
+    "email": "anurags@iitbhilai.ac.in",
+    "research_interests": [],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=anurags",
+    "avatar_url": "",
+    "department": "Department of Mathematics"
+  }
+]
