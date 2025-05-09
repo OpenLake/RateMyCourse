@@ -3,9 +3,9 @@ import './globals.css';
 import { Metadata } from 'next';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import './globals.css'
-import { AuthProvider } from '@/contexts/AuthContext'
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { AuthProvider } from '@/hooks/useAuth';
 
 const inter = Inter({ subsets: ['latin'] });
 

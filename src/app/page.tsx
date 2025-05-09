@@ -83,7 +83,7 @@ export default function Home() {
               Browse All Courses
             </Link>
             <Link
-              href="/professor"
+              href="/professors"
               className={buttonVariants({ 
                 variant: "outline",
                 size: "lg",

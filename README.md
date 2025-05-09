@@ -41,11 +41,9 @@ Thank you for your interest in RateMyCourse! We look forward to growing this pro
 
 
 # Todo
-- [ ]  Fix the individual course page
 - [ ]  add firebase
-- [ ]  modularize course pagae
 - [ ]  implement filters
 - [ ]  implement search bars 
-- [ ]  implement professors scraping
-- [ ]  implement professors hook
 - [ ]  implement reviews
+- [ ]  implement backend
+- [ ]  for each user, he'll have 3 options, to comment as himself, to comment as his online personna (max 3 personna allowed) and to comment as anonymous 

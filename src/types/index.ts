@@ -1,12 +1,12 @@
 import { LucideIcon } from "lucide-react";
 export interface User {
   id: string;
-  email_hash: string;
+  auth_id: string;
   anonymous_id: string;
+  verification_hash: string;
   salt: string;
-  verification_status: boolean;
   created_at: Date;
-  last_login: Date;
+  updated_at: Date;
 }
 
 export interface Course {
@@ -74,13 +74,6 @@ export interface Flag {
   status: 'pending' | 'reviewed' | 'dismissed' | 'removed';
   created_at: Date;
 }
-
-export interface AdminUser {
-  id: string;
-  permissions: string[];
-  access_level: number;
-}
-
 export interface DepartmentProperties {
   id: string;
   name: string;
