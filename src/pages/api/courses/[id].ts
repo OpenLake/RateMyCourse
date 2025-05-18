@@ -1,5 +1,5 @@
+import { supabaseAdmin } from '@/lib/supabase-admin';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { adminDb } from '../../../lib/firebase-admin';
 
 export default async function handler(
   req: NextApiRequest,
@@ -14,29 +14,29 @@ export default async function handler(
   if (req.method === 'GET') {
     try {
       // Get the course document
-      const courseDoc = await adminDb.collection('courses').doc(id).get();
+      const { data: course, error: courseError } = await supabaseAdmin
+        .from('courses')
+        .select('*')
+        .eq('id', id)
+        .single();
       
-      if (!courseDoc.exists) {
+      if (courseError || !course) {
         return res.status(404).json({ error: 'Course not found' });
       }
       
       // Get the ratings for this course
-      const ratingsSnapshot = await adminDb
-        .collection('ratings')
-        .where('target_id', '==', id)
-        .where('target_type', '==', 'course')
-        .get();
+      const { data: ratings, error: ratingsError } = await supabaseAdmin
+        .from('ratings')
+        .select('*')
+        .eq('target_id', id)
+        .eq('target_type', 'course');
       
-      const ratings = ratingsSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
+      if (ratingsError) throw ratingsError;
       
       // Return the course with its ratings
       return res.status(200).json({
-        id: courseDoc.id,
-        ...courseDoc.data(),
-        ratings
+        ...course,
+        ratings: ratings || []
       });
     } catch (error) {
       console.error('Error fetching course:', error);

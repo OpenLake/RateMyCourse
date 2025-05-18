@@ -41,7 +41,7 @@ Thank you for your interest in RateMyCourse! We look forward to growing this pro
 
 
 # Todo
-- [ ]  add firebase
+- [ ]  add supabase
 - [ ]  implement filters
 - [ ]  implement search bars 
 - [ ]  implement reviews

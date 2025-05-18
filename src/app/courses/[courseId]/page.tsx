@@ -1,6 +1,4 @@
 "use client"
-import { Metadata } from "next";
-import { getCourseById, getAllCourses } from "@/lib/data/courses";
 import { notFound } from "next/navigation";
 import { Progress } from "@/components/ui/progress";
 import { DifficultyBadge } from "@/components/common/DifficultyBadge";

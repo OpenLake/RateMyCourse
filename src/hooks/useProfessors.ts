@@ -1,29 +1,35 @@
-
-// import { adminDb } from "@/pages/api/firebase-admin";
-import { db } from "@/lib/firebase";
 import { Professor } from "@/types";
-import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
-import { useEffect, useState, useCallback } from "react";
+import { createClient } from "@/utils/supabase/client";
+import { useEffect, useState } from "react";
 
-const fetchDynamicCourseData = async (professorId: string) => {
+// Create a Supabase client
+const supabase = createClient();
+
+const fetchDynamicProfessorData = async (professorId: string) => {
   if (!professorId) {
     console.error("Invalid professorId:", professorId);
     return null;
   }
   
-  const docRef = doc(db, "professors", professorId)
-  const docSnap = await getDoc(docRef);
-  // const professorRef = db.collection('professors').doc(professorId);
-  // const doc = await professorRef.get();
+  const { data, error } = await supabase
+    .from('professors')
+    .select('rating, reviewCount, professors')
+    .eq('id', professorId)
+    .single();
   
-  if (docSnap.exists()) {
-    const data = docSnap.data();
+  if (error) {
+    console.error("Error fetching professor data:", error);
+    return {};
+  }
+  
+  if (data) {
     return {
-      rating: data?.rating,
-      reviewCount: data?.reviewCount,
-      professors: data?.professors,
+      rating: data.rating,
+      reviewCount: data.reviewCount,
+      professors: data.professors,
     };
   }
+  
   return {};
 };
 
@@ -96,32 +102,34 @@ export const useProfessors = () => {
     }
   };
 
-  // // Function to fetch dynamic data for each professor and merge it with static data
-  // const loadDynamicData = useCallback(async (professors: Professor[]) => {
-  //   const updatedProfessors = await Promise.all(
-  //     professors.map(async (professor) => {
-  //       try {
-  //         const dynamicData = await fetchDynamicCourseData(professor.id);
-  //         return {
-  //           ...professor,
-  //           rating: dynamicData.rating,
-  //           reviewCount: dynamicData.reviewCount,
-  //           professors: dynamicData.professors,
-  //         };
-  //       } catch (error) {
-  //         console.error("Error fetching dynamic data:", error);
-  //         return professor;
-  //       }
-  //     })
-  //   );
+  // Function to fetch dynamic data for each professor and merge it with static data
+  // Uncomment if you want to fetch dynamic data
+  /*
+  const loadDynamicData = async (professors: Professor[]) => {
+    const updatedProfessors = await Promise.all(
+      professors.map(async (professor) => {
+        try {
+          const dynamicData = await fetchDynamicProfessorData(professor.id);
+          return {
+            ...professor,
+            rating: dynamicData?.rating || professor.rating,
+            reviewCount: dynamicData?.reviewCount || professor.reviewCount,
+            professors: dynamicData?.professors || professor.professors,
+          };
+        } catch (error) {
+          console.error("Error fetching dynamic data:", error);
+          return professor;
+        }
+      })
+    );
   
-  //   setState({
-  //     professors: updatedProfessors,
-  //     isLoading: false,
-  //     error: null,
-  //   });
-  // }, []);
-  
+    setState({
+      professors: updatedProfessors,
+      isLoading: false,
+      error: null,
+    });
+  };
+  */
 
   useEffect(() => {
     loadStaticProfessors();
@@ -135,13 +143,14 @@ export const useProfessors = () => {
     });
   }, []);
   
-  // useEffect(() => {
-  //   if (isStaticLoaded) {
-  //     loadDynamicData(state.professors);
-  //   }
-  // }, [isStaticLoaded, state.professors, loadDynamicData]);
-  
-  
+  // Uncomment if you want to load dynamic data after static data is loaded
+  /*
+  useEffect(() => {
+    if (isStaticLoaded) {
+      loadDynamicData(state.professors);
+    }
+  }, [isStaticLoaded, state.professors]);
+  */
 
   return state;
 };

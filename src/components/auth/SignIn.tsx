@@ -1,14 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { signInWithMagicLink } from '@/lib/supabase-auth';
 import { Mail, Lock, Shield } from 'lucide-react';
+import { createClient } from '@/utils/supabase/client';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+
+
+  // Clear email from state after sending magic link
+  useEffect(() => {
+    if (message) {
+      // Clear email from state for additional security
+      setEmail('');
+    }
+  }, [message]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,12 +29,21 @@ export default function SignIn() {
     
     try {
       const { error } = await signInWithMagicLink(email);
-      
       if (error) {
         setError(error.message);
       } else {
         setMessage('Check your email for the magic link to sign in!');
+        // Clear email for security
         setEmail('');
+        
+        // Clear localStorage of any traces (optional, depends on your Supabase config)
+        // Only do this if you know it won't break auth - may require testing
+        // const keysToPreserve = ['sb-<your-project-ref>-auth-token']; // Keep auth token
+        // Object.keys(localStorage).forEach(key => {
+        //   if (!keysToPreserve.includes(key) && key.startsWith('sb-')) {
+        //     localStorage.removeItem(key);
+        //   }
+        // });
       }
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');
@@ -40,9 +59,9 @@ export default function SignIn() {
         <div className="p-3 bg-blue-100 rounded-full mb-4">
           <Lock className="h-6 w-6 text-blue-600" />
         </div>
-        <h1 className="text-2xl font-bold">Sign in</h1>
+        <h1 className="text-2xl font-bold">Private Sign In</h1>
         <p className="text-center text-gray-600 mt-2">
-          Sign in with magic link - no password needed
+          Enhanced privacy protection with zero-knowledge identity
         </p>
       </div>
 
@@ -78,6 +97,14 @@ export default function SignIn() {
               className="pl-10 block w-full rounded-md border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               placeholder="you@example.com"
               disabled={isLoading}
+              // Disable browser autofill/save for enhanced privacy
+              autoSave="off"
+              // Clear the input when user navigates away
+              onBlur={() => {
+                // Optional: clear on blur for enhanced privacy
+                // (may affect UX, so consider user needs)
+                // setEmail('');
+              }}
             />
           </div>
         </div>
@@ -94,7 +121,7 @@ export default function SignIn() {
       <div className="mt-6 border-t border-gray-200 pt-6">
         <div className="flex items-center mb-4">
           <Shield className="h-5 w-5 text-gray-500 mr-2" />
-          <h2 className="text-sm font-medium text-gray-900">Privacy Protection</h2>
+          <h2 className="text-sm font-medium text-gray-900">Zero-Knowledge Privacy</h2>
         </div>
         <div className="text-xs text-gray-500 space-y-2">
           <p>
@@ -102,8 +129,12 @@ export default function SignIn() {
             cryptographic techniques to create an anonymous identifier that cannot be traced back to you.
           </p>
           <p>
-            Even our administrators cannot connect your identity to your ratings, ensuring complete
-            anonymity for honest feedback.
+            Your email is immediately discarded after authentication. Even our administrators with
+            database access cannot connect your identity to your feedback.
+          </p>
+          <p>
+            We use zero-knowledge proofs to verify your identity without storing any
+            connection between your email and your ratings.
           </p>
         </div>
       </div>

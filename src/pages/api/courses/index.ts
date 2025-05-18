@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { adminDb } from '../../../lib/firebase-admin';
 import { Course } from '../../../types';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,32 +12,30 @@ export default async function handler(
       const { department, search } = req.query;
       
       // Start with the base query
-      let query = adminDb.collection('courses');
+      let query = supabaseAdmin.from('courses').select('*');
       
       // Apply department filter if provided
       if (department && typeof department === 'string') {
-        query = query.where('department', '==', department);
+        query = query.eq('department', department);
       }
       
-      // Execute the query
-      const coursesSnapshot = await query.get();
+      // If there's a search parameter, we'll need to filter after fetching
+      // since Supabase doesn't support complex text searching in the same way
+      const { data: courses, error } = await query;
       
-      // Process the results
-      let courses = coursesSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as Course[];
+      if (error) throw error;
       
       // Apply search filter if provided
+      let filteredCourses = courses as Course[];
       if (search && typeof search === 'string') {
         const searchLower = search.toLowerCase();
-        courses = courses.filter(course => 
-          course.name.toLowerCase().includes(searchLower) || 
+        filteredCourses = filteredCourses.filter(course => 
+          course.title.toLowerCase().includes(searchLower) || 
           course.id.toLowerCase().includes(searchLower)
         );
       }
       
-      return res.status(200).json(courses);
+      return res.status(200).json(filteredCourses);
     } catch (error) {
       console.error('Error fetching courses:', error);
       return res.status(500).json({ error: 'Failed to fetch courses' });

@@ -1,30 +1,35 @@
-
-// import { adminDb } from "@/pages/api/firebase-admin";
-import { db } from "@/lib/firebase";
 import { Course } from "@/types";
-import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
-import { useEffect, useState, useCallback } from "react";
+import { createClient } from "@/utils/supabase/client";
+import { useEffect, useState } from "react";
 
-// Fetching dynamic course metadata (ratings, reviews) from Firebase
+const supabase = createClient();
+
+// Fetching dynamic course metadata (ratings, reviews) from Supabase
 const fetchDynamicCourseData = async (courseId: string) => {
   if (!courseId) {
     console.error("Invalid courseId:", courseId);
-    return null; // or handle it gracefully
+    return null;
   }
   
-  const docRef = doc(db, "courses", courseId)
-  const docSnap = await getDoc(docRef);
-  // const courseRef = db.collection('courses').doc(courseId);
-  // const doc = await courseRef.get();
+  const { data, error } = await supabase
+    .from('courses')
+    .select('rating, reviewCount, professors')
+    .eq('id', courseId)
+    .single();
   
-  if (docSnap.exists()) {
-    const data = docSnap.data();
+  if (error) {
+    console.error("Error fetching course data:", error);
+    return {};
+  }
+  
+  if (data) {
     return {
-      rating: data?.rating,
-      reviewCount: data?.reviewCount,
-      professors: data?.professors,
+      rating: data.rating,
+      reviewCount: data.reviewCount,
+      professors: data.professors,
     };
   }
+  
   return {};
 };
 
@@ -49,6 +54,7 @@ export const useCourses = () => {
       const data = await response.json();
       const flatCourses = data.flat(); // or data.flatMap(x => x);
       console.log("Flattened Courses:", flatCourses);
+      
       const fetchedCourses = flatCourses.map((course: Course) => ({
         id: course.id,
         code: course.code,
@@ -62,7 +68,8 @@ export const useCourses = () => {
         },
         reviewCount: 0,
         professors: ["Dr. Amay"],
-      }))
+      }));
+      
       setState((prevState) => ({
         ...prevState,
         courses: fetchedCourses,
@@ -78,32 +85,34 @@ export const useCourses = () => {
     }
   };
 
-  // // Function to fetch dynamic data for each course and merge it with static data
-  // const loadDynamicData = useCallback(async (courses: Course[]) => {
-  //   const updatedCourses = await Promise.all(
-  //     courses.map(async (course) => {
-  //       try {
-  //         const dynamicData = await fetchDynamicCourseData(course.id);
-  //         return {
-  //           ...course,
-  //           rating: dynamicData.rating,
-  //           reviewCount: dynamicData.reviewCount,
-  //           professors: dynamicData.professors,
-  //         };
-  //       } catch (error) {
-  //         console.error("Error fetching dynamic data:", error);
-  //         return course;
-  //       }
-  //     })
-  //   );
-  
-  //   setState({
-  //     courses: updatedCourses,
-  //     isLoading: false,
-  //     error: null,
-  //   });
-  // }, []);
-  
+  // Function to fetch dynamic data for each course and merge it with static data
+  // Uncomment if you want to fetch dynamic data
+  /*
+  const loadDynamicData = async (courses: Course[]) => {
+    const updatedCourses = await Promise.all(
+      courses.map(async (course) => {
+        try {
+          const dynamicData = await fetchDynamicCourseData(course.id);
+          return {
+            ...course,
+            rating: dynamicData?.rating || course.rating,
+            reviewCount: dynamicData?.reviewCount || course.reviewCount,
+            professors: dynamicData?.professors || course.professors,
+          };
+        } catch (error) {
+          console.error("Error fetching dynamic data:", error);
+          return course;
+        }
+      })
+    );
+    
+    setState({
+      courses: updatedCourses,
+      isLoading: false,
+      error: null,
+    });
+  };
+  */
 
   // Load static course data on initial render
   useEffect(() => {
@@ -111,20 +120,21 @@ export const useCourses = () => {
   }, []);
 
   const [isStaticLoaded, setIsStaticLoaded] = useState(false);
-
+  
   useEffect(() => {
     loadStaticCourses().then(() => {
       setIsStaticLoaded(true);
     });
   }, []);
-  
-  // useEffect(() => {
-  //   if (isStaticLoaded) {
-  //     loadDynamicData(state.courses);
-  //   }
-  // }, [isStaticLoaded, state.courses, loadDynamicData]);
-  
-  
+
+  // Uncomment if you want to load dynamic data after static data is loaded
+  /*
+  useEffect(() => {
+    if (isStaticLoaded) {
+      loadDynamicData(state.courses);
+    }
+  }, [isStaticLoaded, state.courses]);
+  */
 
   return state;
 };

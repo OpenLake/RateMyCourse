@@ -152,3 +152,98 @@ CREATE POLICY "Users can only insert/update/delete their own ratings"
     SELECT anonymous_id FROM anonymous_verification WHERE auth_id = auth.uid()
   ));
 */
+
+
+// lib/enhanced-sanitization.ts
+import { createHash } from 'crypto';
+
+/**
+ * Enhanced content sanitization with more robust PII detection
+ * Ensures no personally identifiable information is stored with ratings
+ */
+export const enhancedSanitizeContent = (content: string): string => {
+  // Sanitize common PII patterns
+  let sanitized = content;
+  
+  // Remove emails with comprehensive pattern matching
+  sanitized = sanitized.replace(
+    /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g, 
+    '[EMAIL REMOVED]'
+  );
+  
+  // Remove various phone number formats (international, with/without country codes)
+  sanitized = sanitized.replace(
+    /(\+\d{1,3}[\s.-]?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/g,
+    '[PHONE REMOVED]'
+  );
+  
+  // Remove social security numbers
+  sanitized = sanitized.replace(
+    /\b\d{3}[-.]?\d{2}[-.]?\d{4}\b/g,
+    '[SSN REMOVED]'
+  );
+  
+  // Remove common name patterns
+  const namePatterns = [
+    /(?:I am|I'm|my name is|this is|I go by) ([A-Z][a-zA-Z]+(?: [A-Z][a-zA-Z]+)*)/g,
+    /(?:sincerely|regards|from|signed),? ([A-Z][a-zA-Z]+(?: [A-Z][a-zA-Z]+)*)/gi,
+    /\b(?:Professor|Prof\.|Dr\.|Mr\.|Ms\.|Mrs\.) ([A-Z][a-zA-Z]+(?: [A-Z][a-zA-Z]+)*)/g
+  ];
+  
+  namePatterns.forEach(pattern => {
+    sanitized = sanitized.replace(pattern, (match, name) => {
+      return match.replace(name, '[NAME REMOVED]');
+    });
+  });
+  
+  // Remove student IDs
+  sanitized = sanitized.replace(
+    /\b(student id|id number|id#):? *\d+\b/gi,
+    '[STUDENT ID REMOVED]'
+  );
+  
+  // Remove URLs that might contain identifying information
+  sanitized = sanitized.replace(
+    /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/g,
+    '[URL REMOVED]'
+  );
+  
+  // Remove specific academic terms that could identify the time period
+  const termPatterns = [
+    /\b(Spring|Fall|Summer|Winter) (20\d{2})\b/g,
+    /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\.? (20\d{2})\b/g
+  ];
+  
+  termPatterns.forEach(pattern => {
+    sanitized = sanitized.replace(pattern, '[TERM REMOVED]');
+  });
+  
+  // Redact specific course numbers or section identifiers
+  sanitized = sanitized.replace(
+    /\b([A-Z]{2,4})\s*[-]?\s*(\d{3}[A-Z]?)\s*[-]?\s*(\d{1,3})\b/g,
+    '[COURSE ID REMOVED]'
+  );
+  
+  // // Hash any remaining proper nouns (potential names) to further anonymize
+  // // This is a simple approach - more advanced NLP would be better
+  // const properNounPattern = /\b[A-Z][a-z]+\b/g;
+  // const properNouns = sanitized.match(properNounPattern) || [];
+  // const uniqueProperNouns = [...new Set(properNouns)];
+  
+  // uniqueProperNouns.forEach(noun => {
+  //   // Skip common words that start with capital letters
+  //   const commonWords = ['I', 'A', 'The', 'This', 'It', 'My', 'We'];
+  //   if (!commonWords.includes(noun)) {
+  //     // Create a consistent but anonymized replacement
+  //     // Same noun always gets same replacement in this content
+  //     const hash = createHash('sha256').update(noun).digest('hex').substring(0, 8);
+  //     const replacement = `[Person_${hash}]`;
+      
+  //     // Global replace all instances
+  //     const nounRegex = new RegExp(`\\b${noun}\\b`, 'g');
+  //     sanitized = sanitized.replace(nounRegex, replacement);
+  //   }
+  // });
+  
+  return sanitized;
+};

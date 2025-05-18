@@ -33,18 +33,28 @@ export const handleAuthCallback = async (): Promise<{user: any, anonymousId: str
     return { user: null, anonymousId: null, error: error || new Error('No session found') };
   }
   
-  // Generate anonymous identity from email
   const { anonymousId, verificationToken } = await generateAnonymousIdentity(session.user.email);
   
-  // Store salt and verification hash in the verification table
-  // This table never links directly to user ratings
+  // Add additional entropy with a second salt layer
+  const secondarySalt = crypto.randomBytes(32).toString('hex');
+  
+  // Double hash the verification token with the second salt
+  const doubleHashedToken = crypto.pbkdf2Sync(
+    verificationToken, 
+    secondarySalt, 
+    50000, // Additional iterations
+    64, 
+    'sha512'
+  ).toString('hex');
+  
+  // Store the verification data with double hashing
   const { error: dbError } = await supabase
     .from('anonymous_verification')
     .upsert({
-      auth_id: session.user.id, // Supabase Auth ID
+      auth_id: session.user.id,
       anonymous_id: anonymousId,
-      verification_hash: verificationToken,
-      salt: crypto.randomBytes(32).toString('hex'), // Additional salt layer
+      verification_hash: doubleHashedToken,
+      salt: secondarySalt, 
       created_at: new Date()
     });
   
