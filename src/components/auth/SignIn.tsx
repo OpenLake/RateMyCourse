@@ -12,10 +12,8 @@ export default function SignIn() {
   const [error, setError] = useState('');
 
 
-  // Clear email from state after sending magic link
   useEffect(() => {
     if (message) {
-      // Clear email from state for additional security
       setEmail('');
     }
   }, [message]);
@@ -33,7 +31,6 @@ export default function SignIn() {
         setError(error.message);
       } else {
         setMessage('Check your email for the magic link to sign in!');
-        // Clear email for security
         setEmail('');
         
         // Clear localStorage of any traces (optional, depends on your Supabase config)
@@ -100,11 +97,6 @@ export default function SignIn() {
               // Disable browser autofill/save for enhanced privacy
               autoSave="off"
               // Clear the input when user navigates away
-              onBlur={() => {
-                // Optional: clear on blur for enhanced privacy
-                // (may affect UX, so consider user needs)
-                // setEmail('');
-              }}
             />
           </div>
         </div>

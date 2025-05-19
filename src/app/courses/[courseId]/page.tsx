@@ -34,12 +34,12 @@ export default function CoursePage({ params }: { params: { courseId: string } })
         <div className="col-span-12 lg:col-span-8 space-y-4">
           <CoursePageHeader course={course} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <CoursePageStats reviewCount={course.reviewCount ?? 0} />
+            <CoursePageStats reviewCount={course.review_count ?? 0} />
             {/* TODO */}
             {/* <CoursePageProfessors professors={course.professors} /> */}
           </div>
           <GradeDistribution />
-          <CoursePageReviews id={course.id} reviewCount={course.reviewCount ?? 0} />
+          <CoursePageReviews id={course.id} reviewCount={course.review_count ?? 0} />
         </div>
         
         <div className="col-span-12 lg:col-span-4 space-y-4">

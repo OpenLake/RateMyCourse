@@ -5,7 +5,7 @@ import { ThemeProvider } from '@/components/theme/theme-provider';
 import './globals.css'
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { AuthProvider } from '@/hooks/useAuth';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 const inter = Inter({ subsets: ['latin'] });
 

@@ -11,22 +11,39 @@ const fetchDynamicCourseData = async (courseId: string) => {
     return null;
   }
   
-  const { data, error } = await supabase
+  // Updated to match the new schema structure with flat fields
+  const { data: courseData, error: courseError } = await supabase
     .from('courses')
-    .select('rating, reviewCount, professors')
+    .select('overall_rating, difficulty_rating, workload_rating, review_count')
     .eq('id', courseId)
     .single();
   
-  if (error) {
-    console.error("Error fetching course data:", error);
+  if (courseError) {
+    console.error("Error fetching course data:", courseError);
     return {};
   }
+
+  // Fetch professors linked to this course through the junction table
+  const { data: professorsData, error: professorsError } = await supabase
+    .from('professors_courses')
+    .select('professor_id')
+    .eq('course_id', courseId);
+
+  if (professorsError) {
+    console.error("Error fetching professors for course:", professorsError);
+    return courseData;
+  }
   
-  if (data) {
+  // Extract professor IDs
+  const professorIds = professorsData?.map(item => item.professor_id) || [];
+  
+  if (courseData) {
     return {
-      rating: data.rating,
-      reviewCount: data.reviewCount,
-      professors: data.professors,
+      overall_rating: courseData.overall_rating,
+      difficulty_rating: courseData.difficulty_rating,
+      workload_rating: courseData.workload_rating,
+      review_count: courseData.review_count,
+      professor_ids: professorIds
     };
   }
   
@@ -55,19 +72,20 @@ export const useCourses = () => {
       const flatCourses = data.flat(); // or data.flatMap(x => x);
       console.log("Flattened Courses:", flatCourses);
       
-      const fetchedCourses = flatCourses.map((course: Course) => ({
+      // Updated to match the new schema structure with flat fields instead of nested objects
+      const fetchedCourses = flatCourses.map((course: any) => ({
         id: course.id,
         code: course.code,
         title: course.title,
         department: course.department,
         credits: course.credits,
-        rating: {
-          overall: 3,
-          difficulty: 3,
-          workload: 3,
-        },
-        reviewCount: 0,
-        professors: ["Dr. Amay"],
+        overall_rating: 0,       // Default values using flat field structure
+        difficulty_rating: 0,    // Default values using flat field structure
+        workload_rating: 0,      // Default values using flat field structure
+        review_count: 0,         // Updated field name
+        created_at: new Date(),  // Added missing field
+        updated_at: new Date(),  // Added missing field
+        // Note: professors relationship is now handled via junction table
       }));
       
       setState((prevState) => ({
@@ -86,8 +104,7 @@ export const useCourses = () => {
   };
 
   // Function to fetch dynamic data for each course and merge it with static data
-  // Uncomment if you want to fetch dynamic data
-  /*
+  // Updated to use the new schema structure
   const loadDynamicData = async (courses: Course[]) => {
     const updatedCourses = await Promise.all(
       courses.map(async (course) => {
@@ -95,9 +112,12 @@ export const useCourses = () => {
           const dynamicData = await fetchDynamicCourseData(course.id);
           return {
             ...course,
-            rating: dynamicData?.rating || course.rating,
-            reviewCount: dynamicData?.reviewCount || course.reviewCount,
-            professors: dynamicData?.professors || course.professors,
+            overall_rating: dynamicData?.overall_rating ?? course.overall_rating,
+            difficulty_rating: dynamicData?.difficulty_rating ?? course.difficulty_rating,
+            workload_rating: dynamicData?.workload_rating ?? course.workload_rating,
+            review_count: dynamicData?.review_count ?? course.review_count,
+            // Note: We're not storing professor_ids directly on the course object
+            // as relationships are now handled via junction table
           };
         } catch (error) {
           console.error("Error fetching dynamic data:", error);
@@ -112,7 +132,6 @@ export const useCourses = () => {
       error: null,
     });
   };
-  */
 
   // Load static course data on initial render
   useEffect(() => {
@@ -137,4 +156,4 @@ export const useCourses = () => {
   */
 
   return state;
-};
+}

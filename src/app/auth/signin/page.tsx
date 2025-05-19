@@ -1,39 +1,111 @@
 'use client';
 
-import SignIn from '@/components/auth/SignIn';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { Shield } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth';
+import { useState } from 'react';
+import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
 
-export default function SignInPage() {
-  const { isLoading, isAuthenticated } = useAuth();
-  const router = useRouter();
-  
-  useEffect(() => {
-    if (!isLoading && isAuthenticated) {
-      router.push('/dashboard');
+export default function SignIn() {
+  const { signIn, isLoading } = useAuth();
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState<{text: string; type: 'success' | 'error'} | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email.trim()) {
+      setMessage({
+        text: 'Please enter your email address.',
+        type: 'error'
+      });
+      return;
     }
-  }, [isLoading, isAuthenticated, router]);
-  
+
+    try {
+      const { error } = await signIn(email);
+      
+      if (error) {
+        console.error('Sign in error:', error);
+        setMessage({
+          text: `Failed to send magic link: ${error.message}`,
+          type: 'error'
+        });
+        return;
+      }
+      
+      setMessage({
+        text: 'Magic link sent! Check your email for a login link.',
+        type: 'success'
+      });
+      setEmail('');
+      
+    } catch (err) {
+      console.error('Unexpected sign in error:', err);
+      setMessage({
+        text: 'An unexpected error occurred. Please try again.',
+        type: 'error'
+      });
+    }
+  };
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="flex flex-col items-center mb-8">
-        <div className="flex items-center gap-2 mb-2">
-          <Shield className="h-8 w-8 text-blue-600" />
-          <h1 className="text-3xl font-extrabold text-gray-900">Anonymous Course Rating</h1>
+    <div className="flex min-h-screen flex-col items-center justify-center p-4">
+      <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
+        <h1 className="mb-6 text-2xl font-bold text-gray-800">Sign In</h1>
+        
+        <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email Address
+            </label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="your@email.com"
+              disabled={isLoading}
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+              required
+            />
+          </div>
+          
+          <div className="pt-2">
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:bg-indigo-400"
+            >
+              {isLoading ? 'Sending...' : 'Send Magic Link'}
+            </button>
+          </div>
+        </form>
+        
+        {message && (
+          <div
+            className={`mt-4 rounded-md p-4 text-sm ${
+              message.type === 'error'
+                ? 'bg-red-50 text-red-700'
+                : 'bg-green-50 text-green-700'
+            }`}
+          >
+            {message.text}
+          </div>
+        )}
+        
+        <div className="mt-6 text-center text-sm text-gray-600">
+          <p>
+            No account needed. We'll send you a secure magic link to sign in.
+          </p>
+          <p className="mt-2">
+            Your email is only used for authentication and is never stored with your ratings.
+          </p>
         </div>
-        <p className="text-center text-lg text-gray-600">
-          Share honest feedback without revealing your identity
-        </p>
-      </div>
-      
-      <SignIn />
-      
-      <div className="mt-8 max-w-md text-center text-sm text-gray-500">
-        <p>
-          By signing in, you agree to our commitment to privacy. Your ratings will never be linked to your identity.
-        </p>
+        
+        <div className="mt-8 border-t border-gray-200 pt-6 text-center text-sm text-gray-600">
+          <Link href="/" className="font-medium text-indigo-600 hover:text-indigo-500">
+            Return to Home
+          </Link>
+        </div>
       </div>
     </div>
   );

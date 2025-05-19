@@ -9,9 +9,9 @@ interface CourseStatsProps {
 
 export default function CourseStats({ course }: CourseStatsProps) {
   const ratings = [
-    { label: 'Overall', value: course.rating.overall, max: 5 },
-    { label: 'Workload', value: course.rating.workload, max: 5 },
-    { label: 'Difficulty', value: course.rating.difficulty, max: 5 },
+    { label: 'Overall', value: course.overall_rating, max: 5 },
+    { label: 'Workload', value: course.workload_rating, max: 5 },
+    { label: 'Difficulty', value: course.difficulty_rating, max: 5 },
   ];
 
   const gradeDistribution = [
@@ -52,7 +52,7 @@ export default function CourseStats({ course }: CourseStatsProps) {
         </CardHeader>
         <CardContent className="pt-0">
           <div className="flex justify-center py-2">
-            <DifficultyBadge difficulty={course.rating.difficulty} showText large />
+            <DifficultyBadge difficulty={course.difficulty_rating} showText large />
           </div>
         </CardContent>
       </Card>

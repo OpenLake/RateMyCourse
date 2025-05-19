@@ -97,66 +97,6 @@ export const createFuzzyTimestamp = (date: Date = new Date()): string => {
   return `${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}, ${timeOfDay}`;
 };
 
-
-// SQL for Creating Database Tables (Run in Supabase SQL Editor)
-/*
--- Anonymous verification table - stores verification info without links to ratings
-CREATE TABLE anonymous_verification (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  auth_id UUID NOT NULL UNIQUE,
-  anonymous_id UUID NOT NULL UNIQUE,
-  verification_hash TEXT NOT NULL,
-  salt TEXT NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
--- Ratings table - completely disconnected from user identities
-CREATE TABLE ratings (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  anonymous_id UUID NOT NULL,
-  course_id UUID NOT NULL,
-  professor_id UUID NOT NULL,
-  rating_value INTEGER NOT NULL CHECK (rating_value BETWEEN 1 AND 5),
-  content TEXT,
-  sentiment FLOAT,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  -- Use fuzzy timestamp for display
-  display_date TEXT NOT NULL,
-  -- No direct foreign key to anonymous_verification table!
-  
-  CONSTRAINT fk_course FOREIGN KEY (course_id) REFERENCES courses(id),
-  CONSTRAINT fk_professor FOREIGN KEY (professor_id) REFERENCES professors(id)
-);
-
--- Row-Level Security Policies
-ALTER TABLE anonymous_verification ENABLE ROW LEVEL SECURITY;
-ALTER TABLE ratings ENABLE ROW LEVEL SECURITY;
-
--- Only allow users to see their own verification entry
-CREATE POLICY "Users can only access their own verification data"
-  ON anonymous_verification
-  FOR ALL
-  USING (auth_id = auth.uid());
-
--- For ratings, users can read all ratings but only modify their own
-CREATE POLICY "Users can read all ratings"
-  ON ratings
-  FOR SELECT
-  USING (true);
-
-CREATE POLICY "Users can only insert/update/delete their own ratings"
-  ON ratings
-  FOR ALL
-  USING (anonymous_id IN (
-    SELECT anonymous_id FROM anonymous_verification WHERE auth_id = auth.uid()
-  ));
-*/
-
-
-// lib/enhanced-sanitization.ts
-import { createHash } from 'crypto';
-
 /**
  * Enhanced content sanitization with more robust PII detection
  * Ensures no personally identifiable information is stored with ratings
@@ -224,26 +164,6 @@ export const enhancedSanitizeContent = (content: string): string => {
     '[COURSE ID REMOVED]'
   );
   
-  // // Hash any remaining proper nouns (potential names) to further anonymize
-  // // This is a simple approach - more advanced NLP would be better
-  // const properNounPattern = /\b[A-Z][a-z]+\b/g;
-  // const properNouns = sanitized.match(properNounPattern) || [];
-  // const uniqueProperNouns = [...new Set(properNouns)];
-  
-  // uniqueProperNouns.forEach(noun => {
-  //   // Skip common words that start with capital letters
-  //   const commonWords = ['I', 'A', 'The', 'This', 'It', 'My', 'We'];
-  //   if (!commonWords.includes(noun)) {
-  //     // Create a consistent but anonymized replacement
-  //     // Same noun always gets same replacement in this content
-  //     const hash = createHash('sha256').update(noun).digest('hex').substring(0, 8);
-  //     const replacement = `[Person_${hash}]`;
-      
-  //     // Global replace all instances
-  //     const nounRegex = new RegExp(`\\b${noun}\\b`, 'g');
-  //     sanitized = sanitized.replace(nounRegex, replacement);
-  //   }
-  // });
   
   return sanitized;
 };

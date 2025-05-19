@@ -43,7 +43,7 @@
 //         </div>
 //         <div className="p-2 border-t border-muted text-center">
 //         <button className="text-primary hover:text-primary/80 text-sm font-medium flex items-center justify-center w-full">
-//             View all {course.reviewCount} reviews <ChevronRight className="h-4 w-4 ml-1" />
+//             View all {course.review_count} reviews <ChevronRight className="h-4 w-4 ml-1" />
 //         </button>
 //         </div>
 //     </div>

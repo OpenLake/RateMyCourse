@@ -68,6 +68,7 @@ export const handleAuthCallback = async (): Promise<{user: any, anonymousId: str
     error: null
   };
 };
+
 /**
  * Get user's anonymous ID without exposing their email
  */

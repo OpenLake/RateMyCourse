@@ -15,52 +15,62 @@ export interface Course {
   title: string;
   department: string;
   credits: number;
-  rating: {
-    overall: number;
-    difficulty: number;
-    workload: number;
-  }
-  reviewCount: number;
-  professors: string[];
-}  
+  overall_rating: number;    
+  difficulty_rating: number; 
+  workload_rating: number;   
+  review_count: number;      
+  created_at: Date;          
+  updated_at: Date;          
   
+}
+
 export interface Professor {
   id: string;
   name: string;
   post: string;
   email: string;
   department: string;
-  avatar_url: string;
-  website?: string;
-  rating: {
-    overall: number;
-    knowledge: number;
-    teaching: number;
-    approachability: number;
-  }
-  reviewCount: number;
+  avatar_url: string;  
+  website: string | null;     
+  overall_rating: number;     
+  knowledge_rating: number;   
+  teaching_rating: number;    
+  approachability_rating: number; 
+  review_count: number;       
   research_interests: string[];
-  courses: string[];
-}
+  created_at: Date;           
+  updated_at: Date;           
   
-export interface Rating {
+}
+
+export interface ProfessorCourse {  
+  professor_id: string;
+  course_id: string;
+}
+
+export interface Review {
   id: string;
   anonymous_id: string;
   target_id: string;
   target_type: 'course' | 'professor';
   rating_value: number;
-  comment: string;
-  semester: string;
-  year: number;
+  comment: string | null;     
+  votes: number;
+  is_flagged: boolean;
   created_at: Date;
   updated_at: Date;
-  helpfulness_score: number;
-  is_flagged: boolean;
+  
+  
+  difficulty_rating: number | null;    
+  workload_rating: number | null;      
+  knowledge_rating: number | null;     
+  teaching_rating: number | null;      
+  approachability_rating: number | null; 
 }
 
 export interface Vote {
   id: string;
-  rating_id: string;
+  review_id: string;          
   anonymous_id: string;
   vote_type: 'helpful' | 'unhelpful';
   created_at: Date;
@@ -68,7 +78,7 @@ export interface Vote {
 
 export interface Flag {
   id: string;
-  rating_id: string;
+  review_id: string;          
   reason: string;
   anonymous_id: string;
   status: 'pending' | 'reviewed' | 'dismissed' | 'removed';

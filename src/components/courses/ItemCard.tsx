@@ -16,44 +16,59 @@ interface ItemCardProps {
 
 export default function ItemCard({ item, className, type }: ItemCardProps) {
   const [isHovered, setIsHovered] = useState(false);
-  let reviewCount: number;
-  let overallRating: number;
-  let rating1: number;
-  let rating2: number;
-  let count: number | string[];
-  let title: string;
-  let subtitle: string;
-  let subtext: string | number;
-  let link: string;
-  let avatar: string;
-  if (type === "course") {
-    const course = item as Course;
-    reviewCount = course.reviewCount;
-    overallRating = course.rating.overall;
-    rating1 = course.rating.difficulty;
-    rating2 = course.rating.workload;
-    count = course.professors.length;
-    title = course.title;
-    subtitle = course.code;
-    subtext = course.credits;
-    link = `/courses/${course.id}`; 
-    avatar = "";
-  } else {
-    const professor = item as Professor;
-    reviewCount = professor.reviewCount;
-    overallRating = professor.rating.overall;
-    rating1 = professor.rating.knowledge;
-    rating2 = professor.rating.teaching;
-    count = professor.courses;
-    title = professor.name;
-    subtitle = professor.post;
-    subtext = professor.email;
-    link = `/professors/${professor.id}`;
-    avatar = professor.avatar_url;
-  }
   
+  // Get the appropriate data based on item type
+  const getItemData = () => {
+    if (type === "course") {
+      const course = item as Course;
+      
+      // For courses, we need to fetch professors via junction table
+      // This would ideally be passed in from a higher component that has access to this data
+      // For now, we'll handle the case where professor data might not be available
+      
+      return {
+        reviewCount: course.review_count,
+        overallRating: course.overall_rating,
+        rating1: course.difficulty_rating,
+        rating2: course.workload_rating,
+        count: 0, // This would need to be supplied from a professors_courses query
+        title: course.title,
+        subtitle: course.code,
+        subtext: course.credits,
+        link: `/courses/${course.id}`,
+        avatar: ""
+      };
+    } else {
+      const professor = item as Professor;
+      
+      return {
+        reviewCount: professor.review_count,
+        overallRating: professor.overall_rating,
+        rating1: professor.knowledge_rating,
+        rating2: professor.teaching_rating,
+        count: 0, // This would need to be supplied from a professors_courses query
+        title: professor.name,
+        subtitle: professor.post,
+        subtext: professor.email,
+        link: `/professors/${professor.id}`,
+        avatar: professor.avatar_url || ""
+      };
+    }
+  };
+  
+  const {
+    reviewCount,
+    overallRating,
+    rating1,
+    rating2,
+    count,
+    title,
+    subtitle,
+    subtext,
+    link,
+    avatar
+  } = getItemData();
 
-  
   const deptProps = useMemo(() => {
     return departmentProperties.find(dept => dept.name === item.department) || {
       id: item.department || 'GEN',
@@ -63,8 +78,8 @@ export default function ItemCard({ item, className, type }: ItemCardProps) {
     };
   }, [item.department]);
 
-
   const DeptIcon = deptProps.icon || BookMarked;
+  
   const ratings = [
     { label: "Overall", value: overallRating },
     { label: `${type === 'course' ? "Difficulty" : "Knowledge"}`, value: rating1 },
@@ -89,7 +104,7 @@ export default function ItemCard({ item, className, type }: ItemCardProps) {
           <div className="flex items-start gap-3 mb-4">
             <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center"
               style={{ backgroundColor: `${deptProps.color}20` }}>
-              {type == 'course' ? 
+              {type === 'course' ? 
                 <DeptIcon className="h-5 w-5" style={{ color: deptProps.color }} />
                 :
                 <Avatar className="h-12 w-12">
@@ -138,13 +153,12 @@ export default function ItemCard({ item, className, type }: ItemCardProps) {
               <BookOpen className="mr-2 h-4 w-4 text-gray-500 dark:text-gray-400" />
               <span>{subtext} {type === 'course' ? `Credits` : ``}</span>
             </div>
-            {type === 'course' ? 
+            {type === 'course' && (
               <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
                 <Users className="mr-2 h-4 w-4 text-gray-500 dark:text-gray-400" />
                 <span>{count} Professors</span>
               </div>
-              : <div></div>
-            }
+            )}
           </div>
         </CardContent>
 

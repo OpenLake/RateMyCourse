@@ -24,12 +24,12 @@ const CoursePageHeader = ({course}: CoursePageHeaderProps) => {
                 
                 <div className="flex items-center mt-2 gap-6">
                 <div className="flex items-center">
-                    <StarRating rating={course.rating?.overall ?? 0} />
-                    <span className="text-xs text-muted-foreground ml-2">({course.reviewCount} reviews)</span>
+                    <StarRating rating={course.overall_rating ?? 0} />
+                    <span className="text-xs text-muted-foreground ml-2">({course.review_count} reviews)</span>
                 </div>
                 <div className="flex items-center">
                     <span className="font-medium text-sm mr-2">Difficulty:</span>
-                    <DifficultyBadge difficulty={course.rating?.difficulty ?? 0} showText />
+                    <DifficultyBadge difficulty={course.difficulty_rating ?? 0} showText />
                 </div>
                 </div>
             </div>
