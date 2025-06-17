@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/contexts/AuthContext';
 import { Loader2, User, Shield, LogOut } from 'lucide-react';
 
 export default function Dashboard() {
@@ -13,33 +13,23 @@ export default function Dashboard() {
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       router.push('/auth/signin');
+      alert("User not Authenticated");
     }
   }, [isLoading, isAuthenticated, router]);
 
   const handleSignOut = async () => {
     await signOut();
-    router.push('/auth/signin');
+    router.push('/');
   };
-
-  // Show loading state
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
-        <Loader2 className="h-8 w-8 text-blue-500 animate-spin" />
-        <p className="mt-4 text-gray-600">Loading your dashboard...</p>
-      </div>
-    );
-  }
-
-  // If not authenticated and not loading, the useEffect will handle redirect
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
-        <Loader2 className="h-8 w-8 text-blue-500 animate-spin" />
-        <p className="mt-4 text-gray-600">Please sign in to access your dashboard...</p>
-      </div>
-    );
-  }
+  
+//   if (isLoading || !isAuthenticated) {
+//   return (
+//     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
+//       <Loader2 className="h-8 w-8 text-blue-500 animate-spin" />
+//       <p className="mt-4 text-gray-600">Checking authentication...</p>
+//     </div>
+//   );
+// }
 
   return (
     <div className="min-h-screen bg-gray-50">

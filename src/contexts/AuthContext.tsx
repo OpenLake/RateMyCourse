@@ -1,11 +1,7 @@
 "use client"
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { 
-  signInWithMagicLink, 
-  handleAuthCallback, 
-  getAnonymousId 
-} from "../lib/supabase-auth";
+import { signInWithMagicLink,handleAuthCallback, getAnonymousId } from "../lib/supabase-auth";
 import { useRouter } from "next/navigation";
 import { User } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
@@ -15,6 +11,7 @@ interface AuthContextType {
   isLoading: boolean;
   isAuthenticated: boolean;
   signIn: (email: string) => Promise<{ error: any | null }>;
+  signInWithGoogle: () => Promise<void>; 
   signOut: () => Promise<void>;
   refreshAnonymousId: () => Promise<void>;
 }
@@ -86,6 +83,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setIsLoading(false);
     return result;
   };
+  const signInWithGoogle= async()=>{
+    setIsLoading(true);
+    const {error}= await supabase.auth.signInWithOAuth({provider:'google', options: {
+    redirectTo: `${window.location.origin}/auth/callback`,
+  },});
+    setIsLoading(false);
+    if(error){
+      console.error('Google Sign-in Error',error.message);
+    }
+  };
 
   const signOut = async () => {
     setIsLoading(true);
@@ -115,6 +122,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         isLoading,
         isAuthenticated: !!user,
         signIn,
+        signInWithGoogle,
         signOut,
         refreshAnonymousId,
       }}

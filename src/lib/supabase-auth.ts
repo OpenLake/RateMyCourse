@@ -50,7 +50,7 @@ export const handleAuthCallback = async (): Promise<{user: any, anonymousId: str
   // Store the verification data with double hashing
   const { error: dbError } = await supabase
     .from('anonymous_verification')
-    .upsert({
+    .insert({
       auth_id: session.user.id,
       anonymous_id: anonymousId,
       verification_hash: doubleHashedToken,
