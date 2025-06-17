@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { BookOpen, Star, Search, ChevronDown, Sun, Moon, Palette } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ModeToggle } from '@/components/theme/mode-toggle';
+import { LoginButton } from '@/components/auth/login-button';
 import { useState } from 'react';
 import {
   DropdownMenu,
@@ -75,6 +76,10 @@ export default function Header() {
           <div className="flex items-center gap-2">
             
             <ModeToggle />
+          </div>
+           <div className="flex items-center gap-2">
+            
+           <LoginButton />
           </div>
           
           

@@ -55,7 +55,7 @@ export default function VerifyAuth() {
         </div>
         
         <div className="mb-6">
-          <h2 className="mb-2 text-lg font-medium text-gray-700">Your Anonymous Identity</h2>
+          <h2 className="mb-2 text-lg font-medium text-gray-700">{anonymousId}</h2>
           <p className="mb-2 text-sm text-gray-600">
             This is your secure anonymous ID. It cannot be traced back to your email:
           </p>

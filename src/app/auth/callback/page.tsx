@@ -6,7 +6,7 @@ import { handleAuthCallback } from '@/lib/supabase-auth';
 
 export default function AuthCallback() {
   const router = useRouter();
-  const [message, setMessage] = useState('Processing login...');
+  const [message, setMessage] = useState("Processing login...");
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function AuthCallback() {
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
         <h1 className="mb-6 text-2xl font-bold text-gray-800">Authentication</h1>
         
-        <div className="mb-4 text-lg">{message}</div>
+        <div className="mb-4 text-lg">A {message}</div>
         
         {error && (
           <div className="rounded-md bg-red-50 p-4 text-sm text-red-700">

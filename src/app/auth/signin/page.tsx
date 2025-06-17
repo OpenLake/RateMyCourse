@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function SignIn() {
-  const { signIn, isLoading } = useAuth();
+  const { signIn,signInWithGoogle, isLoading } = useAuth();
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState<{text: string; type: 'success' | 'error'} | null>(null);
 
@@ -51,7 +51,21 @@ export default function SignIn() {
     <div className="flex min-h-screen flex-col items-center justify-center p-4">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
         <h1 className="mb-6 text-2xl font-bold text-gray-800">Sign In</h1>
-        
+        <button
+          onClick={signInWithGoogle}
+          disabled={isLoading}
+          className="mb-4 w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+        >
+          <button className="flex items-center justify-center gap-2 ...">
+          <img src="/google-tile.svg" alt="Google" className="w-5 h-5" />
+          Continue with Google
+          </button>
+        </button>
+
+        <div className="relative mb-4 text-center text-sm text-gray-500">
+          <span className="px-2 bg-white relative z-10">or</span>
+          <div className="absolute left-0 top-1/2 w-full border-t border-gray-300 -translate-y-1/2"></div>
+        </div>
         <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
