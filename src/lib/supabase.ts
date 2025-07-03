@@ -10,21 +10,26 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
 
-export const getCurrentUser = async () => {
-  const { data: { session } } = await supabase.auth.getSession();
-  return session?.user ?? null;
-};
 
-export const getAnonymousId = async (): Promise<string | null> => {
-  const user = await getCurrentUser();
-  if (!user) return null;
+
+
+
+
+// export const getCurrentUser = async () => {
+//   const { data: { session } } = await supabase.auth.getSession();
+//   return session?.user ?? null;
+// };
+
+// export const getAnonymousId = async (): Promise<string | null> => {
+//   const user = await getCurrentUser();
+//   if (!user) return null;
   
-  const { data, error } = await supabase
-    .from('users_auth')
-    .select('anonymous_id')
-    .eq('user_id', user.id)
-    .single();
+//   const { data, error } = await supabase
+//     .from('users_auth')
+//     .select('anonymous_id')
+//     .eq('user_id', user.id)
+//     .single();
     
-  if (error || !data) return null;
-  return data.anonymous_id;
-};
+//   if (error || !data) return null;
+//   return data.anonymous_id;
+// };
