@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "ts-node src/lib/syncData.ts"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.2",
@@ -76,6 +77,9 @@
     "zod": "^3.24.3"
   },
   "devDependencies": {
-    "@types/crypto-js": "^4.2.2"
+    "@types/crypto-js": "^4.2.2",
+    "dotenv": "^17.0.1",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.3"
   }
 }

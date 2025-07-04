@@ -1,4 +1,12 @@
 import { LucideIcon } from "lucide-react";
+export enum Grade {
+  APlus = "A+",
+  A = "A",
+  B = "B",
+  C = "C",
+  D = "D",
+  F = "F"
+}
 export interface User {
   id: string;
   auth_id: string;
@@ -15,13 +23,15 @@ export interface Course {
   title: string;
   department: string;
   credits: number;
-  overall_rating: number;    
-  difficulty_rating: number; 
-  workload_rating: number;   
-  review_count: number;      
-  created_at: Date;          
-  updated_at: Date;          
-  
+  overall_rating: number;      // default: 0
+  difficulty_rating: number;   // default: 0
+  workload_rating: number;     // default: 0
+  review_count: number;        // default: 0
+  created_at: Date;
+  updated_at: Date;
+
+  // Optional grade for future use (e.g., average grade given)
+  grade?: Grade;
 }
 
 export interface Professor {
@@ -30,18 +40,20 @@ export interface Professor {
   post: string;
   email: string;
   department: string;
-  avatar_url: string;  
-  website: string | null;     
-  overall_rating: number;     
-  knowledge_rating: number;   
-  teaching_rating: number;    
-  approachability_rating: number; 
-  review_count: number;       
+  avatar_url: string;
+  website: string | null;
+  overall_rating: number;        // default: 0
+  knowledge_rating: number;      // default: 0
+  teaching_rating: number;       // default: 0
+  approachability_rating: number;// default: 0
+  review_count: number;          // default: 0
   research_interests: string[];
-  created_at: Date;           
-  updated_at: Date;           
-  
+  created_at: Date;
+  updated_at: Date;
+
+  grade?: Grade; // optional for consistency
 }
+
 
 export interface ProfessorCourse {  
   professor_id: string;
