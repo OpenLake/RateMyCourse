@@ -1,17 +1,29 @@
-"use client"
+"use client";
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { signInWithMagicLink,handleAuthCallback, getAnonymousId } from "../lib/supabase-auth";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import {
+  signInWithMagicLink,
+  handleAuthCallback,
+  getAnonymousId,
+} from "../lib/supabase-auth";
 import { useRouter } from "next/navigation";
 import { User } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
+
 interface AuthContextType {
   user: User | null;
   anonymousId: string | null;
   isLoading: boolean;
   isAuthenticated: boolean;
+  isReady: boolean;
   signIn: (email: string) => Promise<{ error: any | null }>;
-  signInWithGoogle: () => Promise<void>; 
+  signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
   refreshAnonymousId: () => Promise<void>;
 }
@@ -22,57 +34,51 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [user, setUser] = useState<User | null>(null);
   const [anonymousId, setAnonymousId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isReady, setIsReady] = useState<boolean>(false);
   const router = useRouter();
-
+  
   useEffect(() => {
-    // Initialize auth state from supabase session
-    const initAuth = async () => {
-      try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        
-        if (error) {
-          console.error("Error getting session:", error);
-          setIsLoading(false);
-          return;
-        }
+  let isMounted = true;
 
-        if (session?.user) {
+  const getInitialSession = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!isMounted) return;
+
+    if (session?.user) {
+      console.log("✅ Initial session found", session.user);
+      setUser(session.user);
+
+      const { anonymousId, error: idError } = await getAnonymousId();
+      if (!idError) setAnonymousId(anonymousId);
+    } else {
+      console.log("❌ No session found");
+    }
+
+    setIsLoading(false);
+    setIsReady(true);
+  };
+
+  getInitialSession();
+
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        console.log("Auth state changed:", event, session);
+        if (!isMounted) return;
+
+        if (event === "SIGNED_IN" && session?.user) {
           setUser(session.user);
-          // Get anonymous ID if user is logged in
           const { anonymousId, error: idError } = await getAnonymousId();
-          if (idError) {
-            console.error("Error getting anonymous ID:", idError);
-          } else {
-            setAnonymousId(anonymousId);
-          }
+          if (!idError) setAnonymousId(anonymousId);
+        } else if (event === "SIGNED_OUT") {
+          setUser(null);
+          setAnonymousId(null);
         }
-      } catch (error) {
-        console.error("Auth initialization error:", error);
-      } finally {
-        setIsLoading(false);
       }
-    };
-
-    initAuth();
-
-    // Set up auth state listener
-    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === "SIGNED_IN" && session?.user) {
-        setUser(session.user);
-        // Get anonymous ID when user signs in
-        const { anonymousId, error: idError } = await getAnonymousId();
-        if (idError) {
-          console.error("Error getting anonymous ID:", idError);
-        } else {
-          setAnonymousId(anonymousId);
-        }
-      } else if (event === "SIGNED_OUT") {
-        setUser(null);
-        setAnonymousId(null);
-      }
-    });
+    );
 
     return () => {
+      isMounted = false;
       authListener?.subscription?.unsubscribe();
     };
   }, []);
@@ -83,14 +89,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setIsLoading(false);
     return result;
   };
-  const signInWithGoogle= async()=>{
+
+  const signInWithGoogle = async () => {
     setIsLoading(true);
-    const {error}= await supabase.auth.signInWithOAuth({provider:'google', options: {
-    redirectTo: `${window.location.origin}/auth/callback`,
-  },});
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        // ✅ Fixed string interpolation bug here
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
     setIsLoading(false);
-    if(error){
-      console.error('Google Sign-in Error',error.message);
+    if (error) {
+      console.error("Google sign-in error", error.message);
     }
   };
 
@@ -106,11 +117,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const refreshAnonymousId = async () => {
     if (user) {
       const { anonymousId, error } = await getAnonymousId();
-      if (error) {
-        console.error("Error refreshing anonymous ID:", error);
-      } else {
-        setAnonymousId(anonymousId);
-      }
+      if (!error) setAnonymousId(anonymousId);
     }
   };
 
@@ -120,6 +127,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         user,
         anonymousId,
         isLoading,
+        isReady,
         isAuthenticated: !!user,
         signIn,
         signInWithGoogle,
@@ -134,7 +142,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;

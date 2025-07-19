@@ -42,7 +42,7 @@ const CourseReviewItem = ({ review }: { review: any }) => {
         />
         <div>
           <h4 className="font-medium text-sm">{review.user.name}</h4>
-          <p className="text-xs text-gray-500">{review.semester}</p>
+          {/* <p className="text-xs text-gray-500">{review.semester}</p> */}
         </div>
       </div>
       

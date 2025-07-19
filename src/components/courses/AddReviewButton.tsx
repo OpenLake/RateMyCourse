@@ -78,7 +78,7 @@ export default function AddReviewButton({ courseId }: AddReviewButtonProps) {
         </DialogHeader>
         
         <div className="grid gap-6 py-4">
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <Label htmlFor="overall-rating">Overall Rating</Label>
             <div className="flex">
               <StarRatingInput 
@@ -87,53 +87,9 @@ export default function AddReviewButton({ courseId }: AddReviewButtonProps) {
                 onChange={(value) => handleRatingChange('overall', value)} 
               />
             </div>
-          </div>
+          </div> */}
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <Label htmlFor="workload-rating">Workload</Label>
-              <div className="flex">
-                <StarRatingInput 
-                  id="workload-rating"
-                  value={review.workload} 
-                  onChange={(value) => handleRatingChange('workload', value)} 
-                />
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="content-rating">Content Quality</Label>
-              <div className="flex">
-                <StarRatingInput 
-                  id="content-rating"
-                  value={review.content} 
-                  onChange={(value) => handleRatingChange('content', value)} 
-                />
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="teaching-rating">Teaching Quality</Label>
-              <div className="flex">
-                <StarRatingInput 
-                  id="teaching-rating"
-                  value={review.teaching} 
-                  onChange={(value) => handleRatingChange('teaching', value)} 
-                />
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="support-rating">Support</Label>
-              <div className="flex">
-                <StarRatingInput 
-                  id="support-rating"
-                  value={review.support} 
-                  onChange={(value) => handleRatingChange('support', value)} 
-                />
-              </div>
-            </div>
-          </div>
+
           
           <div className="space-y-2">
             <Label htmlFor="comment">Your Review</Label>

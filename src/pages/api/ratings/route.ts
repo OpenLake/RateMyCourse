@@ -46,7 +46,7 @@ export async function POST(request: Request) {
     
     // Get the anonymous ID for the authenticated user
     const { data: anonymousData, error: anonymousError } = await supabase
-      .from('anonymous_verification')
+      .from('users')
       .select('anonymous_id')
       .eq('auth_id', session.user.id)
       .single();

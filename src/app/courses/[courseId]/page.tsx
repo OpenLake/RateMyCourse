@@ -27,8 +27,7 @@ export default function CoursePage({ params }: { params: { courseId: string } })
     notFound();
   }
   return (
-    <div className="container px-4 md:px-6 py-4 max-h-screen mx-auto">
-
+    <div className="container px-4 md:px-6 py-4 min-h-[calc(100vh-6rem)] mx-auto">
       <div className="grid grid-cols-12 gap-4">
         
         <div className="col-span-12 lg:col-span-8 space-y-4">
@@ -38,17 +37,18 @@ export default function CoursePage({ params }: { params: { courseId: string } })
             {/* TODO */}
             {/* <CoursePageProfessors professors={course.professors} /> */}
           </div>
-          <GradeDistribution />
+          {/* <GradeDistribution /> */}
           <CoursePageReviews id={course.id} reviewCount={course.review_count ?? 0} />
         </div>
         
         <div className="col-span-12 lg:col-span-4 space-y-4">
-          <RateThisCourse />
-          <PainOMeter
+          <RateThisCourse courseId={course.id}/>
+
+          {/* <PainOMeter
             difficulty={8} 
             workload={7} 
             rating={3}
-          />
+          /> */}
         </div>
       </div>
     </div>

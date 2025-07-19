@@ -9,7 +9,7 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      anonymous_verification: {
+      user: {
         Row: {
           id: string
           auth_id: string
@@ -315,7 +315,7 @@ export interface Database {
 }
 
 // Type definitions for application-level models
-export type AnonymousVerification = Database['public']['Tables']['anonymous_verification']['Row']
+export type AnonymousVerification = Database['public']['Tables']['user']['Row']
 export type Course = Database['public']['Tables']['courses']['Row'] & {
   rating?: {
     overall: number

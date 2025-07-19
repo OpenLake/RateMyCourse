@@ -60,7 +60,7 @@
 //     const fetchAnonymousId = async (userId: string) => {
 //       try {
 //         const { data, error } = await supabase
-//           .from('anonymous_verification')
+//           .from('users')
 //           .select('anonymous_id')
 //           .eq('auth_id', userId)
 //           .single();
