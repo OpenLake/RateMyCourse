@@ -1,0 +1,2198 @@
+[
+  [
+    {
+      "id": "bml101",
+      "code": "BML101",
+      "title": "Biology for Engineers",
+      "credits": "3",
+      "department": "Bioscience and Biomedical Engineering"
+    },
+    {
+      "id": "bml511",
+      "code": "BML511",
+      "title": "Physiology",
+      "credits": "2",
+      "department": "Bioscience and Biomedical Engineering"
+    },
+    {
+      "id": "bml512",
+      "code": "BML512",
+      "title": "Molecular Biology",
+      "credits": "3",
+      "department": "Bioscience and Biomedical Engineering"
+    },
+    {
+      "id": "bml513",
+      "code": "BML513",
+      "title": "Biochemistry",
+      "credits": "2",
+      "department": "Bioscience and Biomedical Engineering"
+    },
+    {
+      "id": "bml551",
+      "code": "BML551",
+      "title": "Instrumentation in Biomedical Engineering",
+      "credits": "3",
+      "department": "Bioscience and Biomedical Engineering"
+    },
+    {
+      "id": "bmp581",
+      "code": "BMP581",
+      "title": "Bioengineering Lab 1",
+      "credits": "1",
+      "department": "Bioscience and Biomedical Engineering"
+    },
+    {
+      "id": "bmp582",
+      "code": "BMP582",
+      "title": "Bioengineering Lab 2",
+      "credits": "1",
+      "department": "Bioscience and Biomedical Engineering"
+    },
+    {
+      "id": "bml611",
+      "code": "BML611",
+      "title": "Biomicrofluidics and Lab-on-Chip",
+      "credits": "3",
+      "department": "Bioscience and Biomedical Engineering"
+    },
+    {
+      "id": "bml612",
+      "code": "BML612",
+      "title": "Bioinformatics",
+      "credits": "2",
+      "department": "Bioscience and Biomedical Engineering"
+    },
+    {
+      "id": "bml613",
+      "code": "BML613",
+      "title": "Bionanotechnology",
+      "credits": "1",
+      "department": "Bioscience and Biomedical Engineering"
+    },
+    {
+      "id": "bml614",
+      "code": "BML614",
+      "title": "BioMEMS and Biosensors",
+      "credits": "3",
+      "department": "Bioscience and Biomedical Engineering"
+    },
+    {
+      "id": "bml615",
+      "code": "BML615",
+      "title": "Biomaterials Science and Engineering",
+      "credits": "3",
+      "department": "Bioscience and Biomedical Engineering"
+    },
+    {
+      "id": "bml616",
+      "code": "BML616",
+      "title": "Bioanalytical Methods",
+      "credits": "3",
+      "department": "Bioscience and Biomedical Engineering"
+    }
+  ],
+  [
+    {
+      "id": "cyl100",
+      "code": "CYL100",
+      "title": "Applied Chemistry",
+      "credits": "3",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyl101",
+      "code": "CYL101",
+      "title": "Environmental Studies",
+      "credits": "1",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyp102",
+      "code": "CYP102",
+      "title": "Chemistry Lab",
+      "credits": "1.5",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyl400",
+      "code": "CYL400",
+      "title": "Chemical Kinetics and Surface Science",
+      "credits": "3",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyl401",
+      "code": "CYL401",
+      "title": "Coordination Chemistry",
+      "credits": "3",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyl500",
+      "code": "CYL500",
+      "title": "Quantum Chemistry",
+      "credits": "3",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyl501",
+      "code": "CYL501",
+      "title": "Stereochemistry and Reaction Mechanism",
+      "credits": "3",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyp502",
+      "code": "CYP502",
+      "title": "Organic and Inorganic Laboratory",
+      "credits": "3",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyp503",
+      "code": "CYP503",
+      "title": "Physical and Computational Chemistry Lab",
+      "credits": "3",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyl504",
+      "code": "CYL504",
+      "title": "Thermodynamics and Statistical Mechanics",
+      "credits": "3",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyl505",
+      "code": "CYL505",
+      "title": "Organic Reactions and Reagents",
+      "credits": "3",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyl506",
+      "code": "CYL506",
+      "title": "Bioinorganic Chemistry",
+      "credits": "3",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyl507",
+      "code": "CYL507",
+      "title": "Chemistry of Main Group Elements",
+      "credits": "3",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyl508",
+      "code": "CYL508",
+      "title": "Organic Photochemistry and Pericyclic reactions",
+      "credits": "3",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyl509",
+      "code": "CYL509",
+      "title": "Molecular Spectroscopy and Computational Chemistry",
+      "credits": "3",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyl510",
+      "code": "CYL510",
+      "title": "Physical Organic Chemistry",
+      "credits": "3",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyl511",
+      "code": "CYL511",
+      "title": "An Introduction to Catalyst Design: Function and Application",
+      "credits": "2",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyl600",
+      "code": "CYL600",
+      "title": "Advanced Organic Chemistry",
+      "credits": "3",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyl601",
+      "code": "CYL601",
+      "title": "Organometallic Chemistry: Principles and Applications",
+      "credits": "3",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyl602",
+      "code": "CYL602",
+      "title": "Interpretative Molecular Spectroscopy",
+      "credits": "3",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyl603",
+      "code": "CYL603",
+      "title": "Chemistry of Heterocyclic Compounds and Natural Products",
+      "credits": "3",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyl605",
+      "code": "CYL605",
+      "title": "Electron Paramagnetic Resonance (EPR) Spectroscopy and its Applications",
+      "credits": "2",
+      "department": "Chemistry"
+    },
+    {
+      "id": "cyl610",
+      "code": "CYL610",
+      "title": "Solar Energy Harvesting Materials",
+      "credits": "3",
+      "department": "Chemistry"
+    }
+  ],
+  [
+    {
+      "id": "csl100",
+      "code": "CSL100",
+      "title": "Introduction to Programming",
+      "credits": "4.5",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl201",
+      "code": "CSL201",
+      "title": "Discrete Mathematics",
+      "credits": "4",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl202",
+      "code": "CSL202",
+      "title": "Data Structures",
+      "credits": "4",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csp203",
+      "code": "CSP203",
+      "title": "Software Tools & Technologies Lab",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl251",
+      "code": "CSL251",
+      "title": "Computer Organization & Architecture",
+      "credits": "4",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl252",
+      "code": "CSL252",
+      "title": "Design and Analysis of Algorithms",
+      "credits": "4",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl253",
+      "code": "CSL253",
+      "title": "Theory of Computation",
+      "credits": "4",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl301",
+      "code": "CSL301",
+      "title": "Operating Systems",
+      "credits": "4",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl302",
+      "code": "CSL302",
+      "title": "Compiler Design",
+      "credits": "4",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl303",
+      "code": "CSL303",
+      "title": "Database Management Systems",
+      "credits": "4",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl304",
+      "code": "CSL304",
+      "title": "Artificial Intelligence",
+      "credits": "4",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl351",
+      "code": "CSL351",
+      "title": "Computer Networks",
+      "credits": "4",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csq401",
+      "code": "CSQ401",
+      "title": "BTech Project-I",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csp402",
+      "code": "CSP402",
+      "title": "Nand to Tetris",
+      "credits": "2",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csq402",
+      "code": "CSQ402",
+      "title": "BTech Project-II",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl502",
+      "code": "CSL502",
+      "title": "Foundation of Computer Science",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl503",
+      "code": "CSL503",
+      "title": "Computer Systems Engineering",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl504",
+      "code": "CSL504",
+      "title": "Graph Theory and Applications",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl505",
+      "code": "CSL505",
+      "title": "Cryptography",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl510",
+      "code": "CSL510",
+      "title": "Approximation Algorithms",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl511",
+      "code": "CSL511",
+      "title": "Introduction to Formal Verification and its Applications",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl512",
+      "code": "CSL512",
+      "title": "Parallel Algorithms",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl515",
+      "code": "CSL515",
+      "title": "Randomized Algorithms",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl516",
+      "code": "CSL516",
+      "title": "Parallelization of Programs",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl517",
+      "code": "CSL517",
+      "title": "Software Defined Networking",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl519",
+      "code": "CSL519",
+      "title": "High Performance Computer Architecture",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl559",
+      "code": "CSL559",
+      "title": "Computer Systems Design",
+      "credits": "4",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl601",
+      "code": "CSL601",
+      "title": "Network Science",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl602",
+      "code": "CSL602",
+      "title": "Lightweight Cryptography",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl603",
+      "code": "CSL603",
+      "title": "Blockchain Technologies",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl604",
+      "code": "CSL604",
+      "title": "Mobile and Wireless Networks",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl605",
+      "code": "CSL605",
+      "title": "Computer Networks and Cyber Security",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl606",
+      "code": "CSL606",
+      "title": "Advance Data Structure and Algorithms",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl607",
+      "code": "CSL607",
+      "title": "Adversarial Machine Learning: Security and Privacy of ML",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl608",
+      "code": "CSL608",
+      "title": "Advanced Graph Algorithms",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl610",
+      "code": "CSL610",
+      "title": "Lower Bounds and Impossibilities",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl612",
+      "code": "CSL612",
+      "title": "Introduction to Computational Complexity",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl613",
+      "code": "CSL613",
+      "title": "Social Network Analysis",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl614",
+      "code": "CSL614",
+      "title": "Quantum Symmetric-Key Cryptanalysis",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    },
+    {
+      "id": "csl622",
+      "code": "CSL622",
+      "title": "Quantum Computing for Computer Scientists",
+      "credits": "3",
+      "department": "Computer Science and Engineering"
+    }
+  ],
+  [
+    {
+      "id": "dsl201",
+      "code": "DSL201",
+      "title": "Mathematical Foundations of Data Science",
+      "credits": "4",
+      "department": "Data Science and Artificial Intelligence"
+    },
+    {
+      "id": "dsl251",
+      "code": "DSL251",
+      "title": "Data Analytics and Visualization",
+      "credits": "3",
+      "department": "Data Science and Artificial Intelligence"
+    },
+    {
+      "id": "dsp252",
+      "code": "DSP252",
+      "title": "Data Analytics and Visualization Lab",
+      "credits": "1",
+      "department": "Data Science and Artificial Intelligence"
+    },
+    {
+      "id": "dsl253",
+      "code": "DSL253",
+      "title": "Statistical Programming",
+      "credits": "2",
+      "department": "Data Science and Artificial Intelligence"
+    },
+    {
+      "id": "dsp301",
+      "code": "DSP301",
+      "title": "Al and Machine Learning Lab",
+      "credits": "1.5",
+      "department": "Data Science and Artificial Intelligence"
+    },
+    {
+      "id": "dsl351",
+      "code": "DSL351",
+      "title": "Big Data Analytics",
+      "credits": "3",
+      "department": "Data Science and Artificial Intelligence"
+    },
+    {
+      "id": "dsp352",
+      "code": "DSP352",
+      "title": "Big Data Analytics Lab",
+      "credits": "1",
+      "department": "Data Science and Artificial Intelligence"
+    },
+    {
+      "id": "dsl353",
+      "code": "DSL353",
+      "title": "Information Security",
+      "credits": "3",
+      "department": "Data Science and Artificial Intelligence"
+    },
+    {
+      "id": "dsq401",
+      "code": "DSQ401",
+      "title": "BTech Project-I",
+      "credits": "3",
+      "department": "Data Science and Artificial Intelligence"
+    },
+    {
+      "id": "dsq402",
+      "code": "DSQ402",
+      "title": "BTech Project-II",
+      "credits": "3",
+      "department": "Data Science and Artificial Intelligence"
+    },
+    {
+      "id": "dsl501",
+      "code": "DSL501",
+      "title": "Machine Learning",
+      "credits": "4",
+      "department": "Data Science and Artificial Intelligence"
+    },
+    {
+      "id": "dsl502",
+      "code": "DSL502",
+      "title": "Basic Mathematics for Data science and Artificial Intelligence",
+      "credits": "3",
+      "department": "Data Science and Artificial Intelligence"
+    },
+    {
+      "id": "dsl503",
+      "code": "DSL503",
+      "title": "Advanced Data Analytics",
+      "credits": "3",
+      "department": "Data Science and Artificial Intelligence"
+    },
+    {
+      "id": "dsl504",
+      "code": "DSL504",
+      "title": "Natural Language Processing",
+      "credits": "4",
+      "department": "Data Science and Artificial Intelligence"
+    },
+    {
+      "id": "dsp505",
+      "code": "DSP505",
+      "title": "Programming Lab for Data Science and Artificial Intelligence",
+      "credits": "2",
+      "department": "Data Science and Artificial Intelligence"
+    },
+    {
+      "id": "dsl506",
+      "code": "DSL506",
+      "title": "Deep Learning for Computer Vision",
+      "credits": "4",
+      "department": "Data Science and Artificial Intelligence"
+    },
+    {
+      "id": "dsl601",
+      "code": "DSL601",
+      "title": "Information Retrieval",
+      "credits": "4",
+      "department": "Data Science and Artificial Intelligence"
+    },
+    {
+      "id": "dsl602",
+      "code": "DSL602",
+      "title": "Digital Speech Processing",
+      "credits": "4",
+      "department": "Data Science and Artificial Intelligence"
+    },
+    {
+      "id": "dsl603",
+      "code": "DSL603",
+      "title": "Advanced Machine Learning",
+      "credits": "3",
+      "department": "Data Science and Artificial Intelligence"
+    },
+    {
+      "id": "dsl604",
+      "code": "DSL604",
+      "title": "Machine Learning for Edge Applications",
+      "credits": "3",
+      "department": "Data Science and Artificial Intelligence"
+    },
+    {
+      "id": "dsl605",
+      "code": "DSL605",
+      "title": "Deep Learning for Low Resource NLP",
+      "credits": "3",
+      "department": "Data Science and Artificial Intelligence"
+    }
+  ],
+  [
+    {
+      "id": "evl500",
+      "code": "EVL500",
+      "title": "Electrochemical Energy Conversion and Storage Technologies",
+      "credits": "3",
+      "department": "Electric Vehicle Technology"
+    },
+    {
+      "id": "evl501",
+      "code": "EVL501",
+      "title": "Introduction of EV and HEV",
+      "credits": "2",
+      "department": "Electric Vehicle Technology"
+    },
+    {
+      "id": "evl502",
+      "code": "EVL502",
+      "title": "EV Policies and Regulations",
+      "credits": "1",
+      "department": "Electric Vehicle Technology"
+    },
+    {
+      "id": "evl503",
+      "code": "EVL503",
+      "title": "Motor Drives For EV",
+      "credits": "3",
+      "department": "Electric Vehicle Technology"
+    },
+    {
+      "id": "evl504",
+      "code": "EVL504",
+      "title": "Energy Storage Technologies",
+      "credits": "3",
+      "department": "Electric Vehicle Technology"
+    },
+    {
+      "id": "evl600",
+      "code": "EVL600",
+      "title": "Battery Chemistry- Components and Manufacturing",
+      "credits": "3",
+      "department": "Electric Vehicle Technology"
+    }
+  ],
+  [
+    {
+      "id": "eel101",
+      "code": "EEL101",
+      "title": "Basic Electrical Engineering",
+      "credits": "4",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eel201",
+      "code": "EEL201",
+      "title": "Circuits and Systems",
+      "credits": "4",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eel202",
+      "code": "EEL202",
+      "title": "Analog Circuits",
+      "credits": "4",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eel203",
+      "code": "EEL203",
+      "title": "Digital Circuits",
+      "credits": "2",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eel204",
+      "code": "EEL204",
+      "title": "Engineering Electromagnetics",
+      "credits": "3",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eel205",
+      "code": "EEL205",
+      "title": "Control Systems",
+      "credits": "4",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eel206",
+      "code": "EEL206",
+      "title": "Electrical Machines-I",
+      "credits": "3",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eel207",
+      "code": "EEL207",
+      "title": "Power System Analysis",
+      "credits": "3",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eel208",
+      "code": "EEL208",
+      "title": "Sensor and Instrumentation",
+      "credits": "3",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eep209",
+      "code": "EEP209",
+      "title": "Devices and Circuits Lab",
+      "credits": "1.5",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eep210",
+      "code": "EEP210",
+      "title": "Digital Electronics Lab",
+      "credits": "1.5",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eel301",
+      "code": "EEL301",
+      "title": "Electrical Machines-II",
+      "credits": "2",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eel302",
+      "code": "EEL302",
+      "title": "Digital Control",
+      "credits": "4",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eel303",
+      "code": "EEL303",
+      "title": "Power Electronics",
+      "credits": "3",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eep304",
+      "code": "EEP304",
+      "title": "Sensor Lab",
+      "credits": "1.5",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eep305",
+      "code": "EEP305",
+      "title": "Power System Lab",
+      "credits": "1.5",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eep306",
+      "code": "EEP306",
+      "title": "Machines Lab",
+      "credits": "1.5",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eep307",
+      "code": "EEP307",
+      "title": "Instrumentation Lab",
+      "credits": "1.5",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eep308",
+      "code": "EEP308",
+      "title": "Control Lab",
+      "credits": "1.5",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eep309",
+      "code": "EEP309",
+      "title": "Power Electronics Lab",
+      "credits": "1.5",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eep501",
+      "code": "EEP501",
+      "title": "Control System Lab",
+      "credits": "1.5",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eep502",
+      "code": "EEP502",
+      "title": "Instrumentation Lab",
+      "credits": "1.5",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eel509",
+      "code": "EEL509",
+      "title": "Power Electronics",
+      "credits": "3",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eel521",
+      "code": "EEL521",
+      "title": "Renewable and Distributed Energy Systems",
+      "credits": "3",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eep522",
+      "code": "EEP522",
+      "title": "Power Electronics Lab",
+      "credits": "1.5",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eep523",
+      "code": "EEP523",
+      "title": "Power System Lab",
+      "credits": "1.5",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eel601",
+      "code": "EEL601",
+      "title": "Advanced Control Theory",
+      "credits": "3",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eel602",
+      "code": "EEL602",
+      "title": "Advanced Sensing Techniques",
+      "credits": "3",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eel603",
+      "code": "EEL603",
+      "title": "Optimal Control",
+      "credits": "3",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eel605",
+      "code": "EEL605",
+      "title": "Digital Image Processing",
+      "credits": "3",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eel621",
+      "code": "EEL621",
+      "title": "Advanced Power Electronics",
+      "credits": "3",
+      "department": "Electrical Engineering"
+    },
+    {
+      "id": "eel622",
+      "code": "EEL622",
+      "title": "Power Quality",
+      "credits": "3",
+      "department": "Electrical Engineering"
+    }
+  ],
+  [
+    {
+      "id": "ecl101",
+      "code": "ECL101",
+      "title": "Basic Electronics Engineering",
+      "credits": "4",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl501",
+      "code": "ECL501",
+      "title": "Computer Communications",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl502",
+      "code": "ECL502",
+      "title": "Advanced Digital Communication",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl503",
+      "code": "ECL503",
+      "title": "Digital IC Design",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl504",
+      "code": "ECL504",
+      "title": "Semiconductor Devices",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl511",
+      "code": "ECL511",
+      "title": "Machine Learning Applications for Wireless Communications",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl527",
+      "code": "ECL527",
+      "title": "Machine Learning for Signal Processing",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl529",
+      "code": "ECL529",
+      "title": "Introduction to Wireless and Cellular Communications",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl599",
+      "code": "ECL599",
+      "title": "Wireless Communication Security with SDRs",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl603",
+      "code": "ECL603",
+      "title": "Error Control Coding",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl604",
+      "code": "ECL604",
+      "title": "Signal Processing Algorithms to DSP Architectures",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    }
+  ],
+  [
+    {
+      "id": "lal100",
+      "code": "LAL100",
+      "title": "Introduction to Communication Skills",
+      "credits": "2",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal101",
+      "code": "LAL101",
+      "title": "Introduction to Finance",
+      "credits": "1",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lan102",
+      "code": "LAN102",
+      "title": "Speaking & Writing Skills",
+      "credits": "0",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lan103",
+      "code": "LAN103",
+      "title": "Professional Ethics",
+      "credits": "0",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal200",
+      "code": "LAL200",
+      "title": "Macroeconomics",
+      "credits": "2",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal201",
+      "code": "LAL201",
+      "title": "Microeconomics",
+      "credits": "1",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal202",
+      "code": "LAL202",
+      "title": "International Trade",
+      "credits": "2",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal221",
+      "code": "LAL221",
+      "title": "Indian Writing in English",
+      "credits": "2",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal222",
+      "code": "LAL222",
+      "title": "City in Literature",
+      "credits": "2",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal223",
+      "code": "LAL223",
+      "title": "Introduction to Partition Literature",
+      "credits": "2",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal224",
+      "code": "LAL224",
+      "title": "Introduction to Postcolonial Literature",
+      "credits": "2",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal225",
+      "code": "LAL225",
+      "title": "Self and Society in Modern India",
+      "credits": "2",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal226",
+      "code": "LAL226",
+      "title": "Experiencing the Indian University",
+      "credits": "1",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal227",
+      "code": "LAL227",
+      "title": "Women\u2019s Literature",
+      "credits": "1",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal228",
+      "code": "LAL228",
+      "title": "Travel in the pre-modern world",
+      "credits": "1",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal242",
+      "code": "LAL242",
+      "title": "Basics of Organizational Behaviour",
+      "credits": "1",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal243",
+      "code": "LAL243",
+      "title": "Psychology of Memory",
+      "credits": "1",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal244",
+      "code": "LAL244",
+      "title": "Leadership: An Organizational Behaviour Perspective",
+      "credits": "1",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal245",
+      "code": "LAL245",
+      "title": "Concepts of Personality Psychology",
+      "credits": "1",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal246",
+      "code": "LAL246",
+      "title": "Positive Psychology",
+      "credits": "1",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal247",
+      "code": "LAL247",
+      "title": "Applied Positive Psychology",
+      "credits": "1",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal248",
+      "code": "LAL248",
+      "title": "Understanding Health Behaviour Change",
+      "credits": "1",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal249",
+      "code": "LAL249",
+      "title": "Introduction to Understanding Psychological Disorders",
+      "credits": "2",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal252",
+      "code": "LAL252",
+      "title": "Introduction to Stress and Coping",
+      "credits": "2",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lan710",
+      "code": "LAN710",
+      "title": "Research Methodology",
+      "credits": "0",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal711",
+      "code": "LAL711",
+      "title": "Modern Indian Literature: Currents and Countercurrents",
+      "credits": "3",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal712",
+      "code": "LAL712",
+      "title": "Cultural Studies: Theory and Practice",
+      "credits": "3",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal713",
+      "code": "LAL713",
+      "title": "Urban Writing in South Asia",
+      "credits": "3",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal714",
+      "code": "LAL714",
+      "title": "Feminist Theory in Literature",
+      "credits": "3",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal731",
+      "code": "LAL731",
+      "title": "Advanced Positive Psychology",
+      "credits": "3",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal732",
+      "code": "LAL732",
+      "title": "Positive Organizational Behaviour",
+      "credits": "3",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal733",
+      "code": "LAL733",
+      "title": "Statistical Analysis",
+      "credits": "3",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal734",
+      "code": "LAL734",
+      "title": "Allied Health Studies",
+      "credits": "3",
+      "department": "Liberal Arts"
+    },
+    {
+      "id": "lal735",
+      "code": "LAL735",
+      "title": "Culture and the study of human strengths",
+      "credits": "3",
+      "department": "Liberal Arts"
+    }
+  ],
+  [
+    {
+      "id": "mml201",
+      "code": "MML201",
+      "title": "Thermodynamics of Materials",
+      "credits": "3",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mml202",
+      "code": "MML202",
+      "title": "Structure of Materials",
+      "credits": "3",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mml203",
+      "code": "MML203",
+      "title": "Chemical Synthesis of Materials",
+      "credits": "3",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mml204",
+      "code": "MML204",
+      "title": "Phases, Phase Transformations and Properties of Materials",
+      "credits": "3",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mml205",
+      "code": "MML205",
+      "title": "Principles of Extractive Metallurgy",
+      "credits": "3",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mml251",
+      "code": "MML251",
+      "title": "Physical Properties of Materials",
+      "credits": "3",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mmp251",
+      "code": "MMP251",
+      "title": "Chemical Synthesis and Characterization Lab",
+      "credits": "1.5",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mml252",
+      "code": "MML252",
+      "title": "Materials Characterization-Scattering and Imaging",
+      "credits": "3",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mml253",
+      "code": "MML253",
+      "title": "Computational Materials Science and Engineering",
+      "credits": "3",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mml254",
+      "code": "MML254",
+      "title": "Mechanical Behavior of Materials",
+      "credits": "3",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mml301",
+      "code": "MML301",
+      "title": "Materials Characterization \u2013 Spectroscopy and Other Analytical Tools",
+      "credits": "3",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mmp301",
+      "code": "MMP301",
+      "title": "Computational Materials Science and Engineering Lab",
+      "credits": "1",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mml302",
+      "code": "MML302",
+      "title": "Iron making And Steelmaking",
+      "credits": "3",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mmp302",
+      "code": "MMP302",
+      "title": "Industrial Exposure to Metals Processing",
+      "credits": "1",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mml303",
+      "code": "MML303",
+      "title": "Polymeric Materials and Engineering",
+      "credits": "3",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mmp303",
+      "code": "MMP303",
+      "title": "Metallurgical/Metallography Lab",
+      "credits": "1.5",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mml351",
+      "code": "MML351",
+      "title": "Technologies of Thin-film Fabrication",
+      "credits": "3",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mml401",
+      "code": "MML401",
+      "title": "Environmental Degradation of Materials",
+      "credits": "3",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mmp401",
+      "code": "MMP401",
+      "title": "Thin Film Fabrication and Characterization Lab",
+      "credits": "1.5",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mml501",
+      "code": "MML501",
+      "title": "Characterization and Testing of Materials",
+      "credits": "3",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mmp501",
+      "code": "MMP501",
+      "title": "Material Characterization Laboratory",
+      "credits": "2",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mml551",
+      "code": "MML551",
+      "title": "Thermodynamics and Phase Diagram",
+      "credits": "2",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mml552",
+      "code": "MML552",
+      "title": "Fundamentals of Crystallography",
+      "credits": "1",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mml553",
+      "code": "MML553",
+      "title": "Material Synthesis and Processing",
+      "credits": "2",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mmp553",
+      "code": "MMP553",
+      "title": "Material Fabrication Laboratory",
+      "credits": "2",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mml554",
+      "code": "MML554",
+      "title": "Computational Methods in Materials Science",
+      "credits": "3",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mml555",
+      "code": "MML555",
+      "title": "Microstructural Engineering of Structural Materials",
+      "credits": "3",
+      "department": "Materials Science and Metallurgical Engineering"
+    },
+    {
+      "id": "mml556",
+      "code": "MML556",
+      "title": "Physics of Materials",
+      "credits": "3",
+      "department": "Materials Science and Metallurgical Engineering"
+    }
+  ],
+  [
+    {
+      "id": "mal100",
+      "code": "MAL100",
+      "title": "Mathematics-I",
+      "credits": "4",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal101",
+      "code": "MAL101",
+      "title": "Mathematics-II",
+      "credits": "4",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal400",
+      "code": "MAL400",
+      "title": "Introduction to Programming",
+      "credits": "4.5",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal401",
+      "code": "MAL401",
+      "title": "Linear Algebra",
+      "credits": "3",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal402",
+      "code": "MAL402",
+      "title": "Real Analysis",
+      "credits": "3.5",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal403",
+      "code": "MAL403",
+      "title": "Probability and Statistics",
+      "credits": "4",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal404",
+      "code": "MAL404",
+      "title": "Modern Algebra",
+      "credits": "3",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal405",
+      "code": "MAL405",
+      "title": "Differential Equations",
+      "credits": "4",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal406",
+      "code": "MAL406",
+      "title": "Numerical Analysis",
+      "credits": "4",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal500",
+      "code": "MAL500",
+      "title": "Topology",
+      "credits": "3",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal501",
+      "code": "MAL501",
+      "title": "Complex Analysis",
+      "credits": "3",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal502",
+      "code": "MAL502",
+      "title": "Functional Analysis",
+      "credits": "4",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal503",
+      "code": "MAL503",
+      "title": "Discrete Mathematics",
+      "credits": "4",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal504",
+      "code": "MAL504",
+      "title": "Data Structure",
+      "credits": "4",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal505",
+      "code": "MAL505",
+      "title": "Database Management Systems",
+      "credits": "4",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal510",
+      "code": "MAL510",
+      "title": "Elementary Number Theory",
+      "credits": "3",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal511",
+      "code": "MAL511",
+      "title": "Additive Number Theory",
+      "credits": "3",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal512",
+      "code": "MAL512",
+      "title": "Partial Differential Equations",
+      "credits": "3",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal513",
+      "code": "MAL513",
+      "title": "Topics in Fixed Point Theory",
+      "credits": "3",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal514",
+      "code": "MAL514",
+      "title": "Statistical Inference",
+      "credits": "3",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal600",
+      "code": "MAL600",
+      "title": "Introduction to Spectral Theory",
+      "credits": "3",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal601",
+      "code": "MAL601",
+      "title": "Operator Theory I",
+      "credits": "3",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal602",
+      "code": "MAL602",
+      "title": "Operator Theory II",
+      "credits": "3",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal603",
+      "code": "MAL603",
+      "title": "Martingale Theory",
+      "credits": "3",
+      "department": "Mathematics"
+    },
+    {
+      "id": "mal604",
+      "code": "MAL604",
+      "title": "Stochastic Processes",
+      "credits": "3",
+      "department": "Mathematics"
+    }
+  ],
+  [
+    {
+      "id": "mep102",
+      "code": "MEP102",
+      "title": "Digital Fabrication",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel211",
+      "code": "MEL211",
+      "title": "Thermodynamics",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel212",
+      "code": "MEL212",
+      "title": "Fluid Mechanics",
+      "credits": "4",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel214",
+      "code": "MEL214",
+      "title": "Applied Thermal Engineering",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel231",
+      "code": "MEL231",
+      "title": "Engineering Mechanics",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel232",
+      "code": "MEL232",
+      "title": "Mechanics of Solids",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel251",
+      "code": "MEL251",
+      "title": "Casting, Forming and Welding",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel252",
+      "code": "MEL252",
+      "title": "Fundamentals of Industrial Engineering",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mep302",
+      "code": "MEP302",
+      "title": "Engineering and Machine Drawing",
+      "credits": "2",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel304",
+      "code": "MEL304",
+      "title": "Applied Numerical Methods",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel313",
+      "code": "MEL313",
+      "title": "Heat and Mass Transfer",
+      "credits": "3.5",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel333",
+      "code": "MEL333",
+      "title": "Design of Machine Elements",
+      "credits": "3.5",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel334",
+      "code": "MEL334",
+      "title": "Theory of Mechanisms and Machines",
+      "credits": "3.5",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel351",
+      "code": "MEL351",
+      "title": "Machining and Machine Tools",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mep371",
+      "code": "MEP371",
+      "title": "Thermal and Fluid Engineering Lab",
+      "credits": "1.5",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mep376",
+      "code": "MEP376",
+      "title": "Solid Mechanics and Dynamics Lab",
+      "credits": "1",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mep381",
+      "code": "MEP381",
+      "title": "Manufacturing and Metrology Lab",
+      "credits": "1.5",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel414",
+      "code": "MEL414",
+      "title": "Internal Combustion Engines",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel416",
+      "code": "MEL416",
+      "title": "Power Plant Engineering",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel501",
+      "code": "MEL501",
+      "title": "Advanced Engineering Mathematics",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel558",
+      "code": "MEL558",
+      "title": "Surface Engineering",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel611",
+      "code": "MEL611",
+      "title": "Advanced Fluid Mechanics",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel612",
+      "code": "MEL612",
+      "title": "Conduction and Radiation Heat Transfer",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel613",
+      "code": "MEL613",
+      "title": "Convective Heat Transfer",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel614",
+      "code": "MEL614",
+      "title": "Computational Fluid Dynamics",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel616",
+      "code": "MEL616",
+      "title": "Advances in Interfacial Sciences",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel617",
+      "code": "MEL617",
+      "title": "Microfluidics",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel618",
+      "code": "MEL618",
+      "title": "Thermal Management of Electronics Systems",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel622",
+      "code": "MEL622",
+      "title": "Experimental methods in Fluids and Thermal Science",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel623",
+      "code": "MEL623",
+      "title": "Engine Management System and Alternative Fuels",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel624",
+      "code": "MEL624",
+      "title": "Energy Conservation and Management",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel631",
+      "code": "MEL631",
+      "title": "Continuum Mechanics",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel633",
+      "code": "MEL633",
+      "title": "Finite Element Method",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel636",
+      "code": "MEL636",
+      "title": "Structural Dynamics",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel637",
+      "code": "MEL637",
+      "title": "Wave Propagation in Structures",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel651",
+      "code": "MEL651",
+      "title": "Additive Manufacturing Technology",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel652",
+      "code": "MEL652",
+      "title": "Advances in Metal forming and welding",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel655",
+      "code": "MEL655",
+      "title": "Automation in Production Systems",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel656",
+      "code": "MEL656",
+      "title": "Material Processing with Laser",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel658",
+      "code": "MEL658",
+      "title": "Mechanical Behaviour and Testing of Materials",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    },
+    {
+      "id": "mel659",
+      "code": "MEL659",
+      "title": "Advanced Materials and Processing",
+      "credits": "3",
+      "department": "Mechanical Engineering"
+    }
+  ],
+  [
+    {
+      "id": "mtl201",
+      "code": "MTL201",
+      "title": "Fluid Power Systems",
+      "credits": "4",
+      "department": "Mechatronics Engineering"
+    },
+    {
+      "id": "mtl202",
+      "code": "MTL202",
+      "title": "Industry 4.0",
+      "credits": "3",
+      "department": "Mechatronics Engineering"
+    },
+    {
+      "id": "mtl301",
+      "code": "MTL301",
+      "title": "Fundamentals of Robotics",
+      "credits": "3",
+      "department": "Mechatronics Engineering"
+    },
+    {
+      "id": "mtp301",
+      "code": "MTP301",
+      "title": "Mechanism Lab",
+      "credits": "1.5",
+      "department": "Mechatronics Engineering"
+    },
+    {
+      "id": "mt302",
+      "code": "MT302",
+      "title": "Mechatronics Lab II",
+      "credits": "2",
+      "department": "Mechatronics Engineering"
+    },
+    {
+      "id": "mtp302",
+      "code": "MTP302",
+      "title": "Mechatronics Lab",
+      "credits": "1.5",
+      "department": "Mechatronics Engineering"
+    },
+    {
+      "id": "mt303",
+      "code": "MT303",
+      "title": "Mechatronics Lab III",
+      "credits": "2",
+      "department": "Mechatronics Engineering"
+    },
+    {
+      "id": "mtq401",
+      "code": "MTQ401",
+      "title": "Minor Project",
+      "credits": "1.5",
+      "department": "Mechatronics Engineering"
+    },
+    {
+      "id": "mtl501",
+      "code": "MTL501",
+      "title": "Fundamentals of Mechatronics",
+      "credits": "3",
+      "department": "Mechatronics Engineering"
+    },
+    {
+      "id": "mtl602",
+      "code": "MTL602",
+      "title": "Design and Analysis of Robotic System",
+      "credits": "3",
+      "department": "Mechatronics Engineering"
+    },
+    {
+      "id": "mtl603",
+      "code": "MTL603",
+      "title": "Digital Manufacturing",
+      "credits": "3",
+      "department": "Mechatronics Engineering"
+    },
+    {
+      "id": "mtl655",
+      "code": "MTL655",
+      "title": "Automation in Production Systems",
+      "credits": "3",
+      "department": "Mechatronics Engineering"
+    }
+  ],
+  [
+    {
+      "id": "phl101",
+      "code": "PHL101",
+      "title": "Physics for Engineers",
+      "credits": "4",
+      "department": "Physics"
+    },
+    {
+      "id": "php102",
+      "code": "PHP102",
+      "title": "Physics Lab",
+      "credits": "1.5",
+      "department": "Physics"
+    },
+    {
+      "id": "phl403",
+      "code": "PHL403",
+      "title": "Mathematical Physics",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "phl404",
+      "code": "PHL404",
+      "title": "Electronics",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "phl501",
+      "code": "PHL501",
+      "title": "Classical Mechanics",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "phl502",
+      "code": "PHL502",
+      "title": "Quantum Mechanics",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "phl505",
+      "code": "PHL505",
+      "title": "Electrodynamics",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "php506",
+      "code": "PHP506",
+      "title": "Electronics Laboratory",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "phl507",
+      "code": "PHL507",
+      "title": "Statistical Mechanics",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "phl508",
+      "code": "PHL508",
+      "title": "Solid State Physics",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "phl509",
+      "code": "PHL509",
+      "title": "Nuclear and Particle Physics",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "phl510",
+      "code": "PHL510",
+      "title": "Atomic and Molecular Physics",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "php511",
+      "code": "PHP511",
+      "title": "General Physics Laboratory",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "phl601",
+      "code": "PHL601",
+      "title": "Computational Physics",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "phl602",
+      "code": "PHL602",
+      "title": "Astrophysics and Cosmology",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "phl603",
+      "code": "PHL603",
+      "title": "Quantum Field Theory",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "phl604",
+      "code": "PHL604",
+      "title": "Particle Physics",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "phl605",
+      "code": "PHL605",
+      "title": "Relativistic Matter at Finite Magnetic Field",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "phl606",
+      "code": "PHL606",
+      "title": "Physics of Galaxies and Interstellar Medium",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "phl607",
+      "code": "PHL607",
+      "title": "Experimental and Measurement Techniques",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "phl608",
+      "code": "PHL608",
+      "title": "Quantum Theory of Solids",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "phl609",
+      "code": "PHL609",
+      "title": "Advanced Quantum Mechanics",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "phl610",
+      "code": "PHL610",
+      "title": "Science and Technology of Thin Films",
+      "credits": "3",
+      "department": "Physics"
+    },
+    {
+      "id": "phl611",
+      "code": "PHL611",
+      "title": "Applied Optics",
+      "credits": "3",
+      "department": "Physics"
+    }
+  ]
+]
