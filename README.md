@@ -38,3 +38,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 Thank you for your interest in RateMyCourse! We look forward to growing this project together.
+
+
+# Todo
+- [ ]  add supabase
+- [ ]  implement filters
+- [ ]  implement search bars 
+- [ ]  implement reviews
+- [ ]  implement backend
+- [ ]  for each user, he'll have 3 options, to comment as himself, to comment as his online personna (max 3 personna allowed) and to comment as anonymous 
