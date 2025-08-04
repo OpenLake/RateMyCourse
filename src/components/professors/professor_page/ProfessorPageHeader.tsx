@@ -7,8 +7,8 @@ import { ExternalLink } from 'lucide-react';
 
 interface ProfessorPageHeaderProps {
   professor: Professor;
-  averageRating: number;   // NEW - dynamic average rating
-  reviewCount: number;     // NEW - dynamic review count
+  averageRating: number;
+  reviewCount: number;
 }
 
 export default function ProfessorPageHeader({
@@ -23,7 +23,7 @@ export default function ProfessorPageHeader({
   const hiddenCount = interests.length - 3;
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-4 border border-muted overflow-hidden relative">
+    <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm p-4 border border-muted dark:border-gray-700 overflow-hidden relative">
       <div className="relative z-10">
         <div className="flex justify-between items-start">
           {/* Left Section: Avatar + Info */}
@@ -32,17 +32,19 @@ export default function ProfessorPageHeader({
               <img
                 src={professor.avatar_url}
                 alt={professor.name}
-                className="w-16 h-16 rounded-full object-cover border"
+                className="w-16 h-16 rounded-full object-cover border border-gray-200 dark:border-gray-700"
               />
             )}
             <div>
               {/* Name and Position */}
-              <h1 className="text-2xl font-bold mb-1">{professor.name}</h1>
-              <p className="text-sm text-muted-foreground mb-2">
+              <h1 className="text-2xl font-bold mb-1 text-gray-900 dark:text-gray-100">
+                {professor.name}
+              </h1>
+              <p className="text-sm text-muted-foreground dark:text-gray-400 mb-2">
                 {professor.post} | {professor.department}
               </p>
 
-              {/* Website link (more aesthetic) */}
+              {/* Website link */}
               {professor.website && (
                 <a
                   href={professor.website}
@@ -70,7 +72,7 @@ export default function ProfessorPageHeader({
                   {hiddenCount > 0 && !showAllInterests && (
                     <button
                       onClick={() => setShowAllInterests(true)}
-                      className="text-xs text-muted-foreground underline"
+                      className="text-xs text-muted-foreground dark:text-gray-400 underline"
                     >
                       +{hiddenCount} more
                     </button>
@@ -79,7 +81,7 @@ export default function ProfessorPageHeader({
                   {showAllInterests && (
                     <button
                       onClick={() => setShowAllInterests(false)}
-                      className="text-xs text-muted-foreground underline"
+                      className="text-xs text-muted-foreground dark:text-gray-400 underline"
                     >
                       Show less
                     </button>
@@ -91,7 +93,7 @@ export default function ProfessorPageHeader({
               <div className="flex items-center mt-3 gap-6">
                 <div className="flex items-center">
                   <StarRating rating={averageRating ?? 0} />
-                  <span className="text-xs text-muted-foreground ml-2">
+                  <span className="text-xs text-muted-foreground dark:text-gray-400 ml-2">
                     ({reviewCount ?? 0} reviews)
                   </span>
                 </div>

@@ -25,7 +25,7 @@ const StarSelector = ({
     const isFull = (hovered ?? rating) >= i;
     const isHalf = (hovered ?? rating) === i - 0.5;
 
-    let starColor = "text-gray-300";
+    let starColor = "text-gray-300 dark:text-gray-600";
     if (isFull) starColor = "text-yellow-400";
 
     const id = `half-grad-${i}`;
@@ -87,7 +87,7 @@ const MSlider = ({
   value: number;
   setValue: (val: number) => void;
 }) => (
-  <Box sx={{ width: "100%", paddingY: 1 }}>
+  <Box sx={{ width: "100%", paddingY: 1 }} className="dark:text-gray-100">
     <label className="text-xs font-medium block mb-1">
       {label}: <span className="text-primary font-semibold">{value}/10</span>
     </label>
@@ -153,13 +153,11 @@ const RateThisProfessor = ({ professor }: { professor: Professor }) => {
     setSubmitting(true);
 
     try {
-      // --- Check user login ---
       if (!user) {
         toast.error("You must sign in to submit a rating.");
         return;
       }
 
-      // --- Get anonymous_id ---
       const { data: anonRow, error: anonError } = await supabase
         .from("users")
         .select("anonymous_id")
@@ -173,7 +171,6 @@ const RateThisProfessor = ({ professor }: { professor: Professor }) => {
 
       const anonymousId = anonRow.anonymous_id;
 
-      // --- Check for existing rating to avoid duplicates ---
       const { data: existing, error: existError } = await supabase
         .from("ratings")
         .select("id")
@@ -194,11 +191,10 @@ const RateThisProfessor = ({ professor }: { professor: Professor }) => {
         return;
       }
 
-      // --- Insert new rating ---
       const payload = {
         anonymous_id: anonymousId,
         target_id: professor.id,
-        target_type: "professor", // important difference
+        target_type: "professor",
         overall_rating: overallRating,
         knowledge_rating: knowledge,
         teaching_rating: teaching,
@@ -227,8 +223,8 @@ const RateThisProfessor = ({ professor }: { professor: Professor }) => {
   // -------- Render --------
   if (hasSubmitted) {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-muted p-4 text-center">
-        <p className="text-sm font-medium text-green-600">
+      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-muted dark:border-gray-700 p-4 text-center">
+        <p className="text-sm font-medium text-green-600 dark:text-green-400">
           You have already submitted a rating for this professor.
         </p>
       </div>
@@ -236,11 +232,13 @@ const RateThisProfessor = ({ professor }: { professor: Professor }) => {
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-muted overflow-hidden">
-      <div className="p-3 border-b border-muted bg-primary/5">
-        <h2 className="font-semibold text-center">Rate This Professor</h2>
+    <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-muted dark:border-gray-700 overflow-hidden">
+      <div className="p-3 border-b border-muted dark:border-gray-700 bg-primary/5 dark:bg-primary/20">
+        <h2 className="font-semibold text-center text-gray-900 dark:text-gray-100">
+          Rate This Professor
+        </h2>
       </div>
-      <div className="p-4 space-y-4">
+      <div className="p-4 space-y-4 text-gray-900 dark:text-gray-100">
         <div>
           <label className="text-xs font-medium block mb-1">
             Overall Rating:{" "}
@@ -264,10 +262,10 @@ const RateThisProfessor = ({ professor }: { professor: Professor }) => {
           {submitting ? "Submitting..." : "Submit Rating"}
         </button>
 
-        <p className="text-xs text-center text-muted-foreground font-bold">
+        <p className="text-xs text-center text-muted-foreground dark:text-gray-400 font-bold">
           Note: You can submit a rating only once.
         </p>
-        <p className="text-xs text-center text-muted-foreground">
+        <p className="text-xs text-center text-muted-foreground dark:text-gray-400">
           <Link href="/auth/signIn" className="underline">
             Sign in
           </Link>{" "}

@@ -7,7 +7,8 @@ import Slider from '@mui/material/Slider';
 import Box from '@mui/material/Box';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
- import toast from "react-hot-toast";
+import toast from 'react-hot-toast';
+
 // ---------------- STAR SELECTOR ----------------
 const StarSelector = ({ rating, setRating }: { rating: number; setRating: (val: number) => void }) => {
   const [hovered, setHovered] = useState<number | null>(null);
@@ -17,7 +18,7 @@ const StarSelector = ({ rating, setRating }: { rating: number; setRating: (val: 
     const isFull = (hovered ?? rating) >= i;
     const isHalf = (hovered ?? rating) === i - 0.5;
 
-    let starColor = 'text-gray-300';
+    let starColor = 'text-gray-300 dark:text-gray-600';
     if (isFull) starColor = 'text-yellow-400';
 
     const id = `half-grad-${i}`;
@@ -28,7 +29,9 @@ const StarSelector = ({ rating, setRating }: { rating: number; setRating: (val: 
           <div className="relative w-full h-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`w-6 h-6 transition-transform duration-150 ${starColor} ${hovered !== null ? 'scale-110' : ''}`}
+              className={`w-6 h-6 transition-transform duration-150 ${starColor} ${
+                hovered !== null ? 'scale-110' : ''
+              }`}
               viewBox="0 0 24 24"
               fill={isHalf ? `url(#${id})` : 'currentColor'}
             >
@@ -66,7 +69,7 @@ const StarSelector = ({ rating, setRating }: { rating: number; setRating: (val: 
 // ---------------- SLIDER ----------------
 const MSlider = ({ label, value, setValue }: { label: string; value: number; setValue: (val: number) => void }) => (
   <Box sx={{ width: '100%', paddingY: 1 }}>
-    <label className="text-xs font-medium block mb-1">
+    <label className="text-xs font-medium block mb-1 text-gray-900 dark:text-gray-100">
       {label}: <span className="text-primary font-semibold">{value}/10</span>
     </label>
     <Slider
@@ -121,93 +124,80 @@ const RateThisCourse = ({ courseId }: { courseId: string }) => {
   }, [user, courseId]);
 
   // -------- Handle Submit --------
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
 
+    setSubmitting(true);
 
-const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-  e.preventDefault();
-  e.stopPropagation();
+    try {
+      if (!user) {
+        toast.error('You must sign in to submit a rating.');
+        return;
+      }
 
-  console.log("✅ Submit button clicked - handleSubmit called");
-  setSubmitting(true);
+      const { data: anonRow, error: anonError } = await supabase
+        .from('users')
+        .select('anonymous_id')
+        .eq('auth_id', user.id)
+        .single();
 
-  try {
-    // --- Check user login ---
-    if (!user) {
-      toast.error("You must sign in to submit a rating.");
-      console.error("❌ No user found");
-      return;
+      if (anonError || !anonRow) {
+        toast.error('Failed to fetch user information. Please try again.');
+        return;
+      }
+
+      const anonymousId = anonRow.anonymous_id;
+
+      const { data: existing, error: existError } = await supabase
+        .from('ratings')
+        .select('id')
+        .eq('anonymous_id', anonymousId)
+        .eq('target_id', courseId)
+        .single();
+
+      if (existing) {
+        setHasSubmitted(true);
+        toast('You have already submitted a rating for this course.', { icon: '⚠️' });
+        return;
+      }
+
+      if (existError && existError.code !== 'PGRST116') {
+        toast.error(`Error checking existing rating: ${existError.message}`);
+        return;
+      }
+
+      const payload = {
+        anonymous_id: anonymousId,
+        target_id: courseId,
+        target_type: 'course',
+        overall_rating: overallRating,
+        difficulty_rating: difficulty,
+        workload_rating: workload,
+        created_at: new Date().toISOString(),
+      };
+
+      const { error: insertError } = await supabase.from('ratings').insert(payload);
+
+      if (insertError) {
+        toast.error(`Failed to submit rating: ${insertError.message}`);
+      } else {
+        toast.success('Rating submitted successfully!');
+        setHasSubmitted(true);
+      }
+    } catch (error) {
+      toast.error('Unexpected error occurred. Please try again.');
+      console.error('❌ Unexpected error in handleSubmit:', error);
+    } finally {
+      setSubmitting(false);
     }
-
-    // --- Get anonymous_id ---
-    const { data: anonRow, error: anonError } = await supabase
-      .from("users")
-      .select("anonymous_id")
-      .eq("auth_id", user.id)
-      .single();
-
-    if (anonError || !anonRow) {
-      toast.error("Failed to fetch user information. Please try again.");
-      console.error("❌ Failed to fetch anonymous_id:", anonError?.message);
-      return;
-    }
-
-    const anonymousId = anonRow.anonymous_id;
-
-    // --- Check for existing rating to avoid duplicates ---
-    const { data: existing, error: existError } = await supabase
-      .from("ratings")
-      .select("id")
-      .eq("anonymous_id", anonymousId)
-      .eq("target_id", courseId)
-      .single();
-
-    if (existing) {
-      setHasSubmitted(true); // Update UI
-      toast("You have already submitted a rating for this course.", { icon: "⚠️" });
-      return;
-    }
-
-    if (existError && existError.code !== "PGRST116") {
-      toast.error(`Error checking existing rating: ${existError.message}`);
-      console.error("❌ Error checking existing rating:", existError.message);
-      return;
-    }
-
-    // --- Insert new rating ---
-    const payload = {
-      anonymous_id: anonymousId,
-      target_id: courseId,
-      target_type: "course",
-      overall_rating: overallRating,
-      difficulty_rating: difficulty,
-      workload_rating: workload,
-      created_at: new Date().toISOString(),
-    };
-
-    const { error: insertError } = await supabase.from("ratings").insert(payload);
-
-    if (insertError) {
-      toast.error(`Failed to submit rating: ${insertError.message}`);
-      console.error("❌ Insert error:", insertError.message);
-    } else {
-      toast.success("Rating submitted successfully!");
-      console.log("✅ Rating inserted successfully");
-      setHasSubmitted(true); // Hide form after success
-    }
-  } catch (error) {
-    toast.error("Unexpected error occurred. Please try again.");
-    console.error("❌ Unexpected error in handleSubmit:", error);
-  } finally {
-    setSubmitting(false);
-  }
-};
-
+  };
 
   // -------- Render --------
   if (hasSubmitted) {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-muted p-4 text-center">
-        <p className="text-sm font-medium text-green-600">
+      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-muted dark:border-gray-700 p-4 text-center">
+        <p className="text-sm font-medium text-green-600 dark:text-green-400">
           You have already submitted a rating for this course.
         </p>
       </div>
@@ -215,14 +205,15 @@ const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-muted overflow-hidden">
-      <div className="p-3 border-b border-muted bg-primary/5">
-        <h2 className="font-semibold text-center">Rate This Course</h2>
+    <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-muted dark:border-gray-700 overflow-hidden">
+      <div className="p-3 border-b border-muted dark:border-gray-700 bg-primary/5 dark:bg-primary/20">
+        <h2 className="font-semibold text-center text-gray-900 dark:text-gray-100">Rate This Course</h2>
       </div>
       <div className="p-4 space-y-4">
         <div>
-          <label className="text-xs font-medium block mb-1">
-            Overall Rating: <span className="text-primary font-semibold">{overallRating} / 5</span>
+          <label className="text-xs font-medium block mb-1 text-gray-900 dark:text-gray-100">
+            Overall Rating:{' '}
+            <span className="text-primary font-semibold">{overallRating} / 5</span>
           </label>
           <StarSelector rating={overallRating} setRating={setOverallRating} />
         </div>
@@ -238,11 +229,14 @@ const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
           {submitting ? 'Submitting...' : 'Submit Rating'}
         </button>
 
-        <p className="text-xs text-center text-muted-foreground font-bold">
+        <p className="text-xs text-center text-muted-foreground dark:text-gray-400 font-bold">
           Note: You can submit a rating only once.
         </p>
-        <p className="text-xs text-center text-muted-foreground">
-          <Link href="/auth/signIn" className="underline">Sign in</Link> to leave a detailed review
+        <p className="text-xs text-center text-muted-foreground dark:text-gray-400">
+          <Link href="/auth/signIn" className="underline">
+            Sign in
+          </Link>{' '}
+          to leave a detailed review
         </p>
       </div>
     </div>
