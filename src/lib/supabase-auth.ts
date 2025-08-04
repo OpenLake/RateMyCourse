@@ -1,12 +1,7 @@
 // lib/supabase-auth.ts
-import { createClient } from '@supabase/supabase-js';
 import { generateAnonymousIdentity, verifyAnonymousIdentity, AnonymousUser } from './anonymization';
 import * as crypto from 'crypto';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { supabase } from './supabase';
 
 /**
  * Handle user sign-in with magic link while maintaining complete anonymity

@@ -1,21 +1,103 @@
 'use client';
-import React from 'react';
-import { Professor } from '@/types';
 
-export default function ProfessorPageHeader({ professor }: { professor: Professor }) {
+import React, { useState } from 'react';
+import { Professor } from '@/types';
+import { StarRating } from '@/components/common/StarRating';
+import { ExternalLink } from 'lucide-react';
+
+interface ProfessorPageHeaderProps {
+  professor: Professor;
+  averageRating: number;   // NEW - dynamic average rating
+  reviewCount: number;     // NEW - dynamic review count
+}
+
+export default function ProfessorPageHeader({
+  professor,
+  averageRating,
+  reviewCount,
+}: ProfessorPageHeaderProps) {
+  const [showAllInterests, setShowAllInterests] = useState(false);
+
+  const interests = professor.research_interests || [];
+  const visibleInterests = showAllInterests ? interests : interests.slice(0, 3);
+  const hiddenCount = interests.length - 3;
+
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-muted p-4">
-      <div className="flex items-center space-x-4">
-        {professor.avatar_url && (
-          <img
-            src={professor.avatar_url}
-            alt={professor.name}
-            className="w-16 h-16 rounded-full object-cover border"
-          />
-        )}
-        <div>
-          <h1 className="text-xl font-semibold">{professor.name}</h1>
-          <p className="text-sm text-muted-foreground">{professor.post} | {professor.department}</p>
+    <div className="bg-white rounded-xl shadow-sm p-4 border border-muted overflow-hidden relative">
+      <div className="relative z-10">
+        <div className="flex justify-between items-start">
+          {/* Left Section: Avatar + Info */}
+          <div className="flex items-start gap-4">
+            {professor.avatar_url && (
+              <img
+                src={professor.avatar_url}
+                alt={professor.name}
+                className="w-16 h-16 rounded-full object-cover border"
+              />
+            )}
+            <div>
+              {/* Name and Position */}
+              <h1 className="text-2xl font-bold mb-1">{professor.name}</h1>
+              <p className="text-sm text-muted-foreground mb-2">
+                {professor.post} | {professor.department}
+              </p>
+
+              {/* Website link (more aesthetic) */}
+              {professor.website && (
+                <a
+                  href={professor.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-sm text-primary hover:text-primary/80 gap-1 mb-2"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  Visit Website
+                </a>
+              )}
+
+              {/* Research Interests */}
+              {interests.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-1">
+                  {visibleInterests.map((interest, index) => (
+                    <span
+                      key={index}
+                      className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-md"
+                    >
+                      {interest}
+                    </span>
+                  ))}
+
+                  {hiddenCount > 0 && !showAllInterests && (
+                    <button
+                      onClick={() => setShowAllInterests(true)}
+                      className="text-xs text-muted-foreground underline"
+                    >
+                      +{hiddenCount} more
+                    </button>
+                  )}
+
+                  {showAllInterests && (
+                    <button
+                      onClick={() => setShowAllInterests(false)}
+                      className="text-xs text-muted-foreground underline"
+                    >
+                      Show less
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {/* Ratings Row */}
+              <div className="flex items-center mt-3 gap-6">
+                <div className="flex items-center">
+                  <StarRating rating={averageRating ?? 0} />
+                  <span className="text-xs text-muted-foreground ml-2">
+                    ({reviewCount ?? 0} reviews)
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

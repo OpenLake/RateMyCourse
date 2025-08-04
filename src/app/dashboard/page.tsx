@@ -1,35 +1,79 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
-import { Loader2, User, Shield, LogOut } from 'lucide-react';
+import Link from 'next/link';
+import { User, Shield, LogOut } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 export default function Dashboard() {
   const { isLoading, isAuthenticated, user, anonymousId, signOut } = useAuth();
   const router = useRouter();
 
+  const [userReviews, setUserReviews] = useState<any[]>([]);
+  const [userRatings, setUserRatings] = useState<any[]>([]);
+  const [loadingReviews, setLoadingReviews] = useState(true);
+  const [loadingRatings, setLoadingRatings] = useState(true);
+
   // Redirect to sign in if not authenticated
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       router.push('/auth/signin');
-      alert("User not Authenticated");
+      alert('User not Authenticated');
     }
   }, [isLoading, isAuthenticated, router]);
+
+  /* ------------ Fetch REVIEWS (anonymous_id) ------------ */
+  useEffect(() => {
+    if (!anonymousId) return;
+
+    const fetchUserReviews = async () => {
+      setLoadingReviews(true);
+      const { data, error } = await supabase
+        .from('reviews')
+        .select('id, target_id, comment, created_at, rating_value')
+        .eq('anonymous_id', anonymousId)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching user reviews:', error.message);
+      } else {
+        setUserReviews(data || []);
+      }
+      setLoadingReviews(false);
+    };
+
+    fetchUserReviews();
+  }, [anonymousId]);
+
+  /* ------------ Fetch RATINGS (anonymous_id) ------------ */
+  useEffect(() => {
+    if (!anonymousId) return;
+
+    const fetchUserRatings = async () => {
+      setLoadingRatings(true);
+      const { data, error } = await supabase
+        .from('ratings')
+        .select('id, target_id, overall_rating, workload_rating, difficulty_rating, created_at')
+        .eq('anonymous_id', anonymousId) // using anonymous_id
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching user ratings:', error.message);
+      } else {
+        setUserRatings(data || []);
+      }
+      setLoadingRatings(false);
+    };
+
+    fetchUserRatings();
+  }, [anonymousId]);
 
   const handleSignOut = async () => {
     await signOut();
     router.push('/');
   };
-  
-//   if (isLoading || !isAuthenticated) {
-//   return (
-//     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
-//       <Loader2 className="h-8 w-8 text-blue-500 animate-spin" />
-//       <p className="mt-4 text-gray-600">Checking authentication...</p>
-//     </div>
-//   );
-// }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -49,18 +93,18 @@ export default function Dashboard() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* User Profile Card */}
         <div className="bg-white shadow rounded-lg p-6 mb-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-blue-100 rounded-full">
-                <User className="h-6 w-6 text-blue-600" />
-              </div>
-              <div>
-                <h3 className="text-lg font-medium text-gray-900">Welcome{user?.email ? `, ${user.email.split('@')[0]}` : ''}!</h3>
-                <p className="text-sm text-gray-500">{user?.email}</p>
-              </div>
+          <div className="flex items-center space-x-3">
+            <div className="p-2 bg-blue-100 rounded-full">
+              <User className="h-6 w-6 text-blue-600" />
+            </div>
+            <div>
+              <h3 className="text-lg font-medium text-gray-900">
+                Welcome{user?.email ? `, ${user.email.split('@')[0]}` : ''}!
+              </h3>
+              <p className="text-sm text-gray-500">{user?.email}</p>
             </div>
           </div>
-          
+
           {anonymousId && (
             <div className="mt-4 pt-4 border-t border-gray-200">
               <div className="flex items-center">
@@ -75,7 +119,7 @@ export default function Dashboard() {
                     </code>
                   </p>
                   <p className="text-xs text-gray-500 mt-1">
-                    Your ratings are completely anonymous and cannot be traced back to your email.
+                    Your reviews and ratings are stored anonymously.
                   </p>
                 </div>
               </div>
@@ -83,28 +127,74 @@ export default function Dashboard() {
           )}
         </div>
 
-        {/* Dashboard Content */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          {/* Course Rating Section */}
+        {/* Rate Courses Card */}
+        <div className="bg-white shadow rounded-lg p-6 mb-8">
+          <h2 className="text-lg font-medium text-gray-900 mb-4">Rate Courses</h2>
+          <p className="text-gray-600 mb-4">
+            Share your honest feedback about your courses. Your identity remains anonymous.
+          </p>
+          <Link
+            href="/courses"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"
+          >
+            Start Rating
+          </Link>
+        </div>
+
+        {/* Reviews and Ratings Side by Side */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Reviews Section */}
           <div className="bg-white shadow rounded-lg p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">Rate Courses</h2>
-            <p className="text-gray-600 mb-4">
-              Share your honest feedback about your courses. Your identity remains anonymous.
-            </p>
-            <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
-              Start Rating
-            </button>
+            <h2 className="text-lg font-medium text-gray-900 mb-4">Your Reviews</h2>
+            {loadingReviews ? (
+              <p className="text-gray-600">Loading your reviews...</p>
+            ) : userReviews.length === 0 ? (
+              <p className="text-gray-600">You haven't submitted any reviews yet.</p>
+            ) : (
+              <ul className="divide-y divide-gray-200">
+                {userReviews.map((review) => (
+                  <li key={review.id} className="py-3">
+                    <p className="text-sm font-medium text-gray-900">{review.target_id}</p>
+                    <p className="text-xs text-gray-500">
+                      {new Date(review.created_at).toLocaleString('en-IN', {
+                        dateStyle: 'medium',
+                        timeStyle: 'short',
+                      })}
+                    </p>
+                    <p className="text-sm text-gray-700 mt-1">{review.comment || 'No comment provided.'}</p>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
-          {/* Course Statistics Section */}
+          {/* Ratings Section */}
           <div className="bg-white shadow rounded-lg p-6">
             <h2 className="text-lg font-medium text-gray-900 mb-4">Your Ratings</h2>
-            <p className="text-gray-600 mb-4">
-              You haven't submitted any ratings yet. Start rating courses to see your history here.
-            </p>
-            <div className="text-center p-6 bg-gray-50 rounded-md">
-              <p className="text-gray-500">No ratings found</p>
-            </div>
+            {loadingRatings ? (
+              <p className="text-gray-600">Loading your ratings...</p>
+            ) : userRatings.length === 0 ? (
+              <p className="text-gray-600">You haven't submitted any ratings yet.</p>
+            ) : (
+              <ul className="divide-y divide-gray-200">
+                {userRatings.map((rating) => (
+                  <li key={rating.id} className="py-3">
+                    <p className="text-sm font-medium text-gray-900">{rating.target_id}</p>
+                    <p className="text-xs text-gray-500">
+                      {new Date(rating.created_at).toLocaleString('en-IN', {
+                        dateStyle: 'medium',
+                        timeStyle: 'short',
+                      })}
+                    </p>
+                    <p className="text-sm text-gray-700 mt-1">
+                      <span className="font-medium text-blue-600">Overall:</span> {rating.overall_rating ?? 'N/A'} |{' '}
+                      <span className="font-medium text-green-600">Workload:</span> {rating.workload_rating ?? 'N/A'} |{' '}
+                      <span className="font-medium text-red-600">Difficulty:</span> {rating.difficulty_rating ?? 'N/A'}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       </main>

@@ -1,15 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Tooltip } from '@mui/material';
 import Slider from '@mui/material/Slider';
 import Box from '@mui/material/Box';
-import { createClient } from '@/utils/supabase/client';
-
-const supabase = createClient();
-
-// ⭐ STAR SELECTOR LOGIC - same as yours
+import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/contexts/AuthContext';
+ import toast from "react-hot-toast";
+// ---------------- STAR SELECTOR ----------------
 const StarSelector = ({ rating, setRating }: { rating: number; setRating: (val: number) => void }) => {
   const [hovered, setHovered] = useState<number | null>(null);
   const stars = [];
@@ -64,7 +63,7 @@ const StarSelector = ({ rating, setRating }: { rating: number; setRating: (val: 
   return <div className="flex gap-1">{stars}</div>;
 };
 
-// ⭐ SLIDER COMPONENT - same as yours
+// ---------------- SLIDER ----------------
 const MSlider = ({ label, value, setValue }: { label: string; value: number; setValue: (val: number) => void }) => (
   <Box sx={{ width: '100%', paddingY: 1 }}>
     <label className="text-xs font-medium block mb-1">
@@ -83,86 +82,137 @@ const MSlider = ({ label, value, setValue }: { label: string; value: number; set
   </Box>
 );
 
+// ---------------- MAIN COMPONENT ----------------
 const RateThisCourse = ({ courseId }: { courseId: string }) => {
   const [overallRating, setOverallRating] = useState(1);
   const [workload, setWorkload] = useState(5);
   const [difficulty, setDifficulty] = useState(5);
   const [submitting, setSubmitting] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const { user } = useAuth();
 
-  const handleSubmit = async () => {
-    console.log("✅ Submit button clicked");
-    setSubmitting(true);
+  // -------- Check on mount if rating already submitted --------
+  useEffect(() => {
+    const checkExistingRating = async () => {
+      if (!user) return;
 
-    // 🟨 STEP 1: GET SESSION
-    const { data, error } = await supabase.auth.getSession();
-    if (error || !data?.session) {
-      console.error("❌ Session error:", error?.message);
-      alert("You must be signed in.");
-      setSubmitting(false);
-      return;
-    }
+      const { data: anonRow } = await supabase
+        .from('users')
+        .select('anonymous_id')
+        .eq('auth_id', user.id)
+        .single();
 
-    const user = data?.session.user;
+      const anonymousId = anonRow?.anonymous_id;
+      if (!anonymousId) return;
+
+      const { data: existing } = await supabase
+        .from('ratings')
+        .select('id')
+        .eq('anonymous_id', anonymousId)
+        .eq('target_id', courseId)
+        .maybeSingle();
+
+      if (existing) {
+        setHasSubmitted(true);
+      }
+    };
+
+    checkExistingRating();
+  }, [user, courseId]);
+
+  // -------- Handle Submit --------
+
+
+const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  console.log("✅ Submit button clicked - handleSubmit called");
+  setSubmitting(true);
+
+  try {
+    // --- Check user login ---
     if (!user) {
-      console.error("❌ No user found in session.");
-      alert("No valid user session found.");
-      setSubmitting(false);
+      toast.error("You must sign in to submit a rating.");
+      console.error("❌ No user found");
       return;
     }
 
-    // 🟨 STEP 2: GET ANONYMOUS ID
+    // --- Get anonymous_id ---
     const { data: anonRow, error: anonError } = await supabase
-      .from('users')
-      .select('anonymous_id')
-      .eq('auth_id', user.id)
+      .from("users")
+      .select("anonymous_id")
+      .eq("auth_id", user.id)
       .single();
 
-    if (anonError || !anonRow?.anonymous_id) {
-      console.error("❌ Error fetching anonymous ID:", anonError?.message);
-      alert("Could not retrieve your anonymous identity.");
-      setSubmitting(false);
+    if (anonError || !anonRow) {
+      toast.error("Failed to fetch user information. Please try again.");
+      console.error("❌ Failed to fetch anonymous_id:", anonError?.message);
       return;
     }
 
-    // 🟨 STEP 3: CHECK IF RATING ALREADY EXISTS
+    const anonymousId = anonRow.anonymous_id;
+
+    // --- Check for existing rating to avoid duplicates ---
     const { data: existing, error: existError } = await supabase
-      .from('ratings')
-      .select('id')
-      .eq('user_id', user.id)
-      .eq('target_id', courseId)
+      .from("ratings")
+      .select("id")
+      .eq("anonymous_id", anonymousId)
+      .eq("target_id", courseId)
       .single();
 
     if (existing) {
-      console.warn("⚠️ Rating already exists for this user and course.");
-      alert("You've already rated this course.");
-      setSubmitting(false);
+      setHasSubmitted(true); // Update UI
+      toast("You have already submitted a rating for this course.", { icon: "⚠️" });
       return;
     }
 
-    // 🟨 STEP 4: INSERT NEW RATING
+    if (existError && existError.code !== "PGRST116") {
+      toast.error(`Error checking existing rating: ${existError.message}`);
+      console.error("❌ Error checking existing rating:", existError.message);
+      return;
+    }
+
+    // --- Insert new rating ---
     const payload = {
-      user_id: user.id,
+      anonymous_id: anonymousId,
       target_id: courseId,
-      target_type: 'course',
+      target_type: "course",
       overall_rating: overallRating,
       difficulty_rating: difficulty,
       workload_rating: workload,
-      knowledge_rating: null,
-      teaching_rating: null,
-      approachability_rating: null,
-       created_at: new Date().toISOString(),
+      created_at: new Date().toISOString(),
     };
 
-    const { error: insertError } = await supabase.from('ratings').insert(payload);
-    if (insertError) {
-      console.error("❌ Insert error:", insertError.message);
-      alert("Something went wrong while submitting.");
-    } else {
-      alert("✅ Your rating was submitted successfully!");
-    }
+    const { error: insertError } = await supabase.from("ratings").insert(payload);
 
+    if (insertError) {
+      toast.error(`Failed to submit rating: ${insertError.message}`);
+      console.error("❌ Insert error:", insertError.message);
+    } else {
+      toast.success("Rating submitted successfully!");
+      console.log("✅ Rating inserted successfully");
+      setHasSubmitted(true); // Hide form after success
+    }
+  } catch (error) {
+    toast.error("Unexpected error occurred. Please try again.");
+    console.error("❌ Unexpected error in handleSubmit:", error);
+  } finally {
     setSubmitting(false);
-  };
+  }
+};
+
+
+  // -------- Render --------
+  if (hasSubmitted) {
+    return (
+      <div className="bg-white rounded-xl shadow-sm border border-muted p-4 text-center">
+        <p className="text-sm font-medium text-green-600">
+          You have already submitted a rating for this course.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-muted overflow-hidden">
@@ -182,7 +232,8 @@ const RateThisCourse = ({ courseId }: { courseId: string }) => {
         <button
           onClick={handleSubmit}
           disabled={submitting}
-          className="w-full bg-primary text-white rounded-md py-2 text-sm font-medium hover:bg-primary/90 transition disabled:opacity-50"
+          className="w-full bg-primary text-white rounded-md py-2 text-sm font-medium hover:bg-primary/90 transition disabled:opacity-50 cursor-pointer"
+          type="button"
         >
           {submitting ? 'Submitting...' : 'Submit Rating'}
         </button>
