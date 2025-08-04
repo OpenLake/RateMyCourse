@@ -17,11 +17,13 @@ import { supabase } from "@/lib/supabase";
 import toast from "react-hot-toast";
 import { useAuth } from "@/contexts/AuthContext";
 
-interface AddReviewButtonProps {
-  courseId: string;
+interface AddReviewButtonProfessorProps {
+  professorId: string;
 }
 
-export default function AddReviewButton({ courseId }: AddReviewButtonProps) {
+export default function AddReviewButtonProfessor({
+  professorId,
+}: AddReviewButtonProfessorProps) {
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const { user } = useAuth();
@@ -29,10 +31,9 @@ export default function AddReviewButton({ courseId }: AddReviewButtonProps) {
   const [review, setReview] = useState({
     comment: "",
     overall: 0,
-    workload: 0,
-    content: 0,
+    knowledge: 0,
     teaching: 0,
-    support: 0,
+    approachability: 0,
   });
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -48,7 +49,7 @@ export default function AddReviewButton({ courseId }: AddReviewButtonProps) {
     setSubmitting(true);
 
     try {
-      // 1. Get anonymous_id for current user
+      // 1. Fetch anonymous_id for current user
       const { data: anonRow, error: anonError } = await supabase
         .from("users")
         .select("anonymous_id")
@@ -62,24 +63,20 @@ export default function AddReviewButton({ courseId }: AddReviewButtonProps) {
 
       const anonymousId = anonRow.anonymous_id;
 
-      // 2. Prepare payload
+      // 2. Prepare payload (target_type = professor)
       const payload = {
         anonymous_id: anonymousId,
-        target_id: courseId,
-        target_type: "course",
-        rating_value: review.overall || 0, // Could average others or use separate field
+        target_id: professorId,
+        target_type: "professor",
+        rating_value: review.overall || 0,
         comment: review.comment || null,
-        difficulty_rating: review.overall || null,
-        workload_rating: review.workload || null,
-        knowledge_rating: review.content || null,
+        knowledge_rating: review.knowledge || null,
         teaching_rating: review.teaching || null,
-        approachability_rating: review.support || null,
+        approachability_rating: review.approachability || null,
       };
 
-      // 3. Insert into Supabase
-      const { error: insertError } = await supabase
-        .from("reviews")
-        .insert(payload);
+      // 3. Insert review
+      const { error: insertError } = await supabase.from("reviews").insert(payload);
 
       if (insertError) {
         toast.error(`Failed to submit review: ${insertError.message}`);
@@ -90,10 +87,9 @@ export default function AddReviewButton({ courseId }: AddReviewButtonProps) {
         setReview({
           comment: "",
           overall: 0,
-          workload: 0,
-          content: 0,
+          knowledge: 0,
           teaching: 0,
-          support: 0,
+          approachability: 0,
         });
       }
     } catch (err) {
@@ -111,9 +107,9 @@ export default function AddReviewButton({ courseId }: AddReviewButtonProps) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Write a  Review</DialogTitle>
+          <DialogTitle>Write a Professor Review</DialogTitle>
           <DialogDescription>
-            Share your experience to help other students.
+            Share your experience to help other students choose professors.
           </DialogDescription>
         </DialogHeader>
 
@@ -122,7 +118,7 @@ export default function AddReviewButton({ courseId }: AddReviewButtonProps) {
             <Label htmlFor="comment">Your Review</Label>
             <Textarea
               id="comment"
-              placeholder="Share your experience with this course/professor..."
+              placeholder="Share your experience with this professor..."
               value={review.comment}
               onChange={handleCommentChange}
               rows={6}

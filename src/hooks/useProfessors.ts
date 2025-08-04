@@ -10,33 +10,34 @@ const fetchDynamicProfessorData = async (professorId: string) => {
     console.error("Invalid professorId:", professorId);
     return null;
   }
-  
-  // Updated to match the new schema structure with flat fields
+
+  // Fetch dynamic rating data
   const { data: professorData, error: professorError } = await supabase
-    .from('professors')
-    .select('overall_rating, knowledge_rating, teaching_rating, approachability_rating, review_count')
-    .eq('id', professorId)
+    .from("professors")
+    .select(
+      "id, overall_rating, knowledge_rating, teaching_rating, approachability_rating, review_count"
+    )
+    .eq("id", professorId)
     .single();
-  
+
   if (professorError) {
     console.error("Error fetching professor data:", professorError);
     return {};
   }
-  
-  // Fetch courses linked to this professor through the junction table
+
+  // Fetch courses linked to this professor
   const { data: coursesData, error: coursesError } = await supabase
-    .from('professors_courses')
-    .select('course_id')
-    .eq('professor_id', professorId);
+    .from("professors_courses")
+    .select("course_id")
+    .eq("professor_id", professorId);
 
   if (coursesError) {
     console.error("Error fetching courses for professor:", coursesError);
     return professorData;
   }
-  
-  // Extract course IDs
-  const courseIds = coursesData?.map(item => item.course_id) || [];
-  
+
+  const courseIds = coursesData?.map((item) => item.course_id) || [];
+
   if (professorData) {
     return {
       overall_rating: professorData.overall_rating,
@@ -44,10 +45,10 @@ const fetchDynamicProfessorData = async (professorId: string) => {
       teaching_rating: professorData.teaching_rating,
       approachability_rating: professorData.approachability_rating,
       review_count: professorData.review_count,
-      course_ids: courseIds
+      course_ids: courseIds,
     };
   }
-  
+
   return {};
 };
 
@@ -66,24 +67,48 @@ export const useProfessors = () => {
 
   const loadStaticProfessors = async () => {
     try {
+      // Fetch static JSON
       const response = await fetch("/generated/professors.json");
-      console.log("Response:", response);
       const data = await response.json();
-      const flatProfessors = data.flat(); // or data.flatMap(x => x);
+      const flatProfessors = data.flat();
       console.log("Flattened Professors:", flatProfessors);
-      
+
+      // Fetch IDs from Supabase to map JSON professors
+      const { data: supabaseProfs, error: supabaseError } = await supabase
+        .from("professors")
+        .select("id, email");
+
+      if (supabaseError) {
+        console.error(
+          "Error fetching professor IDs from Supabase:",
+          supabaseError
+        );
+        return;
+      }
+
       const seen = new Set<string>();
       const fetchedProfessors: Professor[] = [];
-      
+
       for (const professor of flatProfessors) {
-        const uniqueKey = `${professor.name.toLowerCase().trim()}|${professor.email?.toLowerCase().trim()}`;
-      
+        const uniqueKey = `${professor.name
+          .toLowerCase()
+          .trim()}|${professor.email?.toLowerCase().trim()}`;
+
         if (!seen.has(uniqueKey)) {
           seen.add(uniqueKey);
-      
-          // Updated to match the new schema structure with flat fields
+
+          // Match Supabase professor by email
+          const supabaseProf = supabaseProfs.find(
+            (sp) =>
+              sp.email?.toLowerCase().trim() ===
+              professor.email?.toLowerCase().trim()
+          );
+
+          // Use Supabase ID if available, else generate fallback UUID
+          const professorId = supabaseProf?.id ?? crypto.randomUUID();
+
           fetchedProfessors.push({
-            id: "1", // You might want to generate proper UUIDs here
+            id: professorId,
             name: professor.name,
             email: professor.email,
             research_interests: professor.research_interests || [],
@@ -91,20 +116,19 @@ export const useProfessors = () => {
             website: professor.website || null,
             avatar_url: professor.avatar_url || null,
             department: professor.department.includes("MT_people")
-                        ? "Mechatronics Engineering"
-                        : professor.department.replace(/^Department of\s*/i, '').trim(),           
-            overall_rating: 0,       // Default values using flat field structure
-            knowledge_rating: 0,     // Default values using flat field structure
-            teaching_rating: 0,      // Default values using flat field structure
-            approachability_rating: 0, // Default values using flat field structure
-            review_count: 0,        // Updated field name
-            created_at: new Date(),  // Added missing field
-            updated_at: new Date(),  // Added missing field
-            // Note: courses relationship is now handled via junction table
+              ? "Mechatronics Engineering"
+              : professor.department.replace(/^Department of\s*/i, "").trim(),
+            overall_rating: 0,
+            knowledge_rating: 0,
+            teaching_rating: 0,
+            approachability_rating: 0,
+            review_count: 0,
+            created_at: new Date(),
+            updated_at: new Date(),
           });
         }
       }
-      
+
       setState((prevState) => ({
         ...prevState,
         professors: fetchedProfessors,
@@ -120,8 +144,7 @@ export const useProfessors = () => {
     }
   };
 
-  // Function to fetch dynamic data for each professor and merge it with static data
-  // Updated to use the new schema structure
+  // Merge dynamic data (ratings) with static data
   const loadDynamicData = async (professors: Professor[]) => {
     const updatedProfessors = await Promise.all(
       professors.map(async (professor) => {
@@ -129,13 +152,16 @@ export const useProfessors = () => {
           const dynamicData = await fetchDynamicProfessorData(professor.id);
           return {
             ...professor,
-            overall_rating: dynamicData?.overall_rating ?? professor.overall_rating,
-            knowledge_rating: dynamicData?.knowledge_rating ?? professor.knowledge_rating,
-            teaching_rating: dynamicData?.teaching_rating ?? professor.teaching_rating,
-            approachability_rating: dynamicData?.approachability_rating ?? professor.approachability_rating,
+            overall_rating:
+              dynamicData?.overall_rating ?? professor.overall_rating,
+            knowledge_rating:
+              dynamicData?.knowledge_rating ?? professor.knowledge_rating,
+            teaching_rating:
+              dynamicData?.teaching_rating ?? professor.teaching_rating,
+            approachability_rating:
+              dynamicData?.approachability_rating ??
+              professor.approachability_rating,
             review_count: dynamicData?.review_count ?? professor.review_count,
-            // Note: We're not storing course_ids directly on the professor object
-            // as relationships are now handled via junction table
           };
         } catch (error) {
           console.error("Error fetching dynamic data:", error);
@@ -143,7 +169,7 @@ export const useProfessors = () => {
         }
       })
     );
-  
+
     setState({
       professors: updatedProfessors,
       isLoading: false,
@@ -151,6 +177,7 @@ export const useProfessors = () => {
     });
   };
 
+  // Initial load
   useEffect(() => {
     loadStaticProfessors();
   }, []);
@@ -162,8 +189,8 @@ export const useProfessors = () => {
       setIsStaticLoaded(true);
     });
   }, []);
-  
-  // Uncomment if you want to load dynamic data after static data is loaded
+
+  // Optional: Enable this if you want ratings after static load
   /*
   useEffect(() => {
     if (isStaticLoaded) {
@@ -173,4 +200,4 @@ export const useProfessors = () => {
   */
 
   return state;
-}
+};

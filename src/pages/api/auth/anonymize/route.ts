@@ -54,7 +54,7 @@ export async function POST(request: Request) {
     
     // Store in the verification table
     const { error: dbError } = await supabase
-      .from('user')
+      .from('users')
       .upsert({
         auth_id: session.user.id,
         anonymous_id: anonymousId,
