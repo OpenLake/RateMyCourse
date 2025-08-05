@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
   try {
     // Get the user's anonymous ID
     const { data: verification, error: verificationError } = await supabase
-      .from('anonymous_verification')
+      .from('users')
       .select('anonymous_id')
       .eq('auth_id', session.user.id)
       .single();

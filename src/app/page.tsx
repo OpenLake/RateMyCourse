@@ -1,14 +1,62 @@
-"use client"
-import Link from 'next/link';
-import { buttonVariants } from '@/components/ui/button';
-import { ArrowRight, BookOpen, PenLine, SearchIcon, Sparkles, Users } from 'lucide-react';
+"use client";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
+import { BookOpen, Users } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 export default function Home() {
+  const [reviewCount, setReviewCount] = useState<number | null>(null);
+  const [courseCount, setCourseCount] = useState<number | null>(null);
+  const [professorCount, setProfessorCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchCounts = async () => {
+      // Fetch course count
+      const { count: coursesCnt, error: coursesError } = await supabase
+        .from("courses")
+        .select("*", { count: "exact", head: true });
+
+      if (coursesError) {
+        console.error("Error fetching courses count:", coursesError.message);
+        setCourseCount(0);
+      } else {
+        setCourseCount(coursesCnt || 0);
+      }
+
+      // Fetch professor count
+      const { count: profCnt, error: profError } = await supabase
+        .from("professors")
+        .select("*", { count: "exact", head: true });
+
+      if (profError) {
+        console.error("Error fetching professors count:", profError.message);
+        setProfessorCount(0);
+      } else {
+        setProfessorCount(profCnt || 0);
+      }
+
+      // Fetch reviews count
+      const { count: reviewsCnt, error: reviewsError } = await supabase
+        .from("reviews")
+        .select("*", { count: "exact", head: true });
+
+      if (reviewsError) {
+        console.error("Error fetching reviews count:", reviewsError.message);
+        setReviewCount(0);
+      } else {
+        setReviewCount(reviewsCnt || 0);
+      }
+    };
+
+    fetchCounts();
+  }, []);
+
   return (
-    <main className="relative bg-gradient-to-b from-background to-background/90">      
+    <main className="relative bg-gradient-to-b from-background to-background/90">
       <div className="absolute top-40 left-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
       <div className="absolute bottom-20 right-0 w-80 h-80 bg-accent/20 rounded-full blur-3xl" />
-      
+
       <div className="max-w-5xl mx-auto pt-16 pb-20 px-4 sm:px-6 relative z-10">
         <div className="flex flex-col items-center text-center space-y-10">
           
@@ -24,7 +72,7 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="flex flex-col sm:flex-row w-full max-w-2xl gap-3 mt-4">
+          {/* <div className="flex flex-col sm:flex-row w-full max-w-2xl gap-3 mt-4">
             <div className="relative flex-1">
               <SearchIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <input
@@ -42,8 +90,8 @@ export default function Home() {
             >
               Search
             </Link>
-          </div>
-          <Link
+          </div> */}
+          {/* <Link
               href="/review/new"
               className={buttonVariants({ 
                 variant: "secondary",
@@ -53,19 +101,25 @@ export default function Home() {
             >
               <PenLine className="h-4 w-4 mr-2" />
               Write Your Review!
-            </Link>
+            </Link> */}
           
           <div className="grid grid-cols-3 gap-6 w-full max-w-3xl mt-3 py-4">
             <div className="flex flex-col items-center p-4 rounded-lg bg-card/50 border border-border shadow-sm backdrop-blur-sm hover:shadow-md transition-shadow">
-              <p className="text-3xl font-bold text-primary">250+</p>
+              <p className="text-3xl font-bold text-primary">
+                {courseCount !== null ? `${courseCount}+` : "Loading..."}
+              </p>
               <p className="text-sm text-muted-foreground mt-1">Courses</p>
             </div>
             <div className="flex flex-col items-center p-4 rounded-lg bg-card/50 border border-border shadow-sm backdrop-blur-sm hover:shadow-md transition-shadow">
-              <p className="text-3xl font-bold text-primary">120+</p>
+              <p className="text-3xl font-bold text-primary">
+                {professorCount !== null ? `${professorCount}+` : "Loading..."}
+              </p>
               <p className="text-sm text-muted-foreground mt-1">Professors</p>
             </div>
             <div className="flex flex-col items-center p-4 rounded-lg bg-card/50 border border-border shadow-sm backdrop-blur-sm hover:shadow-md transition-shadow">
-              <p className="text-3xl font-bold text-primary">1,500+</p>
+              <p className="text-3xl font-bold text-primary">
+                {reviewCount !== null ? `${reviewCount}+` : "Loading..."}
+              </p>
               <p className="text-sm text-muted-foreground mt-1">Reviews</p>
             </div>
           </div>

@@ -1,24 +1,24 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import AddReviewButton from "../AddReviewButton";
+import AddReviewButtonProfessor from "@/components/professors/AddReviewButtonProfessor";
 import { ChevronRight, ChevronDown } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
-interface CoursePageReviewsProps {
-  id: string; // Course ID
+interface ProfessorPageReviewsProps {
+  id: string; // Professor ID
   reviewCount: number;
 }
 
-/* Single Review Card (vertical format) */
-const CourseReviewItem = ({ review }: { review: any }) => {
+/* Single Review Card */
+const ProfessorReviewItem = ({ review }: { review: any }) => {
   const formattedDate = new Date(review.created_at).toLocaleString("en-IN", {
     dateStyle: "medium",
     timeStyle: "short",
   });
 
   return (
-    <div className="p-3 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow h-full">
+    <div className="p-3 rounded-lg bg-white dark:bg-gray-900 border border-muted dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow h-full">
       <div className="flex flex-col mb-2">
         <h4 className="font-medium text-sm text-gray-900 dark:text-gray-100">
           {review.anonymous_id || "Anonymous"}
@@ -35,16 +35,16 @@ const CourseReviewItem = ({ review }: { review: any }) => {
 };
 
 /* Main Reviews Component */
-const CoursePageReviews = ({ id, reviewCount }: CoursePageReviewsProps) => {
+const ProfessorPageReviews = ({ id, reviewCount }: ProfessorPageReviewsProps) => {
   const [reviews, setReviews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showAll, setShowAll] = useState(false); // Toggle for View All
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     const fetchReviews = async () => {
       setLoading(true);
 
-      // Fetch all reviews
+      // Fetch all reviews for professor
       const { data, error } = await supabase
         .from("reviews")
         .select(`
@@ -54,11 +54,11 @@ const CoursePageReviews = ({ id, reviewCount }: CoursePageReviewsProps) => {
           created_at
         `)
         .eq("target_id", id)
-        .eq("target_type", "course")
+        .eq("target_type", "professor")
         .order("created_at", { ascending: false });
 
       if (error) {
-        console.error("Error fetching reviews:", error.message);
+        console.error("Error fetching professor reviews:", error.message);
       } else {
         setReviews(data || []);
       }
@@ -79,10 +79,10 @@ const CoursePageReviews = ({ id, reviewCount }: CoursePageReviewsProps) => {
         <h2 className="font-semibold text-gray-900 dark:text-gray-100">
           Student Reviews
         </h2>
-        <AddReviewButton courseId={id} />
+        <AddReviewButtonProfessor professorId={id} />
       </div>
 
-      {/* Reviews list */}
+      {/* Reviews List */}
       <div className="p-3 space-y-3">
         {loading ? (
           <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -90,11 +90,11 @@ const CoursePageReviews = ({ id, reviewCount }: CoursePageReviewsProps) => {
           </p>
         ) : reviews.length === 0 ? (
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            No reviews yet for this course.
+            No reviews yet for this professor.
           </p>
         ) : (
           displayedReviews.map((review) => (
-            <CourseReviewItem key={review.id} review={review} />
+            <ProfessorReviewItem key={review.id} review={review} />
           ))
         )}
       </div>
@@ -119,4 +119,4 @@ const CoursePageReviews = ({ id, reviewCount }: CoursePageReviewsProps) => {
   );
 };
 
-export default CoursePageReviews;
+export default ProfessorPageReviews;

@@ -16,34 +16,35 @@ const fetchDynamicCourseData = async (courseId: string) => {
     .from('courses')
     .select('overall_rating, difficulty_rating, workload_rating, review_count')
     .eq('id', courseId)
-    .single();
+     .limit(1).maybeSingle()
+
   
   if (courseError) {
-    console.error("Error fetching course data:", courseError);
+    console.error("Error fetching course data:", courseError.message,courseError.code,courseError.message);
     return {};
   }
 
   // Fetch professors linked to this course through the junction table
-  const { data: professorsData, error: professorsError } = await supabase
-    .from('professors_courses')
-    .select('professor_id')
-    .eq('course_id', courseId);
+  // const { data: professorsData, error: professorsError } = await supabase
+  //   .from('professors_courses')
+  //   .select('professor_id')
+  //   .eq('course_id', courseId);
 
-  if (professorsError) {
-    console.error("Error fetching professors for course:", professorsError);
-    return courseData;
-  }
+  // if (professorsError) {
+  //   console.error("Error fetching professors for course:", professorsError.message,professorsError.code,professorsError.details);
+  //   return courseData;
+  // }
   
   // Extract professor IDs
-  const professorIds = professorsData?.map(item => item.professor_id) || [];
-  
+  // const professorIds = professorsData?.map(item => item.professor_id) || [];
+  // const professorIds=[];
   if (courseData) {
     return {
       overall_rating: courseData.overall_rating,
       difficulty_rating: courseData.difficulty_rating,
       workload_rating: courseData.workload_rating,
       review_count: courseData.review_count,
-      professor_ids: professorIds
+      // professor_ids: professorIds
     };
   }
   
@@ -147,13 +148,13 @@ export const useCourses = () => {
   }, []);
 
   // Uncomment if you want to load dynamic data after static data is loaded
-  /*
+  
   useEffect(() => {
     if (isStaticLoaded) {
       loadDynamicData(state.courses);
     }
   }, [isStaticLoaded, state.courses]);
-  */
+  
 
   return state;
 }

@@ -41,7 +41,7 @@ export default function Header() {
           </Link>
         </div>
 
-        
+{/*         
         <div className="flex-grow max-w-xl mx-4">
           <div className="flex w-full">
             <DropdownMenu>
@@ -68,7 +68,7 @@ export default function Header() {
               <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             </div>
           </div>
-        </div>
+        </div> */}
 
         
         <div className="flex items-center gap-3">
