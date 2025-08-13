@@ -1,7 +1,7 @@
 // components/auth/SignUp.tsx
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { registerUser } from '@/services/auth-service';
+import { registerUser } from '@/ser/auth-service';
 import { useForm } from 'react-hook-form';
 
 interface SignUpFormData {

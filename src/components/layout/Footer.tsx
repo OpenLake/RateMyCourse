@@ -121,11 +121,13 @@ export default function Footer() {
                       <Link
                         href={link.href}
                         className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
-                        target={link.external ? "_blank" : undefined}
-                        rel={link.external ? "noopener noreferrer" : undefined}
+                        target={"external" in link && link.external ? "_blank" : undefined}
+                        rel={"external" in link && link.external ? "noopener noreferrer" : undefined}
                       >
                         {link.label}
-                        {link.external && <ExternalLink className="h-3 w-3" />}
+                        {"external" in link && link.external && (
+                          <ExternalLink className="h-3 w-3" />
+                        )}
                       </Link>
                     </li>
                   ))}

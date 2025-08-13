@@ -5,7 +5,12 @@ import { Professor } from '@/types';
 
 interface ProfessorPageStatsProps {
   professor?: Professor; // make optional
+  reviewCount: number;
+  averageRating?: number;
+  knowledgeRating?: number;
+  approachabilityRating?: number;
 }
+
 
 const ProfessorPageStats = ({ professor }: ProfessorPageStatsProps) => {
   if (!professor) {

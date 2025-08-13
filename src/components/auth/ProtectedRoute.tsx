@@ -11,20 +11,20 @@ export default function ProtectedRoute({
   children, 
   requireVerification = true 
 }: ProtectedRouteProps) {
-  const { user, loading } = useAuth();
+  const { user, isLoading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading) {
+    if (!isLoading) {
       if (!user) {
         router.push('/auth/signin');
-      } else if (requireVerification && !user.emailVerified) {
+      } else if (requireVerification && !user.email_confirmed_at) {
         router.push('/auth/verify-email');
       }
     }
-  }, [user, loading, router, requireVerification]);
+  }, [user, isLoading, router, requireVerification]);
 
-  if (loading) {
+  if (isLoading) {
     return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
   }
 
@@ -32,7 +32,7 @@ export default function ProtectedRoute({
     return null;
   }
 
-  if (requireVerification && !user.emailVerified) {
+  if (requireVerification && !user.email_confirmed_at) {
     return null;
   }
 

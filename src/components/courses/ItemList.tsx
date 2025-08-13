@@ -72,13 +72,13 @@ export default function ItemList({ type }: ItemListProps) {
           ...item,
           overall_rating: avg
             ? avg.overall.reduce((a, b) => a + b, 0) / avg.overall.length
-            : null,
+            : 0,
           workload_rating: avg
             ? avg.workload.reduce((a, b) => a + b, 0) / avg.workload.length
-            : null,
+            : 0,
           difficulty_rating: avg
             ? avg.difficulty.reduce((a, b) => a + b, 0) / avg.difficulty.length
-            : null,
+            : 0,
         };
       });
 

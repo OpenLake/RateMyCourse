@@ -23,10 +23,10 @@ export interface Course {
   title: string;
   department: string;
   credits: number;
-  overall_rating: number;      // default: 0
-  difficulty_rating: number;   // default: 0
-  workload_rating: number;     // default: 0
-  review_count: number;        // default: 0
+  overall_rating: number;
+  workload_rating: number ;
+  difficulty_rating: number;    // default: 0
+  review_count: number;               // default: 0
   created_at: Date;
   updated_at: Date;
 

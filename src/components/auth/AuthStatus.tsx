@@ -3,9 +3,9 @@ import { useAuth } from '@/hooks/useAuth';
 import Link from 'next/link';
 
 export default function AuthStatus() {
-  const { user, loading, signOut } = useAuth();
+  const { user, isLoading, signOut } = useAuth();
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="flex items-center space-x-2">
         <div className="h-8 w-8 rounded-full bg-gray-200 animate-pulse"></div>
