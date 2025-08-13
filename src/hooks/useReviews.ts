@@ -1,5 +1,5 @@
 // import { fetchReviews } from "@/lib/reviews";
-// import { Review } from "@/types/reviews";
+import { Review } from "@/types/reviews";
 // import { transformReview } from "@/utils/transform";
 import { useEffect, useState, useCallback } from "react";
 
@@ -19,9 +19,9 @@ export const useReviews = () => {
   const reviews = [
     {
       id: "1",
-      courseId: course.id,
-      courseName: course.name,
-      courseCode: course.code,
+      courseId: "COURSE123",
+      courseName: "Sample Course",
+      courseCode: "ST101",
       semester: "Spring 2025",
       overallRating: 4.5,
       workloadRating: 3.5,
@@ -38,9 +38,9 @@ export const useReviews = () => {
     },
     {
       id: "2",
-      courseId: course.id,
-      courseName: course.name,
-      courseCode: course.code,
+      courseId: "COURSE123",
+      courseName: "Sample Course",
+      courseCode: "SC101",
       semester: "Fall 2024",
       overallRating: 3.8,
       workloadRating: 4.2,
@@ -57,9 +57,9 @@ export const useReviews = () => {
     },
     {
       id: "3",
-      courseId: course.id,
-      courseName: course.name,
-      courseCode: course.code,
+      courseId: "COURSE123",
+      courseName: "Sample Course",
+      courseCode: "CSL101",
       semester: "Winter 2024",
       overallRating: 4.2,
       workloadRating: 3.8,
@@ -76,9 +76,9 @@ export const useReviews = () => {
     },
     {
       id: "4",
-      courseId: course.id,
-      courseName: course.name,
-      courseCode: course.code,
+      courseId: "COURSE123",
+      courseName: "Sample Course",
+      courseCode: "Ds101",
       semester: "Spring 2024",
       overallRating: 4.7,
       workloadRating: 3.6,

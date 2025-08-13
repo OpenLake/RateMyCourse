@@ -1,26 +1,34 @@
-"use client"
+"use client";
 
-import { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { StarRating } from '@/components/common/StarRating';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { getReviewsByCourseId } from '@/lib/data/reviews';
+import { useState, useEffect } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { StarRating } from "@/components/common/StarRating";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getReviewsByCourseId } from "@/lib/data/reviews";
 
 interface CourseReviewsProps {
   courseId: string;
 }
 
 export default function CourseReviews({ courseId }: CourseReviewsProps) {
-  const [selectedTab, setSelectedTab] = useState('all');
-  const reviews = getReviewsByCourseId(courseId);
-  
-  const filteredReviews = selectedTab === 'all' 
-    ? reviews 
-    : reviews.filter(review => {
+  const [selectedTab, setSelectedTab] = useState("all");
+  const [reviews, setReviews] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function loadReviews() {
+      const data = await getReviewsByCourseId(courseId);
+      setReviews(data || []);
+    }
+    loadReviews();
+  }, [courseId]);
+
+  const filteredReviews = selectedTab === "all"
+    ? reviews
+    : reviews.filter((review) => {
         const rating = review.overallRating;
-        if (selectedTab === 'positive') return rating >= 4;
-        if (selectedTab === 'neutral') return rating >= 3 && rating < 4;
+        if (selectedTab === "positive") return rating >= 4;
+        if (selectedTab === "neutral") return rating >= 3 && rating < 4;
         return rating < 3;
       });
 
@@ -29,7 +37,7 @@ export default function CourseReviews({ courseId }: CourseReviewsProps) {
       <Tabs defaultValue="all" onValueChange={setSelectedTab}>
         <div className="flex justify-between items-center">
           <h3 className="font-semibold">
-            {reviews.length} {reviews.length === 1 ? 'Review' : 'Reviews'}
+            {reviews.length} {reviews.length === 1 ? "Review" : "Reviews"}
           </h3>
           <TabsList>
             <TabsTrigger value="all">All</TabsTrigger>
@@ -38,50 +46,25 @@ export default function CourseReviews({ courseId }: CourseReviewsProps) {
             <TabsTrigger value="negative">Negative</TabsTrigger>
           </TabsList>
         </div>
-        
-        <TabsContent value="all" className="space-y-4 mt-4">
-          {filteredReviews.map((review) => (
-            <ReviewCard key={review.id} review={review} />
-          ))}
-          {filteredReviews.length === 0 && (
-            <div className="text-center py-8 text-muted-foreground">
-              No reviews available.
-            </div>
-          )}
-        </TabsContent>
-        
-        <TabsContent value="positive" className="space-y-4 mt-4">
-          {filteredReviews.map((review) => (
-            <ReviewCard key={review.id} review={review} />
-          ))}
-          {filteredReviews.length === 0 && (
-            <div className="text-center py-8 text-muted-foreground">
-              No positive reviews yet.
-            </div>
-          )}
-        </TabsContent>
-        
-        <TabsContent value="neutral" className="space-y-4 mt-4">
-          {filteredReviews.map((review) => (
-            <ReviewCard key={review.id} review={review} />
-          ))}
-          {filteredReviews.length === 0 && (
-            <div className="text-center py-8 text-muted-foreground">
-              No neutral reviews yet.
-            </div>
-          )}
-        </TabsContent>
-        
-        <TabsContent value="negative" className="space-y-4 mt-4">
-          {filteredReviews.map((review) => (
-            <ReviewCard key={review.id} review={review} />
-          ))}
-          {filteredReviews.length === 0 && (
-            <div className="text-center py-8 text-muted-foreground">
-              No negative reviews yet.
-            </div>
-          )}
-        </TabsContent>
+
+        {["all", "positive", "neutral", "negative"].map((tab) => (
+          <TabsContent key={tab} value={tab} className="space-y-4 mt-4">
+            {filteredReviews.map((review) => (
+              <ReviewCard key={review.id} review={review} />
+            ))}
+            {filteredReviews.length === 0 && (
+              <div className="text-center py-8 text-muted-foreground">
+                {tab === "positive"
+                  ? "No positive reviews yet."
+                  : tab === "neutral"
+                  ? "No neutral reviews yet."
+                  : tab === "negative"
+                  ? "No negative reviews yet."
+                  : "No reviews available."}
+              </div>
+            )}
+          </TabsContent>
+        ))}
       </Tabs>
     </div>
   );
@@ -108,10 +91,10 @@ function ReviewCard({ review }: ReviewCardProps) {
           </div>
           <StarRating rating={review.overallRating} />
         </div>
-        
+
         <div className="space-y-4">
           <p>{review.comment}</p>
-          
+
           <div className="grid grid-cols-2 gap-4 pt-2">
             <div>
               <p className="text-sm font-medium">Workload</p>
