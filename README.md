@@ -27,6 +27,7 @@ We're excited that you're interested in contributing to RateMyCourse! As a new p
 
 - [@amaydixit11](https://github.com/amaydixit11)
 - [@lakshayg2005](https://github.com/lakshayg2005)
+- [@rajeev-sr](https://github.com/rajeev-sr)
 
 
 ## License
