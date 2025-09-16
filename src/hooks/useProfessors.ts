@@ -190,14 +190,12 @@ export const useProfessors = () => {
     });
   }, []);
 
-  // Optional: Enable this if you want ratings after static load
-  /*
+  // Enable dynamic data merging after static professors are loaded
   useEffect(() => {
-    if (isStaticLoaded) {
+    if (isStaticLoaded && state.professors.length > 0) {
       loadDynamicData(state.professors);
     }
   }, [isStaticLoaded, state.professors]);
-  */
 
   return state;
 };

@@ -129,6 +129,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         isLoading,
         isReady,
         isAuthenticated: !!user,
+        // isAuthenticated:true, // --- IGNORE ---
         signIn,
         signInWithGoogle,
         signOut,
