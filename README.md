@@ -26,7 +26,7 @@ As a new project, there's currently no code to look at, but you can still get in
 1. **Issues:** Check out the [Issues](https://github.com/OpenLake/RateMyCourse/issues) section for discussions and tasks.  
 2. **Feature Requests:** Suggest new features by opening an issue.  
 3. **Contribution Guide:** Please see our [CONTRIBUTION.md](CONTRIBUTION.md) for details on how to set up the project locally and make contributions.  
-4. **Community Discussions:** Join our [Discord server](https://discord.gg/QAPbMSzS) to connect with maintainers and contributors.  
+4. **Community Discussions:** Join our [Discord server](https://discord.gg/dE4f7YAj) to connect with maintainers and contributors.  
 
 ---
 
