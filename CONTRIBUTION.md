@@ -8,7 +8,7 @@ Please read this guide before contributing to ensure smooth collaboration.
 ---
 
 ## 📢 Discussions & Community
-- Join our community on **[Discord](https://discord.gg/QAPbMSzS)** for questions, discussions, and updates.  
+- Join our community on **[Discord](https://discord.gg/dE4f7YAj)** for questions, discussions, and updates.  
 - Check open issues and discussions before starting new work.  
 
 ---
