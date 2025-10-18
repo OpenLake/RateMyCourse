@@ -4,7 +4,7 @@
 [![GitHub Issues](https://img.shields.io/github/issues/OpenLake/RateMyCourse.svg)](https://github.com/OpenLake/RateMyCourse/issues)
 [![GitHub Stars](https://img.shields.io/github/stars/OpenLake/RateMyCourse.svg)](https://github.com/OpenLake/RateMyCourse/stargazers)
 
-Welcome to **RateMyCourse**! 🎓  
+Welcome to [**RateMyCourse**!](https://rate-my-course-three.vercel.app/) 🎓  
 This project aims to create a platform to aggregate reviews about various courses and instructors in our college, providing valuable insights for students when selecting their courses.
 
 ---
