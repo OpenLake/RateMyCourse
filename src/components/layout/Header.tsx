@@ -31,13 +31,16 @@ export default function Header() {
   ];
 
   return (
-    <header className="px-6 max-w-screen mx-auto sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="px-6 max-w-screen mx-auto sticky top-0 z-50 w-full border-b border-border/60 bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+      {/* Bottom gradient line */}
+      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
+      
       <div className="flex h-16 items-center justify-between">
         
         <div className="flex-shrink-0">
-          <Link href="/" className="flex items-center gap-2">
-            <BookOpen className="h-6 w-6 text-primary" />
-            <span className="font-bold text-xl">RateMyCourse</span>
+          <Link href="/" className="flex items-center gap-2 group">
+            <BookOpen className="h-6 w-6 text-primary group-hover:rotate-12 transition-transform duration-300" />
+            <span className="font-black text-xl tracking-tight group-hover:text-primary transition-colors duration-300">RateMyCourse</span>
           </Link>
         </div>
 
@@ -74,24 +77,36 @@ export default function Header() {
         <div className="flex items-center gap-3">
           
           <div className="flex items-center gap-2">
-            
             <ModeToggle />
           </div>
-           <div className="flex items-center gap-2">
-            
-           <LoginButton />
+          <div className="flex items-center gap-2">
+            <LoginButton />
           </div>
           
           
-          <Button variant="outline" className="hidden sm:flex items-center gap-2">
-            <Star className="h-4 w-4" />
-            Star This Repo
+          <Button 
+            variant="outline" 
+            className="hidden sm:flex items-center gap-2 font-bold text-sm tracking-wide hover:scale-105 transition-all duration-300 hover:border-primary/50 hover:bg-primary/5 relative overflow-hidden group"
+            asChild
+          >
+            <Link href="https://github.com/OpenLake/RateMyCourse" target="_blank" rel="noopener noreferrer">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+              <Star className="h-4 w-4 group-hover:rotate-12 transition-transform duration-300 relative" />
+              <span className="relative">Star This Repo</span>
+            </Link>
           </Button>
           
           
-          <Button variant="outline" size="icon" className="sm:hidden">
-            <Star className="h-5 w-5" />
-            <span className="sr-only">Star This Repo</span>
+          <Button 
+            variant="outline" 
+            size="icon" 
+            className="sm:hidden hover:scale-105 transition-all duration-300 hover:border-primary/50 hover:bg-primary/5"
+            asChild
+          >
+            <Link href="https://github.com/OpenLake/RateMyCourse" target="_blank" rel="noopener noreferrer">
+              <Star className="h-5 w-5 hover:rotate-12 transition-transform duration-300" />
+              <span className="sr-only">Star This Repo</span>
+            </Link>
           </Button>
         </div>
       </div>

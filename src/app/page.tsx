@@ -53,21 +53,35 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="relative bg-gradient-to-b from-background to-background/90">
-      <div className="absolute top-40 left-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 right-0 w-80 h-80 bg-accent/20 rounded-full blur-3xl" />
-
-      <div className="max-w-5xl mx-auto pt-16 pb-20 px-4 sm:px-6 relative z-10">
-        <div className="flex flex-col items-center text-center space-y-10">
+    <main className="relative bg-background min-h-screen font-sans overflow-hidden">
+      {/* Texture overlay - adjusted for light/dark modes */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1zbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC4xNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-40 dark:opacity-60" />
+       
+      {/* Noise texture - adjusted for light/dark modes */}
+      <div className="absolute inset-0 bg-noise opacity-[0.06] dark:opacity-[0.1] pointer-events-none" />
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1zbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuODUiIG51bU9jdGF2ZXM9IjQiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2UpIiBvcGFjaXR5PSIwLjQiLz48L3N2Zz4=')] opacity-10 dark:opacity-20 mix-blend-soft-light pointer-events-none" />
+      
+      {/* Gradient accents - adjusted for light/dark modes */}
+      <div className="absolute top-20 -left-40 w-[600px] h-[600px] bg-primary/10 dark:bg-primary/20 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-40 -right-40 w-[500px] h-[500px] bg-primary/8 dark:bg-primary/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-primary/5 dark:bg-primary/10 rounded-full blur-3xl" />
+      
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+      
+      <div className="max-w-4xl mx-auto pt-10 pb-32 px-6 relative z-10">
+        <div className="flex flex-col items-center space-y-16">
           
-          <div className="space-y-5 max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight">
-              Rate Courses at <span className="text-primary relative">
-                IIT Bhilai
-                <span className="absolute bottom-1 left-0 w-full h-2 bg-primary/20 -z-10 rounded-lg"></span>
-              </span>
+          <div className="space-y-6 text-center">
+            <div className="inline-block px-3 py-1 border border-border/40 rounded-full mb-4 hover:border-primary/40 transition-colors duration-300">
+              <p className="text-[10px] font-mono font-semibold text-muted-foreground tracking-[0.2em] uppercase">
+                Student Reviews Platform
+              </p>
+            </div>
+            <h1 className="text-5xl md:text-6xl font-black tracking-tight leading-[1.1]">
+              Rate Courses at{" "}
+              <span className="font-mono font-black text-primary tracking-tighter">IIT_Bhilai</span>
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto font-normal tracking-wide leading-relaxed">
               Wondering if that course is worth it? Let the real student reviews spill the tea!
             </p>
           </div>
@@ -103,54 +117,64 @@ export default function Home() {
               Write Your Review!
             </Link> */}
           
-          <div className="grid grid-cols-3 gap-6 w-full max-w-3xl mt-3 py-4">
-            <div className="flex flex-col items-center p-4 rounded-lg bg-card/50 border border-border shadow-sm backdrop-blur-sm hover:shadow-md transition-shadow">
-              <p className="text-3xl font-bold text-primary">
-                {courseCount !== null ? `${courseCount}+` : "Loading..."}
+          <div className="grid grid-cols-3 gap-4 w-full max-w-2xl border border-border/60 rounded-lg p-8 bg-card/50 hover:border-primary/30 hover:bg-card/60 transition-all duration-300 backdrop-blur-sm">
+            <div className="flex flex-col items-center space-y-2 group cursor-default">
+              <p className="text-5xl font-black font-mono tabular-nums tracking-tighter group-hover:text-primary transition-colors duration-300">
+                {courseCount !== null ? courseCount : "---"}
               </p>
-              <p className="text-sm text-muted-foreground mt-1">Courses</p>
+              <p className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-[0.15em]">
+                Courses
+              </p>
             </div>
-            <div className="flex flex-col items-center p-4 rounded-lg bg-card/50 border border-border shadow-sm backdrop-blur-sm hover:shadow-md transition-shadow">
-              <p className="text-3xl font-bold text-primary">
-                {professorCount !== null ? `${professorCount}+` : "Loading..."}
+            <div className="flex flex-col items-center space-y-2 border-x border-border/50 group cursor-default">
+              <p className="text-5xl font-black font-mono tabular-nums tracking-tighter group-hover:text-primary transition-colors duration-300">
+                {professorCount !== null ? professorCount : "---"}
               </p>
-              <p className="text-sm text-muted-foreground mt-1">Professors</p>
+              <p className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-[0.15em]">
+                Professors
+              </p>
             </div>
-            <div className="flex flex-col items-center p-4 rounded-lg bg-card/50 border border-border shadow-sm backdrop-blur-sm hover:shadow-md transition-shadow">
-              <p className="text-3xl font-bold text-primary">
-                {reviewCount !== null ? `${reviewCount}+` : "Loading..."}
+            <div className="flex flex-col items-center space-y-2 group cursor-default">
+              <p className="text-5xl font-black font-mono tabular-nums tracking-tighter group-hover:text-primary transition-colors duration-300">
+                {reviewCount !== null ? reviewCount : "---"}
               </p>
-              <p className="text-sm text-muted-foreground mt-1">Reviews</p>
+              <p className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-[0.15em]">
+                Reviews
+              </p>
             </div>
           </div>
           
-          <div className="flex flex-wrap gap-4 justify-center mt-4">
+          <div className="flex flex-col sm:flex-row gap-3">
             <Link
               href="/courses"
               className={buttonVariants({ 
                 variant: "default",
                 size: "lg",
-                className: "gap-2 shadow-md bg-primary hover:bg-primary/90"
+                className: "gap-2 font-bold tracking-wide relative overflow-hidden group hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-primary/20"
               })}
             >
-              <BookOpen className="h-4 w-4" />
-              Browse All Courses
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+              <BookOpen className="h-4 w-4 group-hover:rotate-12 transition-transform duration-300" />
+              <span className="relative">Browse Courses</span>
             </Link>
             <Link
               href="/professors"
               className={buttonVariants({ 
                 variant: "outline",
                 size: "lg",
-                className: "gap-2 shadow-sm border-2 border-border hover:bg-accent/10"
+                className: "gap-2 font-bold tracking-wide relative overflow-hidden group hover:scale-105 transition-all duration-300 hover:border-primary/50 hover:bg-primary/5"
               })}
             >
-              <Users className="h-4 w-4" />
-              View Professors
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+              <Users className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+              <span className="relative">View Professors</span>
             </Link>
           </div>
 
         </div>
       </div>
+      
+      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-border/40 to-transparent" />
     </main>
   );
 }
