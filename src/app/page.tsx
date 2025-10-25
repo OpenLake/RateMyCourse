@@ -73,7 +73,7 @@ export default function Home() {
           
           <div className="space-y-4 sm:space-y-6 text-center w-full">
             <div className="inline-block px-3 py-1 border border-border/40 rounded-full mb-2 sm:mb-4 hover:border-primary/40 transition-colors duration-300">
-              <p className="text-[9px] sm:text-[10px] font-mono font-semibold text-muted-foreground tracking-[0.15em] sm:tracking-[0.2em] uppercase">
+              <p className="text-[9px] sm:text-[10px] font-mono font-bold text-muted-foreground tracking-[0.15em] sm:tracking-[0.2em] uppercase">
                 Student Reviews Platform
               </p>
             </div>
@@ -81,7 +81,7 @@ export default function Home() {
               Rate Courses at{" "}
               <span className="font-mono font-black text-primary tracking-tighter">IIT_Bhilai</span>
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-xl mx-auto font-normal tracking-wide leading-relaxed px-4">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-xl mx-auto font-bold tracking-wide leading-relaxed px-4">
               Wondering if that course is worth it? Let the real student reviews spill the tea!
             </p>
           </div>
@@ -150,24 +150,24 @@ export default function Home() {
               className={buttonVariants({ 
                 variant: "default",
                 size: "lg",
-                className: "gap-2 font-bold text-sm sm:text-base tracking-wide relative overflow-hidden group hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 w-full sm:w-auto"
+                className: "gap-2 relative overflow-hidden group w-full sm:w-auto rounded-sm"
               })}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-              <BookOpen className="h-4 w-4 group-hover:rotate-12 transition-transform duration-300" />
-              <span className="relative">Browse Courses</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+              <BookOpen className="h-4 w-4 group-hover:rotate-12 transition-transform duration-300 relative" />
+              <span className="relative font-mono">Browse Courses</span>
             </Link>
             <Link
               href="/professors"
               className={buttonVariants({ 
                 variant: "outline",
                 size: "lg",
-                className: "gap-2 font-bold text-sm sm:text-base tracking-wide relative overflow-hidden group hover:scale-105 transition-all duration-300 hover:border-primary/50 hover:bg-primary/5 w-full sm:w-auto"
+                className: "gap-2 relative overflow-hidden group w-full sm:w-auto rounded-sm"
               })}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-              <Users className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
-              <span className="relative">View Professors</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+              <Users className="h-4 w-4 group-hover:scale-110 transition-transform duration-300 relative" />
+              <span className="relative font-mono">View Professors</span>
             </Link>
           </div>
 
