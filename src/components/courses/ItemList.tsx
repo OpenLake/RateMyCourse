@@ -199,6 +199,40 @@ export default function ItemList({ type, filters }: ItemListProps) {
 
   }, [itemsWithAvg, filters, type]); // Depend on filters and the processed items
 
+  // Group courses by department (preserve master department order)
+  const groupedCourses = useMemo(() => {
+    if (type !== "course") return null;
+    // prepare map with master order keys
+    const map = new Map<string, { id: string; name: string; items: (Course)[] }>();
+    for (const dp of departmentProperties) {
+      map.set(dp.id, { id: dp.id, name: dp.name, items: [] });
+    }
+
+    // Put each filtered course into its department bucket (fallback to 'OTHER')
+    (filteredItems as Course[]).forEach((course) => {
+      const dp = departmentProperties.find((d) => d.name === course.department);
+      const id = dp?.id ?? "OTHER";
+      if (!map.has(id)) {
+        map.set(id, { id, name: course.department ?? "Other", items: [] });
+      }
+      map.get(id)!.items.push(course);
+    });
+
+    // Build ordered array of groups (master order first, then any others)
+    const ordered: { id: string; name: string; items: Course[] }[] = [];
+    for (const dp of departmentProperties) {
+      const group = map.get(dp.id);
+      if (group && group.items.length > 0) ordered.push(group);
+    }
+    // add any groups not in master list (e.g. OTHER)
+    for (const [, group] of map) {
+      if (!departmentProperties.find((d) => d.id === group.id) && group.items.length > 0) {
+        ordered.push(group);
+      }
+    }
+    return ordered;
+  }, [filteredItems, type]);
+  
   // 6. Render
   if (isLoading) {
     // Show skeleton loaders
@@ -248,15 +282,28 @@ export default function ItemList({ type, filters }: ItemListProps) {
       </div>
 
       {filteredItems.length === 0 ? (
-           <div className="text-center py-10 text-muted-foreground">
-              No {type}s match the current filters. Try adjusting your selections.
-           </div>
+        <div className="text-center py-10 text-muted-foreground">
+          No {type}s match the current filters. Try adjusting your selections.
+        </div>
+      ) : type === "course" && groupedCourses && groupedCourses.length > 0 ? (
+        <div className="space-y-6">
+          {groupedCourses.map((group) => (
+            <section key={group.id} className="space-y-3">
+              <h2 className="text-3xl font-semibold py-8 ">{group.name}</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {group.items.map((course) => (
+                  <ItemCard key={course.id} type={type} item={course} className="shadow-md transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl" />
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
       ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {filteredItems.map((item: Course | Professor) => (
-              <ItemCard type={type} item={item} key={item.id} />
-            ))}
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {filteredItems.map((item: Course | Professor) => (
+            <ItemCard type={type} item={item} key={item.id} />
+          ))}
+        </div>
       )}
     </div>
   );
