@@ -40,6 +40,27 @@ NEXT_PUBLIC_SITE_SALT=
 SUPABASE_SERVICE_ROLE_KEY=
 ```
 
+1. NEXT_PUBLIC_SUPABASE_URL
+
+This is the API URL of your Supabase project. You can find it in the Supabase Dashboard → Project Settings → API → Project URL.
+
+2. NEXT_PUBLIC_SUPABASE_ANON_KEY 
+
+This is the public anon key (safe to expose on frontend). Found in Supabase Dashboard → Project Settings → API → Project API Keys → anon public.
+
+3. SUPABASE_SERVICE_ROLE_KEY
+
+This is the service_role key ( never expose on frontend).Found in Supabase Dashboard → Project Settings → API → Project API Keys → service_role. This is used for server-side tasks like inserting secure data, row-level policies, etc.
+
+4. NEXT_PUBLIC_SITE_SALT
+
+This one is not provided by Supabase. It’s usually a random string (for hashing, encryption, or unique IDs).
+
+run on bash
+``` bash
+openssl rand -base64 32
+```
+
 ### 5. Run Development Server
 ```bash
 npm run dev
