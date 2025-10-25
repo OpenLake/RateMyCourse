@@ -11,7 +11,7 @@ export default function Footer() {
       title: 'Resources',
       links: [
         { label: 'Courses', href: '/courses' },
-        { label: 'Professors', href: '/professor' },
+        { label: 'Professors', href: '/professors' },
         { label: 'About', href: '/about' },
         { label: 'Contribute', href: 'https://github.com/OpenLake/RateMyCourse/blob/main/CONTRIBUTING.md' },
       ],
