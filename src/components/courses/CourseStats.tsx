@@ -7,6 +7,7 @@ interface CourseStatsProps {
   course: Course;
 }
 
+
 export default function CourseStats({ course }: CourseStatsProps) {
   const ratings = [
     { label: 'Overall', value: course.overall_rating, max: 5 },
