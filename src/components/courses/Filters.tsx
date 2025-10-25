@@ -61,6 +61,11 @@ export default function Filters({
 
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false);
   const [activeFiltersCount, setActiveFiltersCount] = useState<number>(0);
+  const [value, setValue] = useState<string | undefined>(undefined);
+
+    const handleChange = (newValue: string) => {
+    setValue(value === newValue ? undefined : newValue)
+  }
 
   // Update local state if external filters change (e.g., clear all)
   useEffect(() => {
@@ -199,9 +204,11 @@ export default function Filters({
       </div>
 
       <Accordion
-        type="multiple"
-        defaultValue={["department", "difficulty", "rating"]}
-        className="w-full"
+      type="single"
+      collapsible
+      value={value}
+      onValueChange={handleChange}
+      className="w-full"
       >
         <AccordionItem value="department">
           <AccordionTrigger className="text-sm font-medium">
