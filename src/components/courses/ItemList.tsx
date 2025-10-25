@@ -168,34 +168,34 @@ export default function ItemList({ type, filters }: ItemListProps) {
       return true;
     });
 
-    // *** FINAL FIX: Sort by the master department list order ***
-    if (type === 'course') {
+    // *** THIS IS THE FIX ***
+    // Sort by the click-order array from filters
+    if (type === 'course' && filters.departments.length > 1) {
       // Use toSorted() to create a new array, ensuring stability
       const sorted = filtered.toSorted((a, b) => {
-        // Find the department ID (e.g., "MA", "EE") for each item
+        // Map full department name (on item) to department ID (in filter array)
         const deptIdA = departmentProperties.find(dp => dp.name === a.department)?.id;
         const deptIdB = departmentProperties.find(dp => dp.name === b.department)?.id;
 
         if (!deptIdA || !deptIdB) return 0;
 
-        // Get the index from the MASTER departmentProperties list
-        // This is the file 'src/constants/department.ts'
-        const indexA = departmentProperties.findIndex(dp => dp.id === deptIdA);
-        const indexB = departmentProperties.findIndex(dp => dp.id === deptIdB);
+        // Get the index from the filters.departments array (e.g., ['MA', 'EE'])
+        const indexA = filters.departments.indexOf(deptIdA);
+        const indexB = filters.departments.indexOf(deptIdB);
 
         // Handle cases where department might not be found (shouldn't happen)
         if (indexA === -1 && indexB === -1) return 0;
         if (indexA === -1) return 1;
         if (indexB === -1) return -1;
 
-        // This sorts by the fixed order in the master list, not the click order
+        // This sorts by the click-order index (e.g., 0 for 'MA', 1 for 'EE')
         return indexA - indexB; 
       });
       return sorted;
     }
     // *** END OF FIX ***
 
-    return filtered; // Return the filtered list (or sorted list for professors if needed)
+    return filtered; // Return the unsorted (but filtered) list
 
   }, [itemsWithAvg, filters, type]); // Depend on filters and the processed items
 
