@@ -32,12 +32,12 @@ export default function ProfessorsPage() {
         <div className="grid grid-cols-1 md:grid-cols-[320px_1fr] gap-6">
           {/* Pass current filters and the update handler to Filters */}
           <Filters
-            type={'professor'}
+            type={`professor`}
             currentFilters={filters}
             onFilterChange={handleFilterChange}
           />
           {/* Pass the current filters to ItemList */}
-          <ItemList type={'professor'} filters={filters} />
+          <ItemList type={`professor`} filters={filters} />
         </div>
       </div>
     </div>
