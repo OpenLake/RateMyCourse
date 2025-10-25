@@ -121,7 +121,7 @@ export default function ItemList({ type, filters }: ItemListProps) {
   const filteredItems = useMemo(() => {
     if (!itemsWithAvg) return [];
 
-    const items = itemsWithAvg.filter((item) => {
+    const filtered = itemsWithAvg.filter((item) => {
       // 1. Filter by Search Query
       const query = filters.searchQuery.toLowerCase().trim();
       if (query) {
@@ -168,30 +168,34 @@ export default function ItemList({ type, filters }: ItemListProps) {
       return true;
     });
 
-    // *** FIX: ADDED SORTING LOGIC ***
-    // Sort by selected department order if filter is active
+    // *** THIS IS THE FIX ***
+    // Sort by the click-order array from filters
     if (type === 'course' && filters.departments.length > 1) {
-      items.sort((a, b) => {
+      // Use toSorted() to create a new array, ensuring stability
+      const sorted = filtered.toSorted((a, b) => {
         // Map full department name (on item) to department ID (in filter array)
         const deptIdA = departmentProperties.find(dp => dp.name === a.department)?.id;
         const deptIdB = departmentProperties.find(dp => dp.name === b.department)?.id;
 
-        if (!deptIdA || !deptIdB) return 0; // Should not happen if filter is working
+        if (!deptIdA || !deptIdB) return 0;
 
+        // Get the index from the filters.departments array (e.g., ['MA', 'EE'])
         const indexA = filters.departments.indexOf(deptIdA);
         const indexB = filters.departments.indexOf(deptIdB);
-        
-        // Handle cases where a department might not be in the filter list
-        if (indexA === -1 && indexB === -1) return 0; // Both not in list, keep order
-        if (indexA === -1) return 1;  // A is not in list, put B first
-        if (indexB === -1) return -1; // B is not in list, put A first
 
-        return indexA - indexB; // This sorts by the order in the filter array
+        // Handle cases where department might not be found (shouldn't happen)
+        if (indexA === -1 && indexB === -1) return 0;
+        if (indexA === -1) return 1;
+        if (indexB === -1) return -1;
+
+        // This sorts by the click-order index (e.g., 0 for 'MA', 1 for 'EE')
+        return indexA - indexB; 
       });
+      return sorted;
     }
     // *** END OF FIX ***
 
-    return items;
+    return filtered; // Return the unsorted (but filtered) list
 
   }, [itemsWithAvg, filters, type]); // Depend on filters and the processed items
 

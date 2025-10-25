@@ -75,7 +75,9 @@ export default function Filters({
       if (prev.includes(deptId)) {
         return prev.filter((id) => id !== deptId);
       } else {
-        return [...prev, deptId];
+        // *** THIS IS THE FIX ***
+        // Add new departments to the FRONT of the array, not the back.
+        return [deptId, ...prev];
       }
     });
   };
@@ -85,7 +87,8 @@ export default function Filters({
       if (prev.includes(diffValue)) {
         return prev.filter((val) => val !== diffValue);
       } else {
-        return [...prev, diffValue];
+        // Also add new difficulties to the front
+        return [diffValue, ...prev];
       }
     });
   };
@@ -311,6 +314,7 @@ export default function Filters({
             Clear All
           </Button>
         </div>
+        {/* The active filter badges will now appear in the order of selection */}
         <div className="flex flex-wrap gap-2">
           {currentFilters.searchQuery && (
             <Badge variant="outline" className="flex items-center gap-1">
@@ -343,7 +347,7 @@ export default function Filters({
               </Badge>
             );
           })}
-
+          
           {currentFilters.difficulties.map((diff) => {
             const diffLevel = difficultyLevels.find((d) => d.value === diff);
             if (!diffLevel) return null;
@@ -398,7 +402,6 @@ export default function Filters({
 
       {/* Desktop Filters */}
       <div className="hidden lg:block">
-        {/* ******** FIX: Added max-h and overflow-y-auto here ******** */}
         <div className="bg-card p-6 rounded-lg border shadow-sm sticky top-[calc(var(--header-height,64px)+1.5rem)] max-h-[calc(100vh-8rem)] overflow-y-auto">
           <h3 className="font-medium text-lg mb-4">Filters</h3>
           <FiltersContent />
