@@ -7,7 +7,15 @@ import { Course, Professor } from "@/types";
 import ItemCard from "./ItemCard";
 import { supabase } from "@/lib/supabase";
 import { FiltersState } from "./Filters";
-import departmentProperties from "@/constants/department"; // Import department properties
+import departmentProperties from "@/constants/department";
+import { ArrowUpDown, TrendingUp, MessageSquare, Zap, Flame } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
 interface ItemListProps {
   type: "course" | "professor";
@@ -26,6 +34,9 @@ const getDifficultyRange = (difficultyLabel: string): [number, number] => {
 };
 
 export default function ItemList({ type, filters }: ItemListProps) {
+  // Add sortBy state
+  const [sortBy, setSortBy] = useState<string>("best-rated");
+  
   // 1. Get data from hooks
   const {
     courses,
@@ -263,22 +274,75 @@ export default function ItemList({ type, filters }: ItemListProps) {
     return <div className="text-destructive">Error loading {type}s: {error.message}</div>;
   }
 
+  const getSortLabel = () => {
+    switch (sortBy) {
+      case "best-rated": return "Best Rated";
+      case "most-reviewed": return "Most Reviewed";
+      case "easiest": return "Easiest";
+      case "hardest": return "Hardest";
+      default: return "Best Rated";
+    }
+  };
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">
-          Showing <span className="font-medium">{filteredItems.length}</span>{" "}
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <p className="text-sm font-bold tracking-wide text-muted-foreground">
+          Showing <span className="font-mono text-primary">{filteredItems.length}</span>{" "}
           {filteredItems.length === 1 ? type : `${type}s`}
         </p>
-        <select
-          className="px-3 py-1 border rounded-md text-sm bg-background"
-          defaultValue="best-rated"
-        >
-          <option value="best-rated">Best Rated</option>
-          <option value="most-reviewed">Most Reviewed</option>
-          {type === 'course' && <option value="easiest">Easiest</option>}
-          {type === 'course' && <option value="hardest">Hardest</option>}
-        </select>
+        
+        {/* Modern Dropdown for Sorting */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button 
+              variant="outline" 
+              size="sm"
+              className="gap-2 font-bold text-xs tracking-wide hover:scale-[1.02] transition-all duration-300 hover:border-primary/50 hover:bg-primary/5 relative overflow-hidden group"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+              <ArrowUpDown className="h-3.5 w-3.5 relative" />
+              <span className="relative font-mono">{getSortLabel()}</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent 
+            align="end"
+            className="min-w-[180px] rounded-lg border-border/60 bg-background/95 backdrop-blur-xl"
+          >
+            <DropdownMenuItem 
+              onClick={() => setSortBy("best-rated")}
+              className="font-bold text-sm cursor-pointer hover:bg-primary/10 transition-colors duration-200 rounded-md gap-2"
+            >
+              <TrendingUp className="h-4 w-4 text-primary" />
+              <span className="font-mono text-xs tracking-wide">Best Rated</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem 
+              onClick={() => setSortBy("most-reviewed")}
+              className="font-bold text-sm cursor-pointer hover:bg-primary/10 transition-colors duration-200 rounded-md gap-2"
+            >
+              <MessageSquare className="h-4 w-4 text-primary" />
+              <span className="font-mono text-xs tracking-wide">Most Reviewed</span>
+            </DropdownMenuItem>
+            {type === 'course' && (
+              <>
+                <DropdownMenuItem 
+                  onClick={() => setSortBy("easiest")}
+                  className="font-bold text-sm cursor-pointer hover:bg-primary/10 transition-colors duration-200 rounded-md gap-2"
+                >
+                  <Zap className="h-4 w-4 text-green-500" />
+                  <span className="font-mono text-xs tracking-wide">Easiest</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => setSortBy("hardest")}
+                  className="font-bold text-sm cursor-pointer hover:bg-primary/10 transition-colors duration-200 rounded-md gap-2"
+                >
+                  <Flame className="h-4 w-4 text-orange-500" />
+                  <span className="font-mono text-xs tracking-wide">Hardest</span>
+                </DropdownMenuItem>
+              </>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       {filteredItems.length === 0 ? (
