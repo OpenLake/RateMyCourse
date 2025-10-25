@@ -54,35 +54,37 @@ export default function Footer() {
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="h-8 gap-1.5 font-bold text-xs tracking-wide hover:scale-105 transition-all duration-300 hover:border-primary/50" 
+                className="h-8 gap-1.5 relative overflow-hidden group" 
                 asChild
               >
                 <Link href="https://github.com/OpenLake/RateMyCourse" target="_blank" rel="noopener noreferrer">
-                  <Star className="h-3.5 w-3.5" />
-                  <span>Star</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+                  <Star className="h-3.5 w-3.5 group-hover:rotate-12 group-hover:fill-primary/20 transition-all duration-300 relative" />
+                  <span className="relative font-mono">Star</span>
                 </Link>
               </Button>
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="h-8 gap-1.5 font-bold text-xs tracking-wide hover:scale-105 transition-all duration-300 hover:border-primary/50" 
+                className="h-8 gap-1.5 relative overflow-hidden group" 
                 asChild
               >
                 <Link href="https://github.com/OpenLake/RateMyCourse/fork" target="_blank" rel="noopener noreferrer">
-                  <GitFork className="h-3.5 w-3.5" />
-                  <span>Fork</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+                  <GitFork className="h-3.5 w-3.5 group-hover:scale-110 transition-transform duration-300 relative" />
+                  <span className="relative font-mono">Fork</span>
                 </Link>
               </Button>
               <Button 
                 variant="default" 
                 size="sm" 
-                className="h-8 gap-1.5 font-bold text-xs tracking-wide hover:scale-105 transition-all duration-300 relative overflow-hidden group" 
+                className="h-8 gap-1.5 relative overflow-hidden group" 
                 asChild
               >
                 <Link href="https://github.com/OpenLake/RateMyCourse/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-                  <Heart className="h-3.5 w-3.5 relative" />
-                  <span className="relative">Contribute</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+                  <Heart className="h-3.5 w-3.5 group-hover:scale-110 transition-transform duration-300 relative" />
+                  <span className="relative font-mono">Contribute</span>
                 </Link>
               </Button>
             </div>
@@ -93,8 +95,11 @@ export default function Footer() {
           <div className="md:col-span-1">
             <div className="flex flex-col space-y-4">
               <Link href="/" className="flex items-center gap-2 group">
-                <BookOpen className="h-6 w-6 text-primary group-hover:scale-110 transition-transform duration-300" />
-                <span className="font-black text-xl tracking-tight">RateMyCourse</span>
+                <BookOpen className="h-5 w-5 sm:h-6 sm:w-6 text-primary group-hover:rotate-12 transition-transform duration-300 relative z-10" />
+            <span className="font-black text-lg sm:text-xl tracking-tight group-hover:text-primary transition-colors duration-300 relative z-10">
+              <span className="hidden xs:inline">RateMyCourse</span>
+              <span className="xs:hidden font-mono">RateMyCourse</span>
+            </span>
               </Link>
               
               <div className="flex items-center mt-2">
@@ -115,7 +120,7 @@ export default function Footer() {
                 </Link>
               </div>
               
-              <p className="text-xs text-muted-foreground leading-relaxed tracking-wide">
+              <p className="text-xs text-muted-foreground leading-relaxed tracking-wide font-bold">
                 A student-driven initiative making course selection easier for students at IIT Bhilai. Built with open source collaboration.
               </p>
               
@@ -142,7 +147,7 @@ export default function Footer() {
                     <li key={link.label}>
                       <Link
                         href={link.href}
-                        className="text-sm font-medium text-muted-foreground hover:text-primary transition-all duration-300 flex items-center gap-1.5 group"
+                        className="text-sm font-bold text-muted-foreground hover:text-primary transition-all duration-300 flex items-center gap-1.5 group tracking-wide"
                         target={"external" in link && link.external ? "_blank" : undefined}
                         rel={"external" in link && link.external ? "noopener noreferrer" : undefined}
                       >
