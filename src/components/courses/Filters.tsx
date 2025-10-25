@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -62,10 +62,13 @@ export default function Filters({
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false);
   const [activeFiltersCount, setActiveFiltersCount] = useState<number>(0);
   const [value, setValue] = useState<string | undefined>(undefined);
+  const [isSticky, setIsSticky] = useState<boolean>(false);
+  const filterRef = useRef<HTMLDivElement>(null);
+  const [filterTop, setFilterTop] = useState<number>(0);
 
-    const handleChange = (newValue: string) => {
-    setValue(value === newValue ? undefined : newValue)
-  }
+  const handleChange = (newValue: string) => {
+    setValue(value === newValue ? undefined : newValue);
+  };
 
   // Update local state if external filters change (e.g., clear all)
   useEffect(() => {
@@ -74,6 +77,33 @@ export default function Filters({
     setLocalSelectedDifficulties(currentFilters.difficulties);
     setLocalRatingFilter([currentFilters.rating]);
   }, [currentFilters]);
+
+  // Calculate initial position and handle scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (filterRef.current) {
+        const rect = filterRef.current.getBoundingClientRect();
+        const scrollY = window.scrollY;
+
+        // Get the initial offset if not set
+        if (filterTop === 0 && !isSticky) {
+          setFilterTop(scrollY + rect.top);
+        }
+
+        // Check if we've scrolled past the filter's initial position
+        setIsSticky(scrollY > filterTop - 80); // 80px = top-20
+      }
+    };
+
+    // Calculate initial position
+    if (filterRef.current && filterTop === 0) {
+      const rect = filterRef.current.getBoundingClientRect();
+      setFilterTop(window.scrollY + rect.top);
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [filterTop, isSticky]);
 
   const handleDepartmentChange = (deptId: string): void => {
     setLocalSelectedDepartments((prev) => {
@@ -155,33 +185,42 @@ export default function Filters({
     return departmentProperties.find((dept) => dept.id === deptId);
   };
 
-  // Mobile Filters component remains largely the same but uses local state handlers
+  // Mobile Filters component
   const MobileFilters = (): JSX.Element => (
     <div
-      className={`fixed inset-0 z-50 bg-background ${
+      className={`fixed inset-0 z-50 bg-background/95 backdrop-blur-2xl ${
         isMobileFilterOpen ? "flex" : "hidden"
       } flex-col`}
     >
-      <div className="flex items-center justify-between p-4 border-b">
-        <h2 className="font-semibold text-lg">Filters</h2>
+      <div className="flex items-center justify-between p-4 border-b border-border/60">
+        <h2 className="font-black text-lg tracking-tight">Filters</h2>
         <Button
           variant="ghost"
           size="icon"
           onClick={() => setIsMobileFilterOpen(false)}
+          className="hover:bg-primary/10 transition-colors duration-300"
         >
           <X className="h-5 w-5" />
         </Button>
       </div>
       <div className="flex-1 overflow-auto p-4">
-        {/* FiltersContent now uses local state */}
         <FiltersContent />
       </div>
-      <div className="p-4 border-t flex gap-2">
-        <Button variant="outline" className="flex-1" onClick={clearAllFilters}>
-          Clear All
+      <div className="p-4 border-t border-border/60 flex gap-2">
+        <Button
+          variant="outline"
+          className="flex-1 relative overflow-hidden group"
+          onClick={clearAllFilters}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+          <span className="relative font-mono">Clear All</span>
         </Button>
-        <Button className="flex-1" onClick={applyFilters}>
-          Apply Filters ({activeFiltersCount})
+        <Button
+          className="flex-1 relative overflow-hidden group"
+          onClick={applyFilters}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+          <span className="relative font-mono">Apply ({activeFiltersCount})</span>
         </Button>
       </div>
     </div>
@@ -204,11 +243,11 @@ export default function Filters({
       </div>
 
       <Accordion
-      type="single"
-      collapsible
-      value={value}
-      onValueChange={handleChange}
-      className="w-full"
+        type="single"
+        collapsible
+        value={value}
+        onValueChange={handleChange}
+        className="w-full"
       >
         <AccordionItem value="department">
           <AccordionTrigger className="text-sm font-medium">
@@ -244,7 +283,7 @@ export default function Filters({
         </AccordionItem>
 
         {/* Difficulty section can be conditionally rendered based on type */}
-        {type === 'course' && (
+        {type === "course" && (
           <AccordionItem value="difficulty">
             <AccordionTrigger className="text-sm font-medium">
               Difficulty
@@ -354,7 +393,7 @@ export default function Filters({
               </Badge>
             );
           })}
-          
+
           {currentFilters.difficulties.map((diff) => {
             const diffLevel = difficultyLevels.find((d) => d.value === diff);
             if (!diffLevel) return null;
@@ -392,35 +431,53 @@ export default function Filters({
       <div className="lg:hidden mb-4">
         <Button
           variant="outline"
-          className="w-full flex justify-between"
+          className="w-full flex justify-between font-bold tracking-wide hover:scale-[1.01] transition-all duration-300 hover:border-primary/50 hover:bg-primary/5 relative overflow-hidden group"
           onClick={() => setIsMobileFilterOpen(true)}
         >
-          <div className="flex items-center">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+          <div className="flex items-center relative">
             <SlidersHorizontal className="h-4 w-4 mr-2" />
-            Filters
+            <span className="font-mono">Filters</span>
           </div>
           {activeFiltersCount > 0 && (
-            <Badge className="ml-2">{activeFiltersCount}</Badge>
+            <Badge className="ml-2 font-mono tabular-nums">
+              {activeFiltersCount}
+            </Badge>
           )}
         </Button>
         {isMobileFilterOpen && <MobileFilters />}
-        <ActiveFilters /> {/* Display active filters below button on mobile */}
+        <ActiveFilters />
       </div>
 
-      {/* Desktop Filters */}
-      <div className="hidden lg:block">
-        <div className="bg-card p-6 rounded-lg border shadow-sm sticky top-[calc(var(--header-height,64px)+1.5rem)] max-h-[calc(100vh-8rem)] overflow-y-auto">
-          <h3 className="font-medium text-lg mb-4">Filters</h3>
+      {/* Desktop Filters - Smooth sticky transition */}
+      <div className="hidden lg:block" ref={filterRef}>
+        <div
+          className={`bg-card/40 backdrop-blur-xl p-6 rounded-lg border border-border/60 shadow-sm hover:border-primary/30 hover:bg-card/50 scrollbar-thin transition-all duration-200 ease-out ${
+            isSticky
+              ? "fixed top-20 w-[320px] max-h-[calc(100vh-6rem)] overflow-y-auto z-40"
+              : "relative"
+          }`}
+        >
+          <h3 className="font-black text-lg tracking-tight mb-4">Filters</h3>
           <FiltersContent />
           <div className="mt-6 flex gap-2">
-            <Button variant="outline" className="flex-1" onClick={clearAllFilters}>
-              Clear All
+            <Button
+              variant="outline"
+              className="flex-1 relative overflow-hidden group"
+              onClick={clearAllFilters}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+              <span className="relative font-mono">Clear All</span>
             </Button>
-            <Button className="flex-1" onClick={applyFilters}>
-              Apply Filters
+            <Button
+              className="flex-1 relative overflow-hidden group"
+              onClick={applyFilters}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+              <span className="relative font-mono">Apply</span>
             </Button>
           </div>
-          <ActiveFilters /> {/* Display active filters within desktop view */}
+          <ActiveFilters />
         </div>
       </div>
     </>
