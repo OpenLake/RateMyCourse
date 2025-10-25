@@ -63,9 +63,9 @@ export default function Filters({
   const [activeFiltersCount, setActiveFiltersCount] = useState<number>(0);
   const [value, setValue] = useState<string | undefined>(undefined);
 
-    const handleChange = (newValue: string) => {
-    setValue(value === newValue ? undefined : newValue)
-  }
+  const handleChange = (newValue: string) => {
+    setValue(value === newValue ? undefined : newValue);
+  };
 
   // Update local state if external filters change (e.g., clear all)
   useEffect(() => {
@@ -155,86 +155,103 @@ export default function Filters({
     return departmentProperties.find((dept) => dept.id === deptId);
   };
 
-  // Mobile Filters component remains largely the same but uses local state handlers
+  // Mobile Filters component
   const MobileFilters = (): JSX.Element => (
     <div
-      className={`fixed inset-0 z-50 bg-background ${
+      className={`fixed inset-0 z-50 bg-background/95 backdrop-blur-2xl ${
         isMobileFilterOpen ? "flex" : "hidden"
       } flex-col`}
     >
-      <div className="flex items-center justify-between p-4 border-b">
-        <h2 className="font-semibold text-lg">Filters</h2>
+      <div className="flex items-center justify-between p-4 border-b border-border/60">
+        <h2 className="font-black text-lg tracking-tight">Filters</h2>
         <Button
           variant="ghost"
           size="icon"
           onClick={() => setIsMobileFilterOpen(false)}
+          className="hover:bg-primary/10 transition-colors duration-300"
         >
           <X className="h-5 w-5" />
         </Button>
       </div>
       <div className="flex-1 overflow-auto p-4">
-        {/* FiltersContent now uses local state */}
         <FiltersContent />
       </div>
-      <div className="p-4 border-t flex gap-2">
-        <Button variant="outline" className="flex-1" onClick={clearAllFilters}>
-          Clear All
+      <div className="p-4 border-t border-border/60 flex gap-2">
+        <Button
+          variant="outline"
+          className="flex-1 relative overflow-hidden group"
+          onClick={clearAllFilters}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+          <span className="relative font-mono">Clear All</span>
         </Button>
-        <Button className="flex-1" onClick={applyFilters}>
-          Apply Filters ({activeFiltersCount})
+        <Button
+          className="flex-1 relative overflow-hidden group"
+          onClick={applyFilters}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+          <span className="relative font-mono">Apply ({activeFiltersCount})</span>
         </Button>
       </div>
     </div>
   );
 
-  // FiltersContent component remains largely the same but uses local state/handlers
+  // FiltersContent component
   const FiltersContent = (): JSX.Element => (
     <div className="space-y-6">
       <div className="space-y-2">
-        <label htmlFor="search" className="text-sm font-medium">
+        <label
+          htmlFor="search"
+          className="text-[10px] font-mono font-bold uppercase tracking-[0.15em] text-muted-foreground"
+        >
           Search
         </label>
         <Input
           id="search"
           placeholder={`Search ${type}s...`}
-          className="w-full"
+          className="w-full font-bold border-border/60 focus:border-primary/50 transition-all duration-300 bg-card/50 backdrop-blur-sm"
           value={localSearchQuery}
           onChange={(e) => setLocalSearchQuery(e.target.value)}
         />
       </div>
 
       <Accordion
-      type="single"
-      collapsible
-      value={value}
-      onValueChange={handleChange}
-      className="w-full"
+        type="single"
+        collapsible
+        value={value}
+        onValueChange={handleChange}
+        className="w-full"
       >
-        <AccordionItem value="department">
-          <AccordionTrigger className="text-sm font-medium">
+        <AccordionItem value="department" className="border-border/60">
+          <AccordionTrigger className="text-[10px] font-mono font-bold uppercase tracking-[0.15em] hover:text-primary transition-colors duration-300">
             Department
           </AccordionTrigger>
           <AccordionContent>
-            {/* Department list already had overflow handling */}
-            <div className="space-y-2 max-h-60 overflow-y-auto pr-2">
+            <div className="space-y-2 max-h-60 overflow-y-auto pr-2 scrollbar-thin">
               {departmentProperties.map((department) => {
                 const DeptIcon = department.icon;
                 return (
-                  <div key={department.id} className="flex items-center space-x-2">
+                  <div key={department.id} className="flex items-center space-x-2 group">
                     <Checkbox
                       id={`department-${department.id}`}
                       checked={localSelectedDepartments.includes(department.id)}
                       onCheckedChange={() => handleDepartmentChange(department.id)}
+                      className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                     />
                     <label
                       htmlFor={`department-${department.id}`}
-                      className="text-sm leading-none flex items-center space-x-2 cursor-pointer"
+                      className="text-sm font-bold leading-none flex items-center space-x-2 cursor-pointer group-hover:text-primary transition-colors duration-300"
                     >
                       <DeptIcon
-                        className="h-4 w-4"
+                        className="h-4 w-4 transition-transform duration-300 group-hover:scale-110"
                         style={{ color: department.color }}
                       />
-                      <span>{department.name} ({department.id})</span> {/* Show name and ID */}
+                      <span>
+                        {department.name}{" "}
+                        <span className="font-mono text-xs text-muted-foreground">
+                          ({department.id})
+                        </span>
+                      </span>
                     </label>
                   </div>
                 );
@@ -243,26 +260,26 @@ export default function Filters({
           </AccordionContent>
         </AccordionItem>
 
-        {/* Difficulty section can be conditionally rendered based on type */}
-        {type === 'course' && (
-          <AccordionItem value="difficulty">
-            <AccordionTrigger className="text-sm font-medium">
+        {type === "course" && (
+          <AccordionItem value="difficulty" className="border-border/60">
+            <AccordionTrigger className="text-[10px] font-mono font-bold uppercase tracking-[0.15em] hover:text-primary transition-colors duration-300">
               Difficulty
             </AccordionTrigger>
             <AccordionContent>
               <div className="space-y-2">
                 {difficultyLevels.map((level) => (
-                  <div key={level.value} className="flex items-center space-x-2">
+                  <div key={level.value} className="flex items-center space-x-2 group">
                     <Checkbox
                       id={`difficulty-${level.value}`}
                       checked={localSelectedDifficulties.includes(level.value)}
                       onCheckedChange={() =>
                         handleDifficultyChange(level.value)
                       }
+                      className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                     />
                     <label
                       htmlFor={`difficulty-${level.value}`}
-                      className="text-sm leading-none cursor-pointer"
+                      className="text-sm font-bold leading-none cursor-pointer group-hover:text-primary transition-colors duration-300"
                     >
                       {level.label}
                     </label>
@@ -273,29 +290,31 @@ export default function Filters({
           </AccordionItem>
         )}
 
-        <AccordionItem value="rating">
-          <AccordionTrigger className="text-sm font-medium">
+        <AccordionItem value="rating" className="border-border/60">
+          <AccordionTrigger className="text-[10px] font-mono font-bold uppercase tracking-[0.15em] hover:text-primary transition-colors duration-300">
             Minimum Rating
           </AccordionTrigger>
           <AccordionContent>
             <div className="space-y-6 pt-2 px-2">
-              <Slider
-                value={localRatingFilter}
-                min={1}
-                max={5}
-                step={0.5}
-                onValueChange={(value) => setLocalRatingFilter(value)}
-                className="w-full"
-              />
-              <div className="flex justify-between text-xs">
+              <div className="space-y-2">
+                <Slider
+                  value={localRatingFilter}
+                  min={1}
+                  max={5}
+                  step={0.5}
+                  onValueChange={(value) => setLocalRatingFilter(value)}
+                  className="w-full cursor-grab active:cursor-grabbing"
+                />
+              </div>
+              <div className="flex justify-between text-[10px] font-mono font-bold text-muted-foreground">
                 <span>1</span>
                 <span>2</span>
                 <span>3</span>
                 <span>4</span>
                 <span>5</span>
               </div>
-              <div className="text-center font-medium">
-                {localRatingFilter[0]} stars and above
+              <div className="text-center font-black text-lg font-mono tabular-nums tracking-tighter text-primary">
+                {localRatingFilter[0]}★
               </div>
             </div>
           </AccordionContent>
@@ -304,30 +323,36 @@ export default function Filters({
     </div>
   );
 
-  // ActiveFilters component now uses parent state (`currentFilters`) and calls parent update function
+  // ActiveFilters component
   const ActiveFilters = (): JSX.Element | null => {
     if (activeFiltersCount === 0) return null;
 
     return (
-      <div className="mt-4">
-        <div className="flex justify-between items-center mb-2">
-          <h4 className="text-sm font-medium">Active Filters</h4>
+      <div className="mt-4 p-3 rounded-lg border border-border/60 bg-card/30 backdrop-blur-sm">
+        <div className="flex justify-between items-center mb-3">
+          <h4 className="text-[10px] font-mono font-bold uppercase tracking-[0.15em] text-muted-foreground">
+            Active Filters
+          </h4>
           <Button
             variant="ghost"
             size="sm"
-            className="h-8 text-xs"
-            onClick={clearAllFilters} // Use the clearing function
+            className="h-7 text-xs font-bold tracking-wide hover:text-primary hover:bg-primary/10 transition-all duration-300"
+            onClick={clearAllFilters}
           >
             Clear All
           </Button>
         </div>
-        {/* The active filter badges will now appear in the order of selection */}
         <div className="flex flex-wrap gap-2">
           {currentFilters.searchQuery && (
-            <Badge variant="outline" className="flex items-center gap-1">
-              <span>Search: {currentFilters.searchQuery}</span>
+            <Badge
+              variant="outline"
+              className="flex items-center gap-1.5 font-bold border-border/60 hover:border-primary/50 transition-colors duration-300 bg-card/50 backdrop-blur-sm"
+            >
+              <span className="text-xs font-mono">
+                Search: {currentFilters.searchQuery}
+              </span>
               <X
-                className="h-3 w-3 cursor-pointer"
+                className="h-3 w-3 cursor-pointer hover:text-primary transition-colors duration-300"
                 onClick={() =>
                   onFilterChange({ ...currentFilters, searchQuery: "" })
                 }
@@ -341,29 +366,37 @@ export default function Filters({
 
             const DeptIcon = dept.icon;
             return (
-              <Badge key={deptId} variant="outline" className="flex items-center gap-1">
+              <Badge
+                key={deptId}
+                variant="outline"
+                className="flex items-center gap-1.5 font-bold border-border/60 hover:border-primary/50 transition-colors duration-300 bg-card/50 backdrop-blur-sm"
+              >
                 <DeptIcon
-                  className="h-3 w-3 mr-1"
+                  className="h-3 w-3"
                   style={{ color: dept.color }}
                 />
-                <span>{dept.id}</span>
+                <span className="text-xs font-mono">{dept.id}</span>
                 <X
-                  className="h-3 w-3 cursor-pointer"
+                  className="h-3 w-3 cursor-pointer hover:text-primary transition-colors duration-300"
                   onClick={() => removeDepartmentFilter(deptId)}
                 />
               </Badge>
             );
           })}
-          
+
           {currentFilters.difficulties.map((diff) => {
             const diffLevel = difficultyLevels.find((d) => d.value === diff);
             if (!diffLevel) return null;
 
             return (
-              <Badge key={diff} variant="outline" className="flex items-center gap-1">
-                <span>{diffLevel.label}</span>
+              <Badge
+                key={diff}
+                variant="outline"
+                className="flex items-center gap-1.5 font-bold border-border/60 hover:border-primary/50 transition-colors duration-300 bg-card/50 backdrop-blur-sm"
+              >
+                <span className="text-xs">{diffLevel.label}</span>
                 <X
-                  className="h-3 w-3 cursor-pointer"
+                  className="h-3 w-3 cursor-pointer hover:text-primary transition-colors duration-300"
                   onClick={() => removeDifficultyFilter(diff)}
                 />
               </Badge>
@@ -371,13 +404,16 @@ export default function Filters({
           })}
 
           {currentFilters.rating !== 1 && (
-            <Badge variant="outline" className="flex items-center gap-1">
-              <span>Rating: {currentFilters.rating}+ stars</span>
+            <Badge
+              variant="outline"
+              className="flex items-center gap-1.5 font-bold border-border/60 hover:border-primary/50 transition-colors duration-300 bg-card/50 backdrop-blur-sm"
+            >
+              <span className="text-xs font-mono">{currentFilters.rating}★+</span>
               <X
-                className="h-3 w-3 cursor-pointer"
+                className="h-3 w-3 cursor-pointer hover:text-primary transition-colors duration-300"
                 onClick={() =>
                   onFilterChange({ ...currentFilters, rating: 1 })
-                } // Reset rating to default
+                }
               />
             </Badge>
           )}
@@ -392,35 +428,47 @@ export default function Filters({
       <div className="lg:hidden mb-4">
         <Button
           variant="outline"
-          className="w-full flex justify-between"
+          className="w-full flex justify-between font-bold tracking-wide hover:scale-[1.01] transition-all duration-300 hover:border-primary/50 hover:bg-primary/5 relative overflow-hidden group"
           onClick={() => setIsMobileFilterOpen(true)}
         >
-          <div className="flex items-center">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+          <div className="flex items-center relative">
             <SlidersHorizontal className="h-4 w-4 mr-2" />
-            Filters
+            <span className="font-mono">Filters</span>
           </div>
           {activeFiltersCount > 0 && (
-            <Badge className="ml-2">{activeFiltersCount}</Badge>
+            <Badge className="ml-2 font-mono tabular-nums">
+              {activeFiltersCount}
+            </Badge>
           )}
         </Button>
         {isMobileFilterOpen && <MobileFilters />}
-        <ActiveFilters /> {/* Display active filters below button on mobile */}
+        <ActiveFilters />
       </div>
 
       {/* Desktop Filters */}
       <div className="hidden lg:block">
-        <div className="bg-card p-6 rounded-lg border shadow-sm sticky top-[calc(var(--header-height,64px)+1.5rem)] max-h-[calc(100vh-8rem)] overflow-y-auto">
-          <h3 className="font-medium text-lg mb-4">Filters</h3>
+        <div className="bg-card/40 backdrop-blur-xl p-6 rounded-lg border border-border/60 shadow-sm sticky top-[calc(var(--header-height,64px)+1.5rem)] max-h-[calc(100vh-8rem)] overflow-y-auto hover:border-primary/30 hover:bg-card/50 transition-all duration-300">
+          <h3 className="font-black text-lg tracking-tight mb-4">Filters</h3>
           <FiltersContent />
           <div className="mt-6 flex gap-2">
-            <Button variant="outline" className="flex-1" onClick={clearAllFilters}>
-              Clear All
+            <Button
+              variant="outline"
+              className="flex-1 relative overflow-hidden group"
+              onClick={clearAllFilters}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+              <span className="relative font-mono">Clear All</span>
             </Button>
-            <Button className="flex-1" onClick={applyFilters}>
-              Apply Filters
+            <Button
+              className="flex-1 relative overflow-hidden group"
+              onClick={applyFilters}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+              <span className="relative font-mono">Apply</span>
             </Button>
           </div>
-          <ActiveFilters /> {/* Display active filters within desktop view */}
+          <ActiveFilters />
         </div>
       </div>
     </>
