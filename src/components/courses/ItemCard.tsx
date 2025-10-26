@@ -78,46 +78,48 @@ export default function ItemCard({ item, className, type }: ItemCardProps) {
 
   const DeptIcon = deptProps.icon || BookMarked;
 
-const ratings = [
-  { label: 'Overall', value: overallRating }, // already out of 5
-  {
-    label: type === 'course' ? 'Difficulty' : 'Knowledge',
-    value: rating1 ? rating1 / 2 : 0,  // convert 10 → 5
-  },
-  {
-    label: type === 'course' ? 'Workload' : 'Teaching',
-    value: rating2 ? rating2 / 2 : 0,  // convert 10 → 5
-  },
-];
-
+  const ratings = [
+    { label: 'Overall', value: overallRating },
+    {
+      label: type === 'course' ? 'Difficulty' : 'Knowledge',
+      value: rating1 ? rating1 / 2 : 0,
+    },
+    {
+      label: type === 'course' ? 'Workload' : 'Teaching',
+      value: rating2 ? rating2 / 2 : 0,
+    },
+  ];
 
   return (
     <Link href={link} className="block w-full group">
       <Card
-        className={`h-full overflow-hidden transition-all duration-300 border border-gray-200 dark:border-gray-700 ${
-          isHovered ? 'shadow-md translate-y-px' : 'shadow-sm'
+        className={`h-full overflow-hidden transition-all duration-300 border border-border/60 bg-card/40 backdrop-blur-sm hover:border-primary/50 hover:bg-card/60 hover:shadow-xl hover:shadow-primary/5 ${
+          isHovered ? 'scale-[1.02]' : 'scale-100'
         } ${className || ''}`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
+        {/* Department color accent bar */}
         <div
-          className="transition-all duration-300 h-1.5 group-hover:h-2"
-          style={{ backgroundColor: deptProps.color }}
+          className="transition-all duration-300 h-1"
+          style={{
+            background: `linear-gradient(90deg, ${deptProps.color} 0%, ${deptProps.color}80 100%)`,
+          }}
         />
 
-        <CardContent className="p-4 pt-5">
-          {/* Avatar or Icon */}
+        <CardContent className="p-4 pt-4">
+          {/* Header with Avatar/Icon */}
           <div className="flex items-start gap-3 mb-4">
             <div
-              className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center"
-              style={{ backgroundColor: `${deptProps.color}20` }}
+              className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+              style={{ backgroundColor: `${deptProps.color}15` }}
             >
               {type === 'course' ? (
-                <DeptIcon className="h-5 w-5" style={{ color: deptProps.color }} />
+                <DeptIcon className="h-6 w-6" style={{ color: deptProps.color }} />
               ) : (
-                <Avatar className="h-12 w-12">
+                <Avatar className="h-12 w-12 border-2 transition-all duration-300 group-hover:border-primary" style={{ borderColor: `${deptProps.color}40` }}>
                   <AvatarImage src={avatar} />
-                  <AvatarFallback>
+                  <AvatarFallback className="font-bold font-mono" style={{ backgroundColor: `${deptProps.color}20`, color: deptProps.color }}>
                     {title.replace('Dr.', '').split(' ').map((text, idx) => (
                       <span key={idx}>{text[0]}</span>
                     ))}
@@ -127,66 +129,66 @@ const ratings = [
             </div>
 
             <div className="flex-1 min-w-0">
-              <div className="flex items-start justify-between gap-2">
-                <h3 className="font-semibold text-lg line-clamp-1 text-gray-900 dark:text-gray-100">
-                  {title}
-                </h3>
-              </div>
+              <h3 className="font-black text-base line-clamp-2 tracking-tight leading-tight group-hover:text-primary transition-colors duration-300">
+                {title}
+              </h3>
 
-              <div className="flex items-center gap-2 mt-1">
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              <div className="flex items-center gap-2 mt-1.5">
+                <span className="text-xs font-bold font-mono tracking-wide text-muted-foreground">
                   {subtitle}
                 </span>
-                <span className="text-xs text-gray-500 dark:text-gray-400">•</span>
-                <span className="text-xs text-gray-500 dark:text-gray-400">
+                <span className="text-xs text-muted-foreground">•</span>
+                <span className="text-xs font-mono text-muted-foreground">
                   {reviewCount} {reviewCount === 1 ? 'Review' : 'Reviews'}
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Ratings */}
-          <div className="flex flex-col gap-1.5 mb-3 text-[13px] font-medium text-gray-700 dark:text-gray-300">
+          {/* Ratings with modern styling */}
+          <div className="flex flex-col gap-2 mb-3">
             {ratings.map(({ label, value }) => (
               <div
                 key={label}
-                className="flex items-center justify-between bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-md shadow-sm"
+                className="flex items-center justify-between bg-background/60 backdrop-blur-sm border border-border/40 px-3 py-2 rounded-md transition-all duration-200 hover:border-primary/30 hover:bg-primary/5"
               >
-                <span className="truncate">{label}:</span>
-                <div className="flex items-center gap-1">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.1em] text-muted-foreground truncate">{label}</span>
+                <div className="flex items-center gap-2">
                   <StarRating rating={value ?? 0} color={deptProps.color} />
-<span className="text-xs font-semibold text-gray-800 dark:text-gray-200">
-  {value !== null ? value.toFixed(1) : "N/A"}
-</span>
-
+                  <span className="text-xs font-black font-mono tabular-nums text-primary min-w-[2rem] text-right">
+                    {value !== null ? value.toFixed(1) : "N/A"}
+                  </span>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Meta info */}
-          <div className="grid grid-cols-2 gap-y-2 gap-x-4 mt-3">
-            <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
-              <BookOpen className="mr-2 h-4 w-4 text-gray-500 dark:text-gray-400" />
-              <span>
+          {/* Meta info with icons */}
+          <div className="flex items-center gap-3 mt-3 pt-3 border-t border-border/40">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground">
+              <BookOpen className="h-3.5 w-3.5" />
+              <span className="font-mono">
                 {subtext} {type === 'course' ? `Credits` : ``}
               </span>
             </div>
-            {type === 'course' && (
-              <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
-                <Users className="mr-2 h-4 w-4 text-gray-500 dark:text-gray-400" />
-                <span>{count} Professors</span>
-              </div>
+            {type === 'course' && count > 0 && (
+              <>
+                <span className="text-muted-foreground">•</span>
+                <div className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground">
+                  <Users className="h-3.5 w-3.5" />
+                  <span className="font-mono">{count} Profs</span>
+                </div>
+              </>
             )}
           </div>
         </CardContent>
 
-        <CardFooter className="px-4 py-3 bg-gray-50 dark:bg-gray-900 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center group-hover:bg-gray-100 dark:group-hover:bg-gray-800 transition-colors duration-200">
-          <div className="text-sm font-medium text-primary">
-            View {type.charAt(0).toUpperCase() + type.slice(1)} Details
+        <CardFooter className="px-4 py-3 bg-background/40 backdrop-blur-sm border-t border-border/40 flex justify-between items-center group-hover:bg-primary/5 transition-all duration-300">
+          <div className="text-xs font-bold font-mono tracking-wide text-primary">
+            View Details
           </div>
-          <div className="p-1 rounded-full bg-white dark:bg-gray-800 shadow-sm group-hover:translate-x-0.5 transition-all duration-200">
-            <ChevronRight className="h-4 w-4 text-primary" />
+          <div className="p-1.5 rounded-md bg-primary/10 group-hover:bg-primary/20 group-hover:translate-x-1 transition-all duration-300">
+            <ChevronRight className="h-3.5 w-3.5 text-primary" />
           </div>
         </CardFooter>
       </Card>
