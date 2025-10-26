@@ -285,7 +285,7 @@ export default function ItemList({ type, filters }: ItemListProps) {
   };
 
   return (
-    <div className="space-y-6">
+    <div>
       <div className="flex items-center justify-between flex-wrap gap-3">
         <p className="text-sm font-bold tracking-wide text-muted-foreground">
           Showing <span className="font-mono text-primary">{filteredItems.length}</span>{" "}
