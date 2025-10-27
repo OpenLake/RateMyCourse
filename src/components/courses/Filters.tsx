@@ -449,18 +449,12 @@ export default function Filters({
         <ActiveFilters />
       </div>
 
-      {/* Desktop Filters - Smooth sticky transition */}
-      <div className="hidden lg:block" ref={filterRef}>
-        <div
-          className={`bg-card/40 backdrop-blur-xl p-6 rounded-lg border border-border/60 shadow-sm hover:border-primary/30 hover:bg-card/50 scrollbar-thin transition-all duration-200 ease-out ${
-            isSticky
-              ? "fixed top-20 w-[320px] max-h-[calc(100vh-6rem)] overflow-y-auto z-40"
-              : "relative"
-          }`}
-        >
-          <h3 className="font-black text-lg tracking-tight mb-4">Filters</h3>
+      {/* Desktop Filters - Better positioning */}
+      <div className="hidden lg:block">
+        <div className="sticky top-6 bg-card/60 backdrop-blur-xl p-6 rounded-xl border border-border/60 shadow-lg hover:border-primary/30 hover:bg-card/70 transition-all duration-300 max-h-[calc(100vh-3rem)] overflow-y-auto scrollbar-thin">
+          <h3 className="font-black text-xl tracking-tight mb-6 text-foreground">Filters</h3>
           <FiltersContent />
-          <div className="mt-6 flex gap-2">
+          <div className="mt-6 flex gap-2 pt-6 border-t border-border/40">
             <Button
               variant="outline"
               className="flex-1 relative overflow-hidden group"
