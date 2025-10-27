@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BookOpen, Github, Star, GitFork, Heart, ExternalLink, Code } from 'lucide-react';
+import { BookOpen, Github, Star, GitFork, Heart, ExternalLink, Code2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
@@ -13,7 +13,7 @@ export default function Footer() {
         { label: 'Courses', href: '/courses' },
         { label: 'Professors', href: '/professors' },
         { label: 'About', href: '/about' },
-        { label: 'Contribute', href: 'https://github.com/OpenLake/RateMyCourse/blob/main/CONTRIBUTING.md' },
+        { label: 'Contribute', href: 'https://github.com/OpenLake/RateMyCourse/blob/main/CONTRIBUTION.md' },
       ],
     },
     {
@@ -44,7 +44,7 @@ export default function Footer() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <div className="p-2 rounded-md bg-primary/10">
-                <Code className="h-4 w-4 text-primary" />
+                <Code2 className="h-4 w-4 text-primary" />
               </div>
               <p className="text-sm font-bold tracking-wide">
                 Open Source Project — Contributions Welcome!
@@ -81,7 +81,7 @@ export default function Footer() {
                 className="h-8 gap-1.5 relative overflow-hidden group" 
                 asChild
               >
-                <Link href="https://github.com/OpenLake/RateMyCourse/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">
+                <Link href="https://github.com/OpenLake/RateMyCourse/blob/main/CONTRIBUTION.md" target="_blank" rel="noopener noreferrer">
                   <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
                   <Heart className="h-3.5 w-3.5 group-hover:scale-110 transition-transform duration-300 relative" />
                   <span className="relative font-mono">Contribute</span>
