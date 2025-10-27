@@ -14,6 +14,7 @@ import {
 } from "../lib/supabase-auth";
 import { useRouter } from "next/navigation";
 import { User } from "@supabase/supabase-js";
+// 👇 **MODIFIED LINE: Import the original shared client**
 import { supabase } from "@/lib/supabase";
 
 interface AuthContextType {
@@ -36,31 +37,32 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isReady, setIsReady] = useState<boolean>(false);
   const router = useRouter();
-  
+
   useEffect(() => {
-  let isMounted = true;
+    let isMounted = true;
 
-  const getInitialSession = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!isMounted) return;
+    const getInitialSession = async () => {
+      // This will now use the correct shared client
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!isMounted) return;
 
-    if (session?.user) {
-      console.log("✅ Initial session found", session.user);
-      setUser(session.user);
+      if (session?.user) {
+        console.log("✅ Initial session found", session.user);
+        setUser(session.user);
 
-      const { anonymousId, error: idError } = await getAnonymousId();
-      if (!idError) setAnonymousId(anonymousId);
-    } else {
-      console.log("❌ No session found");
-    }
+        const { anonymousId, error: idError } = await getAnonymousId();
+        if (!idError) setAnonymousId(anonymousId);
+      } else {
+        console.log("❌ No session found");
+      }
 
-    setIsLoading(false);
-    setIsReady(true);
-  };
+      setIsLoading(false);
+      setIsReady(true);
+    };
 
-  getInitialSession();
+    getInitialSession();
 
-
+    // This will now use the correct shared client
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log("Auth state changed:", event, session);
@@ -92,10 +94,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const signInWithGoogle = async () => {
     setIsLoading(true);
+    // This will now use the correct shared client
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        // ✅ Fixed string interpolation bug here
         redirectTo: `${window.location.origin}/auth/callback`,
       },
     });
@@ -107,6 +109,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const signOut = async () => {
     setIsLoading(true);
+    // This will now use the correct shared client
     await supabase.auth.signOut();
     setUser(null);
     setAnonymousId(null);
@@ -129,7 +132,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         isLoading,
         isReady,
         isAuthenticated: !!user,
-        // isAuthenticated:true, // --- IGNORE ---
         signIn,
         signInWithGoogle,
         signOut,
