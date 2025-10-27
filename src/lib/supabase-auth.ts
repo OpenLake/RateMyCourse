@@ -1,6 +1,7 @@
 // lib/supabase-auth.ts
 import { generateAnonymousIdentity, verifyAnonymousIdentity, AnonymousUser } from './anonymization';
 import * as crypto from 'crypto';
+// 👇 **MODIFIED LINE: Import the original shared client**
 import { supabase } from './supabase';
 
 /**
@@ -14,27 +15,30 @@ export const signInWithMagicLink = async (email: string): Promise<{error: any | 
       emailRedirectTo: `${window.location.origin}/auth/callback`,
     },
   });
-  
+
   return { error };
 };
 
 /**
- * Process after user clicks magic link and handle anonymous identity creation
+ * Process after user clicks magic link OR completes OAuth and handle anonymous identity creation
  */
 export const handleAuthCallback = async (): Promise<{user: any, anonymousId: string | null, error: any | null}> => {
-  // 👇 Wait until Supabase returns a non-null session (max 2 seconds)
+  // 👇 Wait until Supabase returns a session with a user ID (max 2 seconds)
   let session = null;
-for (let i = 0; i < 10; i++) {
-  const { data } = await supabase.auth.getSession();
-  console.log(`Attempt ${i}:`, data?.session);
-  session = data?.session;
-  if (session?.user?.email) break;
-  await new Promise((r) => setTimeout(r, 200));
-}
+  for (let i = 0; i < 10; i++) {
+    // This getSession() call will now use the correct shared client
+    const { data } = await supabase.auth.getSession();
+    console.log(`Callback Attempt ${i}:`, data?.session);
+    session = data?.session;
+    // ✅ Primarily check for user ID to confirm session
+    if (session?.user?.id) break;
+    await new Promise((r) => setTimeout(r, 200));
+  }
 
 
-  // ❌ Still no session after retrying
-  if (!session?.user?.email) {
+  // ❌ Still no session with a user ID after retrying
+  if (!session?.user?.id) {
+    console.error('No valid session with user ID after waiting.');
     return {
       user: null,
       anonymousId: null,
@@ -42,6 +46,17 @@ for (let i = 0; i < 10; i++) {
     };
   }
 
+  // ❓ Check if email exists for anonymous ID generation
+  if (!session.user.email) {
+    console.error('Session obtained, but user email is missing.');
+    return {
+      user: session.user, // Return the user object we have
+      anonymousId: null,
+      error: new Error('User email is required for anonymous identity generation.'),
+    };
+  }
+
+  // --- Proceed with anonymous identity generation and storage ---
   const { anonymousId, verificationToken } = await generateAnonymousIdentity(session.user.email);
 
   // Add additional entropy with a second salt layer
@@ -55,24 +70,26 @@ for (let i = 0; i < 10; i++) {
     'sha512'
   ).toString('hex');
 
-  // ✅ Only now insert into `users` table (after session is confirmed)
+  // ✅ Upsert into `users` table using the confirmed user ID
   const { error: dbError } = await supabase
     .from('users')
     .upsert(
       {
-        auth_id: session.user.id,
+        auth_id: session.user.id, // Use the confirmed user ID
         anonymous_id: anonymousId,
         verification_hash: doubleHashedToken,
         salt: secondarySalt,
         created_at: new Date(),
       },
-      { onConflict: 'auth_id' }
+      { onConflict: 'auth_id' } // Use auth_id for conflict resolution
     );
 
   if (dbError) {
+    console.error("Error upserting user:", dbError);
     return { user: session.user, anonymousId: null, error: dbError };
   }
 
+  console.log("✅ User upserted successfully, anonymousId:", anonymousId);
   return {
     user: session.user,
     anonymousId,
@@ -85,22 +102,28 @@ for (let i = 0; i < 10; i++) {
  * Get user's anonymous ID without exposing their email
  */
 export const getAnonymousId = async (): Promise<{anonymousId: string | null, error: any | null}> => {
+  // This will now use the correct shared client
   const { data: { session }, error } = await supabase.auth.getSession();
-  
+
   if (error || !session?.user?.id) {
     return { anonymousId: null, error: error || new Error('No session found') };
   }
-  
+
   // Query the users table using auth ID
   const { data, error: dbError } = await supabase
     .from('users')
     .select('anonymous_id')
     .eq('auth_id', session.user.id)
-   .maybeSingle();
-  
-  if (dbError || !data) {
-    return { anonymousId: null, error: dbError || new Error('No anonymous ID found') };
+    .maybeSingle();
+
+  if (dbError) {
+     console.error("DB Error fetching anonymous ID:", dbError);
+     return { anonymousId: null, error: dbError };
   }
-  
+  if (!data) {
+      console.warn("No anonymous ID found for auth_id:", session.user.id);
+      return { anonymousId: null, error: new Error('Anonymous ID not found for this user.') };
+  }
+
   return { anonymousId: data.anonymous_id, error: null };
 };

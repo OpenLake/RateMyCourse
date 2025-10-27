@@ -2,8 +2,9 @@
 -- This script creates all required tables with appropriate relationships and RLS policies
 
 -- Enable necessary extensions
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+-- Make sure to enable these in the 'extensions' schema
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA extensions;
+CREATE EXTENSION IF NOT EXISTS "pgcrypto" WITH SCHEMA extensions;
 
 -- Drop tables if they exist (for clean migrations)
 DROP TABLE IF EXISTS flags;
@@ -480,6 +481,15 @@ CREATE POLICY flag_update ON flags
 CREATE POLICY flag_delete ON flags 
   FOR DELETE USING (is_admin());
 
+-- 
+-- 
+-- 
+-- 
+-- THIS IS THE CORRECTED FUNCTION
+-- 
+-- 
+-- 
+-- 
 -- Create function to create an anonymous user on signup
 CREATE OR REPLACE FUNCTION handle_new_user()
 RETURNS TRIGGER AS $$
@@ -488,10 +498,12 @@ DECLARE
   new_hash TEXT;
 BEGIN
   -- Generate a salt
-  new_salt := encode(gen_random_bytes(16), 'hex');
+  -- We explicitly call the function inside the 'extensions' schema
+  new_salt := encode(extensions.gen_random_bytes(16), 'hex');
   
   -- Create verification hash (placeholder)
-  new_hash := encode(digest(NEW.email || new_salt, 'sha256'), 'hex');
+  -- We explicitly call the function inside the 'extensions' schema
+  new_hash := encode(extensions.digest(NEW.email || new_salt, 'sha256'), 'hex');
   
   -- Insert new user
   INSERT INTO public.users (auth_id, verification_hash, salt)
@@ -505,3 +517,4 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION handle_new_user();
+  
