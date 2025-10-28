@@ -285,10 +285,10 @@ export default function ItemList({ type, filters }: ItemListProps) {
   };
 
   return (
-    <div>
-      <div className="flex items-center justify-between flex-wrap gap-3">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between flex-wrap gap-3 bg-card/40 backdrop-blur-sm border border-border/60 rounded-xl p-4">
         <p className="text-sm font-bold tracking-wide text-muted-foreground">
-          Showing <span className="font-mono text-primary">{filteredItems.length}</span>{" "}
+          Showing <span className="font-mono text-primary text-lg">{filteredItems.length}</span>{" "}
           {filteredItems.length === 1 ? type : `${type}s`}
         </p>
         
@@ -346,24 +346,35 @@ export default function ItemList({ type, filters }: ItemListProps) {
       </div>
 
       {filteredItems.length === 0 ? (
-        <div className="text-center py-10 text-muted-foreground">
-          No {type}s match the current filters. Try adjusting your selections.
+        <div className="text-center py-20 bg-card/40 backdrop-blur-sm border border-border/60 rounded-xl">
+          <p className="text-muted-foreground font-bold text-lg mb-2">No {type}s found</p>
+          <p className="text-sm text-muted-foreground">Try adjusting your filters</p>
         </div>
       ) : type === "course" && groupedCourses && groupedCourses.length > 0 ? (
-        <div className="space-y-6">
+        <div className="space-y-12">
           {groupedCourses.map((group) => (
-            <section key={group.id} className="space-y-3">
-              <h2 className="text-3xl font-semibold py-8 ">{group.name}</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <section key={group.id} className="space-y-6">
+              <div className="flex items-center gap-4">
+                <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent" />
+                <h2 className="text-3xl sm:text-4xl font-black tracking-tight font-mono text-primary px-4">
+                  {group.name}
+                </h2>
+                <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent" />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {group.items.map((course) => (
-                  <ItemCard key={course.id} type={type} item={course} className="shadow-md transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl" />
+                  <ItemCard 
+                    key={course.id} 
+                    type={type} 
+                    item={course}
+                  />
                 ))}
               </div>
             </section>
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredItems.map((item: Course | Professor) => (
             <ItemCard type={type} item={item} key={item.id} />
           ))}
