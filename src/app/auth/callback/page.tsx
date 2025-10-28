@@ -1,23 +1,23 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { handleAuthCallback } from '@/lib/supabase-auth';
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function AuthCallback() {
   const router = useRouter();
-  const { refreshAnonymousId } = useAuth(); // ❌ don't wait for context `isReady` or `user`
+  const { refreshAnonymousId } = useAuth();
   const [message, setMessage] = useState("Processing login...");
   const [error, setError] = useState<string | null>(null);
-  const [hasRun, setHasRun] = useState(false);
+  const hasRun = useRef(false);
 
   useEffect(() => {
     let mounted = true;
 
     const processAuth = async () => {
-      if (!mounted || hasRun) return;
-      setHasRun(true);
+      if (!mounted || hasRun.current) return;
+      hasRun.current = true;
 
       try {
         const { user, anonymousId, error } = await handleAuthCallback();
@@ -43,13 +43,15 @@ export default function AuthCallback() {
         }
 
         setMessage('Authentication successful! Redirecting...');
-        await refreshAnonymousId();
+        
+        // This will now complete without interruption
+        await refreshAnonymousId(); 
 
         window.history.replaceState({}, document.title, window.location.pathname);
 
-        setTimeout(() => {
-          router.push('/auth/verify');
-        }, 1000);
+        // Redirecting immediately
+        router.push('/auth/verify');
+
       } catch (err) {
         setMessage('Unexpected error.');
         setError(err instanceof Error ? err.message : 'Unknown error');
@@ -61,7 +63,12 @@ export default function AuthCallback() {
     return () => {
       mounted = false;
     };
-  }, [router, refreshAnonymousId, hasRun]);
+    
+  // HIGHLIGHT-START
+  // Removed `refreshAnonymousId` from the dependency array.
+  // This ensures the effect runs ONLY once on page load.
+  }, [router]);
+  // HIGHLIGHT-END
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-4">

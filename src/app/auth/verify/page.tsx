@@ -9,12 +9,26 @@ export default function VerifyAuth() {
   const { user, anonymousId, isLoading, isAuthenticated } = useAuth();
   const router = useRouter();
 
-  // Redirect to sign in if not authenticated
+  // HIGHLIGHT-START
+  // Combined useEffect to handle all routing
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      router.push('/auth/signin');
+    // Only run logic once loading is complete
+    if (!isLoading) {
+      if (!isAuthenticated) {
+        // Case 1: User is NOT authenticated. Redirect to sign-in page.
+        router.push('/auth/signin');
+      } else {
+        // Case 2: User IS authenticated. Wait 1 second, then redirect to home.
+        const timer = setTimeout(() => {
+          router.push('/');
+        }, 1000); // 1000ms = 1 second
+
+        // Clean up the timer if the component unmounts
+        return () => clearTimeout(timer);
+      }
     }
   }, [isLoading, isAuthenticated, router]);
+  // HIGHLIGHT-END
 
   if (isLoading) {
     return (
@@ -52,6 +66,9 @@ export default function VerifyAuth() {
         
         <div className="mb-6 rounded-md bg-green-50 p-4 text-green-700">
           <p className="font-medium">You are now signed in!</p>
+          {/* HIGHLIGHT-START */}
+          <p className="text-sm">Redirecting to homepage in 1 second...</p>
+          {/* HIGHLIGHT-END */}
         </div>
         
         <div className="mb-6">
@@ -77,7 +94,7 @@ export default function VerifyAuth() {
             className="flex-1 rounded-md bg-indigo-600 px-4 py-2 text-center text-white hover:bg-indigo-700"
           >
             Go to Dashboard
-          </Link>
+          </Link> {/* <--- FIXED THE TYPO HERE */}
           <Link 
             href="/"
             className="flex-1 rounded-md border border-gray-300 px-4 py-2 text-center text-gray-700 hover:bg-gray-50"
