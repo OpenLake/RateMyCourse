@@ -101,7 +101,7 @@ export default function Home() {
                   autoStart: true,
                   loop: true,
                   delay: 75,
-                  deleteSpeed: 10,
+                  deleteSpeed:20,
                   cursor: "|",
                 }}
                 onInit={(typewriter) => {
