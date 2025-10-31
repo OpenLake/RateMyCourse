@@ -23,7 +23,7 @@ export const signInWithMagicLink = async (email: string): Promise<{error: any | 
  * Process after user clicks magic link OR completes OAuth and handle anonymous identity creation
  */
 export const handleAuthCallback = async (): Promise<{user: any, anonymousId: string | null, error: any | null}> => {
-  // 👇 Wait until Supabase returns a session with a user ID (max 2 seconds)
+  // 👇 Wait until Supabase returns a session with a user ID (max 0.5 seconds)
   let session = null;
   for (let i = 0; i < 10; i++) {
     // This getSession() call will now use the correct shared client
@@ -32,7 +32,8 @@ export const handleAuthCallback = async (): Promise<{user: any, anonymousId: str
     session = data?.session;
     // ✅ Primarily check for user ID to confirm session
     if (session?.user?.id) break;
-    await new Promise((r) => setTimeout(r, 200));
+    // This is the 50ms delay I added last time, which is fine.
+    await new Promise((r) => setTimeout(r, 50));
   }
 
 
@@ -62,13 +63,17 @@ export const handleAuthCallback = async (): Promise<{user: any, anonymousId: str
   // Add additional entropy with a second salt layer
   const secondarySalt = crypto.randomBytes(32).toString('hex');
 
+  // HIGHLIGHT-START
+  // This is the main source of the delay.
+  // Reduced iterations from 50000 to 5000 for a 10x speed boost.
   const doubleHashedToken = crypto.pbkdf2Sync(
     verificationToken,
     secondarySalt,
-    50000, // Additional iterations
+    5000, // Additional iterations (was 50000)
     64,
     'sha512'
   ).toString('hex');
+  // HIGHLIGHT-END
 
   // ✅ Upsert into `users` table using the confirmed user ID
   const { error: dbError } = await supabase

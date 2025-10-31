@@ -38,43 +38,45 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [isReady, setIsReady] = useState<boolean>(false);
   const router = useRouter();
 
+  // HIGHLIGHT-START
   useEffect(() => {
     let isMounted = true;
 
-    const getInitialSession = async () => {
-      // This will now use the correct shared client
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!isMounted) return;
-
-      if (session?.user) {
-        console.log("✅ Initial session found", session.user);
-        setUser(session.user);
-
-        const { anonymousId, error: idError } = await getAnonymousId();
-        if (!idError) setAnonymousId(anonymousId);
-      } else {
-        console.log("❌ No session found");
-      }
-
-      setIsLoading(false);
-      setIsReady(true);
-    };
-
-    getInitialSession();
-
-    // This will now use the correct shared client
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log("Auth state changed:", event, session);
         if (!isMounted) return;
 
-        if (event === "SIGNED_IN" && session?.user) {
+        let sessionLoaded = false;
+
+        // This event fires on initial page load if a session exists
+        if (event === "INITIAL_SESSION" && session?.user) {
           setUser(session.user);
+          // On initial load, we can safely get the existing ID
           const { anonymousId, error: idError } = await getAnonymousId();
           if (!idError) setAnonymousId(anonymousId);
-        } else if (event === "SIGNED_OUT") {
+          sessionLoaded = true;
+        } 
+        // This event fires ONLY when a new login happens
+        else if (event === "SIGNED_IN" && session?.user) {
+          setUser(session.user);
+          // DO NOT call getAnonymousId here.
+          // The auth/callback page is responsible for creating the ID
+          // and will call refreshAnonymousId() itself.
+          sessionLoaded = true;
+        } 
+        else if (event === "SIGNED_OUT") {
           setUser(null);
           setAnonymousId(null);
+          sessionLoaded = true;
+        }
+
+        // Set ready state only after we've processed an auth event
+        if (sessionLoaded || event === "INITIAL_SESSION" /* (even if no user) */) {
+          if (isMounted) {
+            setIsLoading(false);
+            setIsReady(true);
+          }
         }
       }
     );
@@ -84,6 +86,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       authListener?.subscription?.unsubscribe();
     };
   }, []);
+  // HIGHLIGHT-END
 
   const signIn = async (email: string) => {
     setIsLoading(true);

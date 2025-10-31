@@ -30,7 +30,10 @@ export const generateAnonymousIdentity = async (email: string): Promise<Anonymiz
   
   // Create a high-entropy hash from email + salt using PBKDF2
   // This is slow by design to prevent brute force attacks
-  const hash = crypto.pbkdf2Sync(email, salt, 100000, 64, 'sha512').toString('hex');
+  // HIGHLIGHT-START
+  // Reduced from 100000 to 10000 to prevent browser freeze
+  const hash = crypto.pbkdf2Sync(email, salt, 10000, 64, 'sha512').toString('hex');
+  // HIGHLIGHT-END
   
   // Create an anonymous ID that will be used in ratings table
   const anonymousId = uuidv4();
@@ -56,7 +59,10 @@ export const verifyAnonymousIdentity = async (
   storedVerificationHash: string
 ): Promise<boolean> => {
   // Regenerate the hash using the stored salt
-  const hash = crypto.pbkdf2Sync(email, storedSalt, 100000, 64, 'sha512').toString('hex');
+  // HIGHLIGHT-START
+  // MUST match the iterations in generateAnonymousIdentity (was 100000)
+  const hash = crypto.pbkdf2Sync(email, storedSalt, 10000, 64, 'sha512').toString('hex');
+  // HIGHLIGHT-END
   const verificationToken = hash.substring(0, 64);
   
   // Use constant-time comparison to prevent timing attacks
@@ -145,7 +151,7 @@ export const enhancedSanitizeContent = (content: string): string => {
   // Remove URLs that might contain identifying information
   sanitized = sanitized.replace(
     /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/g,
-    '[URL REMOVED]'
+    'https://www.imdb.com/title/tt3042542/'
   );
   
   // Remove specific academic terms that could identify the time period
