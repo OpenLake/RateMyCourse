@@ -4,14 +4,19 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { BookOpen, Users } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-import Typewriter from 'typewriter-effect';
+import dynamic from 'next/dynamic';
+
+// Import Typewriter dynamically to prevent SSR issues
+const Typewriter = dynamic(() => import('typewriter-effect'), { ssr: false });
 
 export default function Home() {
   const [reviewCount, setReviewCount] = useState<number | null>(null);
   const [courseCount, setCourseCount] = useState<number | null>(null);
   const [professorCount, setProfessorCount] = useState<number | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     const fetchCounts = async () => {
       // Fetch course count
       const { count: coursesCnt, error: coursesError } = await supabase
@@ -82,37 +87,39 @@ export default function Home() {
               Rate Courses at{" "}
               <span className="font-mono font-black text-primary tracking-tighter">IIT_Bhilai</span>
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-xl mx-auto font-bold tracking-wide leading-relaxed px-4">
-              {/* Wondering if that course is worth it? Let the real student reviews spill the tea! */}
-              <Typewriter
-                options={{
-                  strings: [
-                    "Because GPA isn’t everything.",
-                    "So you don’t fall for 'easy A' myths again.",
-                    "One bad course review at a time.",
-                    "Save a friend from a 3-hour lecture trap.",
-                    "Because 'attendance 100%' doesn’t mean fun.",
-                    "Real pain. Real reviews. Real IIT_Bhilai.",
-                    "Helping you dodge surprise quizzes since 2025.",
-                    "Know before you cry in midsems.",
-                    "Rate. Rant. Repeat.",
-                    "Your emotional support platform for electives."
-                  ],
-                  autoStart: true,
-                  loop: true,
-                  delay: 75,
-                  deleteSpeed:20,
-                  cursor: "|",
-                }}
-                onInit={(typewriter) => {
-                  typewriter
-                    .pauseFor(1000)
-                    .deleteAll()
-                    .start()
-                }}
-              />
-
-            </p>
+            <div className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-xl mx-auto font-bold tracking-wide leading-relaxed px-4 min-h-[4rem] flex items-center justify-center">
+              {isMounted ? (
+                <Typewriter
+                  options={{
+                    strings: [
+                      "Because GPA isn't everything.",
+                      "So you don't fall for 'easy A' myths again.",
+                      "One bad course review at a time.",
+                      "Save a friend from a 3-hour lecture trap.",
+                      "Because 'attendance 100%' doesn't mean fun.",
+                      "Real pain. Real reviews. Real IIT_Bhilai.",
+                      "Helping you dodge surprise quizzes since 2025.",
+                      "Know before you cry in midsems.",
+                      "Rate. Rant. Repeat.",
+                      "Your emotional support platform for electives."
+                    ],
+                    autoStart: true,
+                    loop: true,
+                    delay: 75,
+                    deleteSpeed: 20,
+                    cursor: "|",
+                  }}
+                  onInit={(typewriter) => {
+                    typewriter
+                      .pauseFor(1000)
+                      .deleteAll()
+                      .start()
+                  }}
+                />
+              ) : (
+                <span className="opacity-0">Loading...</span>
+              )}
+            </div>
           </div>
 
           {/* <div className="flex flex-col sm:flex-row w-full max-w-2xl gap-3 mt-4">
