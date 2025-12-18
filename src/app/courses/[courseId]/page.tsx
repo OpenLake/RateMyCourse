@@ -13,18 +13,40 @@ export default function CoursePage({ params }: { params: { courseId: string } })
   const { courses, isLoading } = useCourses();
   const [averageRating, setAverageRating] = useState(0);
   const [reviewCount, setReviewCount] = useState(0);
+  const [courseUUID, setCourseUUID] = useState<string | null>(null);
 
   const course = courses.find((course) => course.id === params.courseId);
 
+  /* ---------- Fetch Course UUID from Supabase ---------- */
+  useEffect(() => {
+    if (!course?.code) return;
+
+    const fetchCourseUUID = async () => {
+      const { data, error } = await supabase
+        .from('courses')
+        .select('id')
+        .eq('code', course.code.toUpperCase())
+        .single();
+
+      if (data && !error) {
+        setCourseUUID(data.id);
+      } else {
+        console.error('Error fetching course UUID:', error);
+      }
+    };
+
+    fetchCourseUUID();
+  }, [course?.code]);
+
   /* ---------- Fetch Ratings to Compute Avg + Count ---------- */
   useEffect(() => {
-    if (!course?.id) return;
+    if (!courseUUID) return;
 
     const fetchRatings = async () => {
       const { data, error } = await supabase
-        .from("ratings")
-        .select("overall_rating")
-        .eq("target_id", course.id)
+        .from("reviews")
+        .select("rating_value")
+        .eq("target_id", courseUUID)
         .eq("target_type", "course");
 
       if (error) {
@@ -33,7 +55,7 @@ export default function CoursePage({ params }: { params: { courseId: string } })
       }
 
       if (data && data.length > 0) {
-        const total = data.reduce((sum, r) => sum + (r.overall_rating || 0), 0);
+        const total = data.reduce((sum, r) => sum + (r.rating_value || 0), 0);
         const avg = total / data.length;
         setAverageRating(parseFloat(avg.toFixed(1)));
         setReviewCount(data.length);
@@ -44,7 +66,7 @@ export default function CoursePage({ params }: { params: { courseId: string } })
     };
 
     fetchRatings();
-  }, [course?.id]);
+  }, [courseUUID]);
 
   if (isLoading) {
     return <Example />;
@@ -75,7 +97,7 @@ export default function CoursePage({ params }: { params: { courseId: string } })
 
           {/* Reviews Section with modern container */}
           <div className="rounded-2xl p-6 backdrop-blur-md shadow-xl transition-all duration-300 border border-border bg-gradient-to-b from-background to-muted/40 hover:shadow-primary/20">
-            <CoursePageReviews id={course.id} reviewCount={reviewCount} />
+            <CoursePageReviews id={courseUUID || course.id} reviewCount={reviewCount} />
           </div>
         </div>
 
@@ -83,7 +105,7 @@ export default function CoursePage({ params }: { params: { courseId: string } })
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-8 space-y-6">
             <div className="rounded-2xl p-6 backdrop-blur-md shadow-xl transition-all duration-300 border border-border bg-gradient-to-b from-background to-muted/40 hover:shadow-primary/20">
-              <RateThisCourse courseId={course.id} />
+              {courseUUID && <RateThisCourse courseId={courseUUID} />}
             </div>
           </div>
         </div>

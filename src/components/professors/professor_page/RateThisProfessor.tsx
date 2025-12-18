@@ -131,7 +131,7 @@ const RateThisProfessor = ({ professor }: { professor: Professor }) => {
       if (!anonymousId) return;
 
       const { data: existing } = await supabase
-        .from("ratings")
+        .from("reviews")
         .select("id")
         .eq("anonymous_id", anonymousId)
         .eq("target_id", professor.id) // professor.id as target_id
@@ -172,7 +172,7 @@ const RateThisProfessor = ({ professor }: { professor: Professor }) => {
       const anonymousId = anonRow.anonymous_id;
 
       const { data: existing, error: existError } = await supabase
-        .from("ratings")
+        .from("reviews")
         .select("id")
         .eq("anonymous_id", anonymousId)
         .eq("target_id", professor.id)
@@ -195,15 +195,15 @@ const RateThisProfessor = ({ professor }: { professor: Professor }) => {
         anonymous_id: anonymousId,
         target_id: professor.id,
         target_type: "professor",
-        overall_rating: overallRating,
-        knowledge_rating: knowledge,
-        teaching_rating: teaching,
-        approachability_rating: approachability,
+        rating_value: Math.round(overallRating), // Round to nearest integer (1-5)
+        knowledge_rating: Math.round(knowledge / 2), // Scale from 1-10 to 1-5
+        teaching_rating: Math.round(teaching / 2), // Scale from 1-10 to 1-5
+        approachability_rating: Math.round(approachability / 2), // Scale from 1-10 to 1-5
         created_at: new Date().toISOString(),
       };
 
       const { error: insertError } = await supabase
-        .from("ratings")
+        .from("reviews")
         .insert(payload);
 
       if (insertError) {

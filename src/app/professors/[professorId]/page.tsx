@@ -24,8 +24,8 @@ export default function ProfessorPage({ params }: { params: { professorId: strin
 
     const fetchRatings = async () => {
       const { data, error } = await supabase
-        .from('ratings')
-        .select('overall_rating')
+        .from('reviews')
+        .select('rating_value')
         .eq('target_id', prof.id)
         .eq('target_type', 'professor');
 
@@ -35,7 +35,7 @@ export default function ProfessorPage({ params }: { params: { professorId: strin
       }
 
       if (data && data.length > 0) {
-        const total = data.reduce((sum, r) => sum + (r.overall_rating || 0), 0);
+        const total = data.reduce((sum, r) => sum + (r.rating_value || 0), 0);
         const avg = total / data.length;
         setAverageRating(parseFloat(avg.toFixed(1)));
         setReviewCount(data.length);
@@ -62,7 +62,7 @@ export default function ProfessorPage({ params }: { params: { professorId: strin
             averageRating={averageRating}
             reviewCount={reviewCount}
           />
-          <ProfessorPageStats reviewCount={reviewCount} />
+          <ProfessorPageStats professor={prof} reviewCount={reviewCount} />
           {/* <ProfessorPageCourses courses={prof.course_ids} /> */}
           <ProfessorPageReviews id={prof.id} reviewCount={reviewCount} />
         </div>

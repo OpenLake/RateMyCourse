@@ -15,7 +15,7 @@ const fetchDynamicCourseData = async (courseCode: string) => {
   const { data: courseData, error: courseError } = await supabase
     .from("courses")
     .select("overall_rating, difficulty_rating, workload_rating, review_count")
-    .eq("code", courseCode) // <-- Changed 'id' to 'code'
+    .eq("code", courseCode.toUpperCase()) // <-- Changed 'id' to 'code' and convert to uppercase
     .limit(1)
     .maybeSingle();
 

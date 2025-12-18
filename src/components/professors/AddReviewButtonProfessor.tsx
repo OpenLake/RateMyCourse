@@ -63,25 +63,33 @@ export default function AddReviewButtonProfessor({
 
       const anonymousId = anonRow.anonymous_id;
 
-      // 2. Prepare payload (target_type = professor)
-      const payload = {
-        anonymous_id: anonymousId,
-        target_id: professorId,
-        target_type: "professor",
-        rating_value: review.overall || 0,
-        comment: review.comment || null,
-        knowledge_rating: review.knowledge || null,
-        teaching_rating: review.teaching || null,
-        approachability_rating: review.approachability || null,
-      };
+      // 2. Check if user has submitted a rating for this professor
+      const { data: existingReview } = await supabase
+        .from("reviews")
+        .select("id")
+        .eq("anonymous_id", anonymousId)
+        .eq("target_id", professorId)
+        .eq("target_type", "professor")
+        .maybeSingle();
 
-      // 3. Insert review
-      const { error: insertError } = await supabase.from("reviews").insert(payload);
+      if (!existingReview) {
+        toast.error("Please submit a rating first before adding a comment.");
+        return;
+      }
 
-      if (insertError) {
-        toast.error(`Failed to submit review: ${insertError.message}`);
+      // 3. Update existing review with comment
+      const { error: updateError } = await supabase
+        .from("reviews")
+        .update({
+          comment: review.comment || null,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", existingReview.id);
+
+      if (updateError) {
+        toast.error(`Failed to update review: ${updateError.message}`);
       } else {
-        toast.success("Review submitted successfully!");
+        toast.success("Review comment added successfully!");
         setOpen(false);
         // Reset form
         setReview({
