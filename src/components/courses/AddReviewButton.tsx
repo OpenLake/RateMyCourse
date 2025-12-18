@@ -62,40 +62,46 @@ export default function AddReviewButton({ courseId }: AddReviewButtonProps) {
 
       const anonymousId = anonRow.anonymous_id;
 
-      // 2. Prepare payload
-      const payload = {
-        anonymous_id: anonymousId,
-        target_id: courseId,
-        target_type: "course",
-        rating_value: review.overall || 0, // Could average others or use separate field
-        comment: review.comment || null,
-        difficulty_rating: review.overall || null,
-        workload_rating: review.workload || null,
-        knowledge_rating: review.content || null,
-        teaching_rating: review.teaching || null,
-        approachability_rating: review.support || null,
-      };
-
-      // 3. Insert into Supabase
-      const { error: insertError } = await supabase
+      // 2. Check if review already exists
+      const { data: existingReview } = await supabase
         .from("reviews")
-        .insert(payload);
+        .select("id")
+        .eq("anonymous_id", anonymousId)
+        .eq("target_id", courseId)
+        .eq("target_type", "course")
+        .maybeSingle();
 
-      if (insertError) {
-        toast.error(`Failed to submit review: ${insertError.message}`);
+      if (existingReview) {
+        // Update existing review with comment
+        const { error: updateError } = await supabase
+          .from("reviews")
+          .update({
+            comment: review.comment || null,
+            updated_at: new Date().toISOString(),
+          })
+          .eq("id", existingReview.id);
+
+        if (updateError) {
+          toast.error(`Failed to update review: ${updateError.message}`);
+          return;
+        }
       } else {
-        toast.success("Review submitted successfully!");
-        setOpen(false);
-        // Reset form
-        setReview({
-          comment: "",
-          overall: 0,
-          workload: 0,
-          content: 0,
-          teaching: 0,
-          support: 0,
-        });
+        // No existing review - user must submit rating first
+        toast.error("Please submit a rating first before adding a comment.");
+        return;
       }
+
+      toast.success("Review comment added successfully!");
+      setOpen(false);
+      // Reset form
+      setReview({
+        comment: "",
+        overall: 0,
+        workload: 0,
+        content: 0,
+        teaching: 0,
+        support: 0,
+      });
     } catch (err) {
       toast.error("Unexpected error. Please try again.");
       console.error(err);

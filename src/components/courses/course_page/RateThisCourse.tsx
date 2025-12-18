@@ -109,7 +109,7 @@ const RateThisCourse = ({ courseId }: { courseId: string }) => {
       if (!anonymousId) return;
 
       const { data: existing } = await supabase
-        .from('ratings')
+        .from('reviews')
         .select('id')
         .eq('anonymous_id', anonymousId)
         .eq('target_id', courseId)
@@ -150,7 +150,7 @@ const RateThisCourse = ({ courseId }: { courseId: string }) => {
       const anonymousId = anonRow.anonymous_id;
 
       const { data: existing, error: existError } = await supabase
-        .from('ratings')
+        .from('reviews')
         .select('id')
         .eq('anonymous_id', anonymousId)
         .eq('target_id', courseId)
@@ -171,13 +171,13 @@ const RateThisCourse = ({ courseId }: { courseId: string }) => {
         anonymous_id: anonymousId,
         target_id: courseId,
         target_type: 'course',
-        overall_rating: overallRating,
-        difficulty_rating: difficulty,
-        workload_rating: workload,
+        rating_value: Math.round(overallRating), // Round to nearest integer (1-5)
+        difficulty_rating: Math.round(difficulty / 2), // Scale from 1-10 to 1-5
+        workload_rating: Math.round(workload / 2), // Scale from 1-10 to 1-5
         created_at: new Date().toISOString(),
       };
 
-      const { error: insertError } = await supabase.from('ratings').insert(payload);
+      const { error: insertError } = await supabase.from('reviews').insert(payload);
 
       if (insertError) {
         toast.error(`Failed to submit rating: ${insertError.message}`);

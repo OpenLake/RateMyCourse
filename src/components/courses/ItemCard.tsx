@@ -82,11 +82,11 @@ export default function ItemCard({ item, className, type }: ItemCardProps) {
     { label: 'Overall', value: overallRating },
     {
       label: type === 'course' ? 'Difficulty' : 'Knowledge',
-      value: rating1 ? rating1 / 2 : 0,
+      value: rating1 || 0,
     },
     {
       label: type === 'course' ? 'Workload' : 'Teaching',
-      value: rating2 ? rating2 / 2 : 0,
+      value: rating2 || 0,
     },
   ];
 

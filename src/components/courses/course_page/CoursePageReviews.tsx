@@ -17,11 +17,19 @@ const CourseReviewItem = ({ review }: { review: any }) => {
     timeStyle: "short",
   });
 
+  // Generate a consistent anonymous name based on anonymous_id
+  const getAnonymousName = (anonymousId: string) => {
+    if (!anonymousId) return "Anonymous Student";
+    // Use the first 6 characters of the UUID to create a unique student number
+    const studentNum = parseInt(anonymousId.substring(0, 6), 16) % 10000;
+    return `Student ${studentNum.toString().padStart(4, '0')}`;
+  };
+
   return (
     <div className="p-3 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow h-full">
       <div className="flex flex-col mb-2">
         <h4 className="font-medium text-sm text-gray-900 dark:text-gray-100">
-          {review.anonymous_id || "Anonymous"}
+          {getAnonymousName(review.anonymous_id)}
         </h4>
         <span className="text-xs text-gray-500 dark:text-gray-400">
           {formattedDate}
