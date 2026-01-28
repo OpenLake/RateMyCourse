@@ -179,7 +179,3 @@ Potential improvements for the feature:
 - LocalStorage support required for comparison persistence
 
 ---
-
-**Created**: January 2026
-**Version**: 1.0.0
-**Author**: GitHub Copilot
