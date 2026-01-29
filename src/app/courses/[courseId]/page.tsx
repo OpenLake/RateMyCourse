@@ -8,6 +8,7 @@ import CoursePageStats from "@/components/courses/course_page/CoursePageStats";
 import CoursePageReviews from "@/components/courses/course_page/CoursePageReviews";
 import RateThisCourse from "@/components/courses/course_page/RateThisCourse";
 import AddToComparison from "@/components/courses/course_page/AddToComparison";
+import CourseSummary from "@/components/courses/course_page/CourseSummary";
 import Example from "@/components/courses/course_page/CoursePageLoader";
 
 export default function CoursePage({ params }: { params: { courseId: string } }) {
@@ -95,6 +96,17 @@ export default function CoursePage({ params }: { params: { courseId: string } })
           <div className=" rounded-2xl p-6 backdrop-blur-md shadow-xl transition-all duration-300 border border-border bg-gradient-to-b from-background to-muted/40 hover:shadow-primary/20">
             <CoursePageStats reviewCount={reviewCount} />
           </div>
+
+          {/* AI-Generated Course Summary */}
+          {courseUUID && (
+            <div className="rounded-2xl backdrop-blur-md shadow-xl transition-all duration-300">
+              <CourseSummary 
+                courseId={courseUUID} 
+                courseCode={course.code}
+                courseTitle={course.title}
+              />
+            </div>
+          )}
 
           {/* Reviews Section with modern container */}
           <div className="rounded-2xl p-6 backdrop-blur-md shadow-xl transition-all duration-300 border border-border bg-gradient-to-b from-background to-muted/40 hover:shadow-primary/20">
