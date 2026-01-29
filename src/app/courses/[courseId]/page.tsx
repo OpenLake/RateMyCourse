@@ -9,6 +9,7 @@ import CoursePageReviews from "@/components/courses/course_page/CoursePageReview
 import RateThisCourse from "@/components/courses/course_page/RateThisCourse";
 import AddToComparison from "@/components/courses/course_page/AddToComparison";
 import CourseSummary from "@/components/courses/course_page/CourseSummary";
+import CourseKeyThemes from "@/components/courses/course_page/CourseKeyThemes";
 import Example from "@/components/courses/course_page/CoursePageLoader";
 
 export default function CoursePage({ params }: { params: { courseId: string } }) {
@@ -117,6 +118,14 @@ export default function CoursePage({ params }: { params: { courseId: string } })
         {/* Right Section - Sticky Sidebar */}
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-8 space-y-6">
+            {/* Key Themes from Reviews */}
+            {courseUUID && (
+              <CourseKeyThemes 
+                courseId={courseUUID} 
+                courseCode={course.code}
+              />
+            )}
+            
             {/* Add to Comparison Card */}
             <AddToComparison course={course} />
             
