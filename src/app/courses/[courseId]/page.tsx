@@ -7,6 +7,8 @@ import CoursePageHeader from "@/components/courses/course_page/CoursePageHeader"
 import CoursePageStats from "@/components/courses/course_page/CoursePageStats";
 import CoursePageReviews from "@/components/courses/course_page/CoursePageReviews";
 import RateThisCourse from "@/components/courses/course_page/RateThisCourse";
+import AddToComparison from "@/components/courses/course_page/AddToComparison";
+import CourseSummary from "@/components/courses/course_page/CourseSummary";
 import Example from "@/components/courses/course_page/CoursePageLoader";
 
 export default function CoursePage({ params }: { params: { courseId: string } }) {
@@ -95,6 +97,17 @@ export default function CoursePage({ params }: { params: { courseId: string } })
             <CoursePageStats reviewCount={reviewCount} />
           </div>
 
+          {/* AI-Generated Course Summary */}
+          {courseUUID && (
+            <div className="rounded-2xl backdrop-blur-md shadow-xl transition-all duration-300">
+              <CourseSummary 
+                courseId={courseUUID} 
+                courseCode={course.code}
+                courseTitle={course.title}
+              />
+            </div>
+          )}
+
           {/* Reviews Section with modern container */}
           <div className="rounded-2xl p-6 backdrop-blur-md shadow-xl transition-all duration-300 border border-border bg-gradient-to-b from-background to-muted/40 hover:shadow-primary/20">
             <CoursePageReviews id={courseUUID || course.id} reviewCount={reviewCount} />
@@ -104,6 +117,10 @@ export default function CoursePage({ params }: { params: { courseId: string } })
         {/* Right Section - Sticky Sidebar */}
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-8 space-y-6">
+            {/* Add to Comparison Card */}
+            <AddToComparison course={course} />
+            
+            {/* Rate This Course Card */}
             <div className="rounded-2xl p-6 backdrop-blur-md shadow-xl transition-all duration-300 border border-border bg-gradient-to-b from-background to-muted/40 hover:shadow-primary/20">
               {courseUUID && <RateThisCourse courseId={courseUUID} />}
             </div>

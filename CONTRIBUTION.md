@@ -38,6 +38,7 @@ NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 NEXT_PUBLIC_SITE_SALT=
 SUPABASE_SERVICE_ROLE_KEY=
+GEMINI_API_KEY=
 ```
 
 1. NEXT_PUBLIC_SUPABASE_URL
@@ -54,12 +55,16 @@ This is the service_role key ( never expose on frontend).Found in Supabase Dashb
 
 4. NEXT_PUBLIC_SITE_SALT
 
-This one is not provided by Supabase. It’s usually a random string (for hashing, encryption, or unique IDs).
+This one is not provided by Supabase. It's usually a random string (for hashing, encryption, or unique IDs).
 
 run on bash
 ``` bash
 openssl rand -base64 32
 ```
+
+5. GEMINI_API_KEY
+
+This is your Google Gemini API key for AI-powered course summaries. Get it from [Google AI Studio](https://makersuite.google.com/app/apikey). This key is used server-side only and should never be exposed to the frontend.
 
 ### 5. Run Development Server
 ```bash
