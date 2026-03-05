@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     }
 
     const geminiResponse = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${geminiApiKey}`,
       {
         method: 'POST',
         headers: {
@@ -61,66 +61,83 @@ export async function POST(request: NextRequest) {
             {
               parts: [
                 {
-                  text: `Analyze these student course reviews and extract the 6-8 most common themes or topics mentioned.
+                  text: `You must return ONLY a JSON array. No explanations.
 
 Reviews:
 ${reviewsText}
 
-For each theme:
-1. Create a short, clear tag (2-4 words max)
-2. Count how many times it appears (approximately)
-3. Determine sentiment: positive, negative, or neutral
+Return 6-8 themes as JSON array:
+[{"tag":"theme name","count":number,"sentiment":"positive|negative|neutral"}]
 
-Examples of good tags:
-- "Heavy Workload" (negative)
-- "Engaging Lectures" (positive)
-- "Tough Exams" (negative)
-- "Helpful Professor" (positive)
-- "Group Projects" (neutral)
-- "Practical Applications" (positive)
-- "Fast Paced" (neutral)
-
-Return ONLY a valid JSON array in this exact format:
+Example output:
 [
-  {"tag": "Heavy Workload", "count": 5, "sentiment": "negative"},
-  {"tag": "Engaging Lectures", "count": 3, "sentiment": "positive"}
-]
-
-Important: Return ONLY the JSON array, no other text or explanation.`,
+{"tag":"Heavy Workload","count":5,"sentiment":"negative"},
+{"tag":"Engaging Lectures","count":3,"sentiment":"positive"}
+]`,
                 },
               ],
             },
           ],
           generationConfig: {
-            temperature: 0.3,
-            topK: 20,
+            temperature: 0.2,
+            topK: 10,
             topP: 0.8,
-            maxOutputTokens: 300,
+            maxOutputTokens: 4096,
           },
+          safetySettings: [
+            {
+              category: "HARM_CATEGORY_HARASSMENT",
+              threshold: "BLOCK_NONE",
+            },
+            {
+              category: "HARM_CATEGORY_HATE_SPEECH",
+              threshold: "BLOCK_NONE",
+            },
+            {
+              category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              threshold: "BLOCK_NONE",
+            },
+            {
+              category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+              threshold: "BLOCK_NONE",
+            },
+          ],
         }),
       }
     );
 
     if (!geminiResponse.ok) {
-      const errorData = await geminiResponse.json();
-      console.error('Gemini API error:', errorData);
+      const errorText = await geminiResponse.text();
+      console.error('Gemini API error status:', geminiResponse.status);
+      console.error('Gemini API error:', errorText);
       return NextResponse.json(
-        { error: 'Failed to extract themes' },
+        { error: `Gemini API error: ${geminiResponse.status} - ${errorText.substring(0, 100)}` },
         { status: 500 }
       );
     }
 
     const geminiData = await geminiResponse.json();
     const rawResponse = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || '[]';
+    const finishReason = geminiData.candidates?.[0]?.finishReason;
+    
+    console.log('Theme extraction - Response length:', rawResponse.length);
+    console.log('Theme extraction - Finish reason:', finishReason);
+    console.log('Theme extraction - Raw response preview:', rawResponse.substring(0, 150));
     
     // Parse the JSON response from Gemini
     let themes = [];
     try {
       // Clean up the response in case Gemini adds markdown code blocks
-      const cleanedResponse = rawResponse
+      let cleanedResponse = rawResponse
         .replace(/```json\s*/g, '')
         .replace(/```\s*/g, '')
         .trim();
+      
+      // If response is incomplete (MAX_TOKENS), try to fix it
+      if (finishReason === 'MAX_TOKENS' && !cleanedResponse.endsWith(']')) {
+        // Try to close the JSON array properly
+        cleanedResponse = cleanedResponse.replace(/,\s*$/, '') + ']';
+      }
       
       themes = JSON.parse(cleanedResponse);
       
@@ -146,9 +163,11 @@ Important: Return ONLY the JSON array, no other text or explanation.`,
 
   } catch (error) {
     console.error('Error extracting themes:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: `Internal server error: ${errorMessage}` },
       { status: 500 }
     );
   }
 }
+

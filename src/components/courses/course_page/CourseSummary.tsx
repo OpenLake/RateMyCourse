@@ -42,6 +42,12 @@ export default function CourseSummary({ courseId, courseCode, courseTitle }: Cou
         throw new Error(data.error || 'Failed to generate summary');
       }
 
+      console.log('Received summary from API:', {
+        length: data.summary?.length || 0,
+        preview: data.summary?.substring(0, 100) || '',
+        fullSummary: data.summary
+      });
+
       setSummary(data.summary);
       setHasReviews(data.hasReviews);
       setReviewCount(data.reviewCount || 0);
@@ -113,32 +119,30 @@ export default function CourseSummary({ courseId, courseCode, courseTitle }: Cou
           <div className="prose prose-sm dark:prose-invert max-w-none">
             <div className="bg-muted/30 rounded-lg p-4 border border-border/40">
               {summary.split('\n').map((paragraph, idx) => {
-                // Check if it's a heading (starts with ** or #)
-                if (paragraph.trim().startsWith('**') && paragraph.trim().endsWith('**')) {
-                  const text = paragraph.replace(/\*\*/g, '');
+                const trimmed = paragraph.trim();
+                
+                // Skip empty lines
+                if (!trimmed) return null;
+                
+                // Check if it's a section heading (ends with a colon)
+                if (trimmed.match(/^[A-Z][^:]*:$/)) {
                   return (
-                    <h3 key={idx} className="font-bold text-sm mt-3 mb-1 first:mt-0">
-                      {text}
+                    <h3 key={idx} className="font-bold text-sm mt-3 mb-1 first:mt-0 text-primary">
+                      {trimmed.replace(':', '')}
                     </h3>
                   );
                 }
-                // Check if it's a bullet point
-                if (paragraph.trim().startsWith('-') || paragraph.trim().startsWith('•')) {
-                  return (
-                    <li key={idx} className="text-sm ml-4 mb-1">
-                      {paragraph.replace(/^[-•]\s*/, '')}
-                    </li>
-                  );
-                }
-                // Regular paragraph
-                if (paragraph.trim()) {
-                  return (
-                    <p key={idx} className="text-sm mb-2 leading-relaxed">
-                      {paragraph}
-                    </p>
-                  );
-                }
-                return null;
+                
+                // Regular paragraph - remove any stray markdown symbols
+                const cleanText = trimmed
+                  .replace(/#{1,6}\s*/g, '') // Remove # headers
+                  .replace(/\*\*/g, '');      // Remove ** bold markers
+                
+                return (
+                  <p key={idx} className="text-sm mb-2 leading-relaxed">
+                    {cleanText}
+                  </p>
+                );
               })}
             </div>
             

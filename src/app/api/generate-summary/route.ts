@@ -59,7 +59,7 @@ Comment: ${r.comment}
     }
 
     const geminiResponse = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${geminiApiKey}`,
       {
         method: 'POST',
         headers: {
@@ -70,23 +70,32 @@ Comment: ${r.comment}
             {
               parts: [
                 {
-                  text: `You are an academic advisor analyzing student reviews for a course. 
+                  text: `Analyze the following student reviews for ${courseTitle} (${courseCode}) and create a comprehensive summary.
 
-Course: ${courseTitle} (${courseCode})
 Total Reviews: ${reviews.length}
 
 Student Reviews:
 ${reviewsText}
 
-Based on these reviews, generate a concise, informative summary (150-200 words) that covers:
+Generate a well-structured summary (200-300 words) covering these sections:
 
-1. **Overall Experience**: General sentiment and key takeaways
-2. **Strengths**: What students appreciated most
-3. **Challenges**: Common difficulties or concerns mentioned
-4. **Workload & Difficulty**: Average perception of course demands
-5. **Recommendations**: Who would benefit most from this course
+Overall Experience: General sentiment and key points from students
 
-Write in a professional, helpful tone. Be balanced and objective. Use bullet points for clarity where appropriate.`,
+Strengths: What students appreciated most about the course
+
+Challenges: Common difficulties or concerns raised by students
+
+Workload & Difficulty: Students' perception of course demands
+
+Recommendations: Who would benefit most from taking this course
+
+IMPORTANT FORMATTING RULES:
+- Do NOT use markdown symbols like #, ##, *, **, or _
+- Start each section title on its own line with the exact format "Section Name:" (with a colon)
+- Write content in clear, concise paragraphs
+- Use simple line breaks to separate sections
+- Be balanced, objective, and professional
+- Provide specific insights based on the reviews`,
                 },
               ],
             },
@@ -95,17 +104,36 @@ Write in a professional, helpful tone. Be balanced and objective. Use bullet poi
             temperature: 0.7,
             topK: 40,
             topP: 0.95,
-            maxOutputTokens: 500,
+            maxOutputTokens: 2048,
           },
+          safetySettings: [
+            {
+              category: "HARM_CATEGORY_HARASSMENT",
+              threshold: "BLOCK_NONE"
+            },
+            {
+              category: "HARM_CATEGORY_HATE_SPEECH",
+              threshold: "BLOCK_NONE"
+            },
+            {
+              category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              threshold: "BLOCK_NONE"
+            },
+            {
+              category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+              threshold: "BLOCK_NONE"
+            }
+          ]
         }),
       }
     );
 
     if (!geminiResponse.ok) {
-      const errorData = await geminiResponse.json();
-      console.error('Gemini API error:', errorData);
+      const errorText = await geminiResponse.text();
+      console.error('Gemini API error status:', geminiResponse.status);
+      console.error('Gemini API error:', errorText);
       return NextResponse.json(
-        { error: 'Failed to generate summary' },
+        { error: `Gemini API error: ${geminiResponse.status} - ${errorText.substring(0, 100)}` },
         { status: 500 }
       );
     }
@@ -113,6 +141,10 @@ Write in a professional, helpful tone. Be balanced and objective. Use bullet poi
     const geminiData = await geminiResponse.json();
     const summary = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || 
                     'Unable to generate summary at this time.';
+
+    console.log('Generated summary length:', summary.length);
+    console.log('Summary preview:', summary.substring(0, 200));
+    console.log('Finish reason:', geminiData.candidates?.[0]?.finishReason);
 
     return NextResponse.json({
       summary,
@@ -122,8 +154,9 @@ Write in a professional, helpful tone. Be balanced and objective. Use bullet poi
 
   } catch (error) {
     console.error('Error generating course summary:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: `Internal server error: ${errorMessage}` },
       { status: 500 }
     );
   }

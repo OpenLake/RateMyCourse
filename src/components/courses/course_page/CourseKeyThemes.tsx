@@ -27,6 +27,8 @@ export default function CourseKeyThemes({ courseId, courseCode }: CourseKeyTheme
         setIsLoading(true);
         setError(null);
 
+        console.log('Fetching themes for courseId:', courseId, 'courseCode:', courseCode);
+
         const response = await fetch('/api/extract-themes', {
           method: 'POST',
           headers: {
@@ -36,6 +38,13 @@ export default function CourseKeyThemes({ courseId, courseCode }: CourseKeyTheme
         });
 
         const data = await response.json();
+        
+        console.log('Theme extraction response:', {
+          ok: response.ok,
+          status: response.status,
+          data: data,
+          themesCount: data.themes?.length || 0
+        });
 
         if (!response.ok) {
           throw new Error(data.error || 'Failed to extract themes');
