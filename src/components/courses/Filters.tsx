@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -36,8 +36,8 @@ const difficultyLevels: DifficultyLevel[] = [
 
 interface FilterProps {
   type: "course" | "professor";
-  currentFilters: FiltersState; // Receive current filters
-  onFilterChange: (filters: FiltersState) => void; // Callback to update parent state
+  currentFilters: FiltersState;
+  onFilterChange: (filters: FiltersState) => void;
 }
 
 export default function Filters({
@@ -65,10 +65,40 @@ export default function Filters({
   const [isSticky, setIsSticky] = useState<boolean>(false);
   const filterRef = useRef<HTMLDivElement>(null);
   const [filterTop, setFilterTop] = useState<number>(0);
+  
+  // Ref to store the debounce timeout for search
+  const debouncedSearchRef = useRef<NodeJS.Timeout>();
 
   const handleChange = (newValue: string) => {
     setValue(value === newValue ? undefined : newValue);
   };
+
+  // Debounced search handler
+  const handleSearchChange = useCallback((value: string) => {
+    setLocalSearchQuery(value); // Update UI immediately
+    
+    // Clear previous timeout
+    if (debouncedSearchRef.current) {
+      clearTimeout(debouncedSearchRef.current);
+    }
+    
+    // Set new timeout to update parent after 300ms
+    debouncedSearchRef.current = setTimeout(() => {
+      onFilterChange({
+        ...currentFilters,
+        searchQuery: value
+      });
+    }, 300);
+  }, [currentFilters, onFilterChange]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (debouncedSearchRef.current) {
+        clearTimeout(debouncedSearchRef.current);
+      }
+    };
+  }, []);
 
   // Update local state if external filters change (e.g., clear all)
   useEffect(() => {
@@ -85,17 +115,14 @@ export default function Filters({
         const rect = filterRef.current.getBoundingClientRect();
         const scrollY = window.scrollY;
 
-        // Get the initial offset if not set
         if (filterTop === 0 && !isSticky) {
           setFilterTop(scrollY + rect.top);
         }
 
-        // Check if we've scrolled past the filter's initial position
-        setIsSticky(scrollY > filterTop - 80); // 80px = top-20
+        setIsSticky(scrollY > filterTop - 80);
       }
     };
 
-    // Calculate initial position
     if (filterRef.current && filterTop === 0) {
       const rect = filterRef.current.getBoundingClientRect();
       setFilterTop(window.scrollY + rect.top);
@@ -110,8 +137,6 @@ export default function Filters({
       if (prev.includes(deptId)) {
         return prev.filter((id) => id !== deptId);
       } else {
-        // *** THIS IS THE FIX ***
-        // Add new departments to the FRONT of the array, not the back.
         return [deptId, ...prev];
       }
     });
@@ -122,26 +147,29 @@ export default function Filters({
       if (prev.includes(diffValue)) {
         return prev.filter((val) => val !== diffValue);
       } else {
-        // Also add new difficulties to the front
         return [diffValue, ...prev];
       }
     });
   };
 
   const clearAllFilters = (): void => {
-    // Reset local state first
+    // Clear debounce timeout if active
+    if (debouncedSearchRef.current) {
+      clearTimeout(debouncedSearchRef.current);
+    }
+    
     setLocalSearchQuery("");
     setLocalSelectedDepartments([]);
     setLocalSelectedDifficulties([]);
-    setLocalRatingFilter([1]); // Reset to minimum possible rating filter
-    // Then notify parent to clear global state
+    setLocalRatingFilter([1]);
+    
     onFilterChange({
       searchQuery: "",
       departments: [],
       difficulties: [],
-      rating: 1, // Match the reset value
+      rating: 1,
     });
-    setIsMobileFilterOpen(false); // Close mobile filter if open
+    setIsMobileFilterOpen(false);
   };
 
   const removeDepartmentFilter = (deptId: string): void => {
@@ -159,23 +187,22 @@ export default function Filters({
   };
 
   const applyFilters = (): void => {
-    // Call the callback function passed from the parent with the updated local state
     onFilterChange({
       searchQuery: localSearchQuery,
       departments: localSelectedDepartments,
       difficulties: localSelectedDifficulties,
       rating: localRatingFilter[0],
     });
-    setIsMobileFilterOpen(false); // Close mobile filter view after applying
+    setIsMobileFilterOpen(false);
   };
 
-  // Calculate active filters count based on the *parent's* state
+  // Calculate active filters count based on the parent's state
   useEffect(() => {
     let count = 0;
     if (currentFilters.searchQuery) count++;
     count += currentFilters.departments.length;
     count += currentFilters.difficulties.length;
-    if (currentFilters.rating !== 1) count++; // Assuming 1 is the default/inactive state
+    if (currentFilters.rating !== 1) count++;
     setActiveFiltersCount(count);
   }, [currentFilters]);
 
@@ -185,49 +212,9 @@ export default function Filters({
     return departmentProperties.find((dept) => dept.id === deptId);
   };
 
-  // Mobile Filters component
-  const MobileFilters = (): JSX.Element => (
-    <div
-      className={`fixed inset-0 z-50 bg-background/95 backdrop-blur-2xl ${
-        isMobileFilterOpen ? "flex" : "hidden"
-      } flex-col`}
-    >
-      <div className="flex items-center justify-between p-4 border-b border-border/60">
-        <h2 className="font-black text-lg tracking-tight">Filters</h2>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setIsMobileFilterOpen(false)}
-          className="hover:bg-primary/10 transition-colors duration-300"
-        >
-          <X className="h-5 w-5" />
-        </Button>
-      </div>
-      <div className="flex-1 overflow-auto p-4">
-        <FiltersContent />
-      </div>
-      <div className="p-4 border-t border-border/60 flex gap-2">
-        <Button
-          variant="outline"
-          className="flex-1 relative overflow-hidden group"
-          onClick={clearAllFilters}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
-          <span className="relative font-mono">Clear All</span>
-        </Button>
-        <Button
-          className="flex-1 relative overflow-hidden group"
-          onClick={applyFilters}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
-          <span className="relative font-mono">Apply ({activeFiltersCount})</span>
-        </Button>
-      </div>
-    </div>
-  );
-
-  // FiltersContent component remains largely the same but uses local state/handlers
-  const FiltersContent = (): JSX.Element => (
+  // Plain JSX variable — NOT a component — so React never remounts it on re-render,
+  // which keeps the search input focused between keystrokes.
+  const filtersContent = (
     <div className="space-y-6">
       <div className="space-y-2">
         <label htmlFor="search" className="text-sm font-medium">
@@ -238,7 +225,7 @@ export default function Filters({
           placeholder={`Search ${type}s...`}
           className="w-full"
           value={localSearchQuery}
-          onChange={(e) => setLocalSearchQuery(e.target.value)}
+          onChange={(e) => handleSearchChange(e.target.value)}
         />
       </div>
 
@@ -254,7 +241,6 @@ export default function Filters({
             Department
           </AccordionTrigger>
           <AccordionContent>
-            {/* Department list already had overflow handling */}
             <div className="space-y-2 max-h-60 overflow-y-auto pr-2">
               {departmentProperties.map((department) => {
                 const DeptIcon = department.icon;
@@ -273,7 +259,7 @@ export default function Filters({
                         className="h-4 w-4"
                         style={{ color: department.color }}
                       />
-                      <span>{department.name} ({department.id})</span> {/* Show name and ID */}
+                      <span>{department.name} ({department.id})</span>
                     </label>
                   </div>
                 );
@@ -282,7 +268,6 @@ export default function Filters({
           </AccordionContent>
         </AccordionItem>
 
-        {/* Difficulty section can be conditionally rendered based on type */}
         {type === "course" && (
           <AccordionItem value="difficulty">
             <AccordionTrigger className="text-sm font-medium">
@@ -343,87 +328,123 @@ export default function Filters({
     </div>
   );
 
-  // ActiveFilters component now uses parent state (`currentFilters`) and calls parent update function
-  const ActiveFilters = (): JSX.Element | null => {
-    if (activeFiltersCount === 0) return null;
-
-    return (
-      <div className="mt-4">
-        <div className="flex justify-between items-center mb-2">
-          <h4 className="text-sm font-medium">Active Filters</h4>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-8 text-xs"
-            onClick={clearAllFilters} // Use the clearing function
-          >
-            Clear All
-          </Button>
-        </div>
-        {/* The active filter badges will now appear in the order of selection */}
-        <div className="flex flex-wrap gap-2">
-          {currentFilters.searchQuery && (
-            <Badge variant="outline" className="flex items-center gap-1">
-              <span>Search: {currentFilters.searchQuery}</span>
-              <X
-                className="h-3 w-3 cursor-pointer"
-                onClick={() =>
-                  onFilterChange({ ...currentFilters, searchQuery: "" })
-                }
-              />
-            </Badge>
-          )}
-
-          {currentFilters.departments.map((deptId) => {
-            const dept = getDepartmentById(deptId);
-            if (!dept) return null;
-
-            const DeptIcon = dept.icon;
-            return (
-              <Badge key={deptId} variant="outline" className="flex items-center gap-1">
-                <DeptIcon
-                  className="h-3 w-3 mr-1"
-                  style={{ color: dept.color }}
-                />
-                <span>{dept.id}</span>
-                <X
-                  className="h-3 w-3 cursor-pointer"
-                  onClick={() => removeDepartmentFilter(deptId)}
-                />
-              </Badge>
-            );
-          })}
-
-          {currentFilters.difficulties.map((diff) => {
-            const diffLevel = difficultyLevels.find((d) => d.value === diff);
-            if (!diffLevel) return null;
-
-            return (
-              <Badge key={diff} variant="outline" className="flex items-center gap-1">
-                <span>{diffLevel.label}</span>
-                <X
-                  className="h-3 w-3 cursor-pointer"
-                  onClick={() => removeDifficultyFilter(diff)}
-                />
-              </Badge>
-            );
-          })}
-
-          {currentFilters.rating !== 1 && (
-            <Badge variant="outline" className="flex items-center gap-1">
-              <span>Rating: {currentFilters.rating}+ stars</span>
-              <X
-                className="h-3 w-3 cursor-pointer"
-                onClick={() =>
-                  onFilterChange({ ...currentFilters, rating: 1 })
-                } // Reset rating to default
-              />
-            </Badge>
-          )}
-        </div>
+  // Plain JSX variable — NOT a component — for the same reason as filtersContent above.
+  const activeFilters = activeFiltersCount === 0 ? null : (
+    <div className="mt-4">
+      <div className="flex justify-between items-center mb-2">
+        <h4 className="text-sm font-medium">Active Filters</h4>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-8 text-xs"
+          onClick={clearAllFilters}
+        >
+          Clear All
+        </Button>
       </div>
-    );
-  };
+      <div className="flex flex-wrap gap-2">
+        {currentFilters.searchQuery && (
+          <Badge variant="outline" className="flex items-center gap-1">
+            <span>Search: {currentFilters.searchQuery}</span>
+            <X
+              className="h-3 w-3 cursor-pointer"
+              onClick={() =>
+                onFilterChange({ ...currentFilters, searchQuery: "" })
+              }
+            />
+          </Badge>
+        )}
+
+        {currentFilters.departments.map((deptId) => {
+          const dept = getDepartmentById(deptId);
+          if (!dept) return null;
+
+          const DeptIcon = dept.icon;
+          return (
+            <Badge key={deptId} variant="outline" className="flex items-center gap-1">
+              <DeptIcon
+                className="h-3 w-3 mr-1"
+                style={{ color: dept.color }}
+              />
+              <span>{dept.id}</span>
+              <X
+                className="h-3 w-3 cursor-pointer"
+                onClick={() => removeDepartmentFilter(deptId)}
+              />
+            </Badge>
+          );
+        })}
+
+        {currentFilters.difficulties.map((diff) => {
+          const diffLevel = difficultyLevels.find((d) => d.value === diff);
+          if (!diffLevel) return null;
+
+          return (
+            <Badge key={diff} variant="outline" className="flex items-center gap-1">
+              <span>{diffLevel.label}</span>
+              <X
+                className="h-3 w-3 cursor-pointer"
+                onClick={() => removeDifficultyFilter(diff)}
+              />
+            </Badge>
+          );
+        })}
+
+        {currentFilters.rating !== 1 && (
+          <Badge variant="outline" className="flex items-center gap-1">
+            <span>Rating: {currentFilters.rating}+ stars</span>
+            <X
+              className="h-3 w-3 cursor-pointer"
+              onClick={() =>
+                onFilterChange({ ...currentFilters, rating: 1 })
+              }
+            />
+          </Badge>
+        )}
+      </div>
+    </div>
+  );
+
+  // Plain JSX variable — NOT a component — for the same reason as filtersContent above.
+  const mobileFilters = (
+    <div
+      className={`fixed inset-0 z-50 bg-background/95 backdrop-blur-2xl ${
+        isMobileFilterOpen ? "flex" : "hidden"
+      } flex-col`}
+    >
+      <div className="flex items-center justify-between p-4 border-b border-border/60">
+        <h2 className="font-black text-lg tracking-tight">Filters</h2>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setIsMobileFilterOpen(false)}
+          className="hover:bg-primary/10 transition-colors duration-300"
+        >
+          <X className="h-5 w-5" />
+        </Button>
+      </div>
+      <div className="flex-1 overflow-auto p-4">
+        {filtersContent}
+      </div>
+      <div className="p-4 border-t border-border/60 flex gap-2">
+        <Button
+          variant="outline"
+          className="flex-1 relative overflow-hidden group"
+          onClick={clearAllFilters}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+          <span className="relative font-mono">Clear All</span>
+        </Button>
+        <Button
+          className="flex-1 relative overflow-hidden group"
+          onClick={applyFilters}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+          <span className="relative font-mono">Apply ({activeFiltersCount})</span>
+        </Button>
+      </div>
+    </div>
+  );
 
   return (
     <>
@@ -445,15 +466,15 @@ export default function Filters({
             </Badge>
           )}
         </Button>
-        {isMobileFilterOpen && <MobileFilters />}
-        <ActiveFilters />
+        {isMobileFilterOpen && mobileFilters}
+        {activeFilters}
       </div>
 
-      {/* Desktop Filters - Better positioning */}
+      {/* Desktop Filters */}
       <div className="hidden lg:block">
         <div className="sticky top-6 bg-card/60 backdrop-blur-xl p-6 rounded-xl border border-border/60 shadow-lg hover:border-primary/30 hover:bg-card/70 transition-all duration-300 max-h-[calc(100vh-3rem)] overflow-y-auto scrollbar-thin">
           <h3 className="font-black text-xl tracking-tight mb-6 text-foreground">Filters</h3>
-          <FiltersContent />
+          {filtersContent}
           <div className="mt-6 flex gap-2 pt-6 border-t border-border/40">
             <Button
               variant="outline"
@@ -471,7 +492,7 @@ export default function Filters({
               <span className="relative font-mono">Apply</span>
             </Button>
           </div>
-          <ActiveFilters />
+          {activeFilters}
         </div>
       </div>
     </>
