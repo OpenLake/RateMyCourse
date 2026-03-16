@@ -77,7 +77,7 @@ export default withPagination({
     const query = supabase
       .from('reviews')
       .select(`
-        id, anonymous_id, rating_value, comment, votes,
+        id, rating_value, comment, votes,
         is_flagged, difficulty_rating, workload_rating,
         knowledge_rating, teaching_rating, approachability_rating,
         created_at, updated_at
