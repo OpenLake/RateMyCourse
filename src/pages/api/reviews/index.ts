@@ -35,7 +35,8 @@ export default withPagination({
     // Check if target_id is a code (not a UUID)
     // UUIDs have format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx (contains dashes)
     // Codes are simpler: mal100, cs101, etc. (no dashes)
-    const isUUID = target_id.includes('-');
+    const isUUID =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(target_id);
 
     if (!isUUID) {
       // It's a code, need to look up the UUID
