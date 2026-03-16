@@ -2,25 +2,22 @@
  * Review from database - matches the reviews table schema
  */
 export interface Review {
-  id: string;
-  anonymous_id: string;
-  target_id: string;
-  target_type: 'course' | 'professor';
-  rating_value: number; // Overall rating 1-5
-  comment: string | null;
-  votes: number; // Net helpful votes (helpful - unhelpful)
-  is_flagged: boolean;
-  created_at: string;
-  updated_at: string;
-  
-  // Course-specific ratings (null for professor reviews)
-  difficulty_rating: number | null;
-  workload_rating: number | null;
-  
-  // Professor-specific ratings (null for course reviews)
-  knowledge_rating: number | null;
-  teaching_rating: number | null;
-  approachability_rating: number | null;
+  courseId: string;
+  courseName: string;
+  courseCode: string;
+  semester: string;
+  overallRating: number;
+  workloadRating: number;
+  contentRating: number;
+  teachingRating: number;
+  supportRating: number;
+  comment: string;
+  date: string;
+  user: {
+    id: string;
+    name: string;
+    avatar: string;
+  };
 }
 
 /**

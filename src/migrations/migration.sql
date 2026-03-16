@@ -462,14 +462,23 @@ USING (true);
 CREATE POLICY "Authenticated users can insert their own votes" 
 ON votes FOR INSERT 
 TO authenticated
-WITH CHECK (auth_id = auth.uid());
+WITH CHECK (
+  auth_id = auth.uid()
+  AND anonymous_id = get_anonymous_id()
+);
 
 -- Users can update their own votes
 CREATE POLICY "Users can update their own votes" 
 ON votes FOR UPDATE 
 TO authenticated
-USING (auth_id = auth.uid())
-WITH CHECK (auth_id = auth.uid());
+USING (
+  auth_id = auth.uid()
+  AND anonymous_id = get_anonymous_id()
+)
+WITH CHECK (
+  auth_id = auth.uid()
+  AND anonymous_id = get_anonymous_id()
+);
 
 -- Users can delete their own votes
 CREATE POLICY "Users can delete their own votes" 
