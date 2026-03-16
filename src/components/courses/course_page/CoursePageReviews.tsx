@@ -93,6 +93,10 @@ const CoursePageReviews = ({ id, reviewCount }: CoursePageReviewsProps) => {
       
       try {
         const response = await fetch(`/api/ratings/vote?review_ids=${reviewIds}`);
+        if (!response.ok) {
+          console.error("Failed to fetch votes:", response.status);
+          return;
+        }
         const votesData = await response.json();
         
         if (votesData.success) {
