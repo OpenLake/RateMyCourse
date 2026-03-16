@@ -67,7 +67,7 @@ export default function Filters({
   const [filterTop, setFilterTop] = useState<number>(0);
   
   // Ref to store the debounce timeout for search
-  const debouncedSearchRef = useRef<NodeJS.Timeout>();
+  const debouncedSearchRef = useRef<number | null>(null);
 
   const handleChange = (newValue: string) => {
     setValue(value === newValue ? undefined : newValue);
