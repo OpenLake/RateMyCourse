@@ -72,15 +72,28 @@ Example output:
     };
   }
 
+  const allowedSentiments: ThemeData['sentiment'][] = ['positive', 'negative', 'neutral'];
+
   // Validate and clean themes
   const validThemes = themes
-    .filter((t) => t.tag && t.sentiment)
+    .map((t) => {
+      const rawTag = typeof t.tag === 'string' ? t.tag.trim() : '';
+      const rawSentiment = typeof t.sentiment === 'string' ? t.sentiment.toLowerCase() : '';
+      const parsedCount = Number.parseInt(String(t.count), 10);
+
+      if (!rawTag || !allowedSentiments.includes(rawSentiment as ThemeData['sentiment'])) {
+        return null;
+      }
+
+      return {
+        tag: rawTag,
+        count: Number.isFinite(parsedCount) && parsedCount > 0 ? parsedCount : 1,
+        sentiment: rawSentiment as ThemeData['sentiment'],
+      };
+    })
+    .filter((t): t is ThemeData => t !== null)
     .slice(0, 8)
-    .map((t) => ({
-      tag: t.tag,
-      count: t.count || 1,
-      sentiment: t.sentiment,
-    }));
+    ;
 
   return {
     success: true,

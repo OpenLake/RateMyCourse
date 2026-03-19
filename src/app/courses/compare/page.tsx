@@ -25,6 +25,8 @@ export default function CourseComparisonPage() {
           courseIds.includes(c.id)
         );
         setSelectedCourses(preselectedCourses.slice(0, 4));
+      } else {
+        setSelectedCourses([]);
       }
     }
   }, [searchParams, courses, isLoading]);

@@ -15,7 +15,7 @@ const initialFilters: FiltersState = {
 
 export default function CoursesPage() {
   const [filters, setFilters] = useState<FiltersState>(initialFilters);
-  const { courses } = useCourses();
+  const { courses, isLoading, error } = useCourses();
 
   const handleFilterChange = (newFilters: FiltersState) => {
     setFilters(newFilters);
@@ -59,12 +59,22 @@ export default function CoursesPage() {
               <CompareCoursesButton />
             </div>
             
-            <ItemList type="course" filters={filters} />
+            <ItemList
+              type="course"
+              filters={filters}
+              courses={courses}
+              isCoursesLoading={isLoading}
+              coursesError={error}
+            />
           </div>
         </div>
       </div>
 
-      <ComparisonFloatingButton courses={courses} />
+      <ComparisonFloatingButton
+        courses={courses}
+        isLoading={isLoading}
+        error={error}
+      />
     </div>
   );
 }

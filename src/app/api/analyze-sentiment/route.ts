@@ -7,7 +7,6 @@ import { analyzeSentiment, isAIServiceConfigured } from '@/lib/ai-service';
 // Type definitions for the sentiment analysis
 interface SentimentRequest {
   reviewId: string;
-  comment: string;
   targetType: 'course' | 'professor';
 }
 
@@ -106,19 +105,12 @@ async function storeSentimentResult(
 export async function POST(request: Request) {
   try {
     const body: SentimentRequest = await request.json();
-    const { reviewId, comment, targetType } = body;
+    const { reviewId, targetType } = body;
 
     // Validate required fields
     if (!reviewId) {
       return NextResponse.json(
         { error: 'Review ID is required' },
-        { status: 400 }
-      );
-    }
-
-    if (!comment) {
-      return NextResponse.json(
-        { error: 'Comment is required' },
         { status: 400 }
       );
     }
@@ -130,19 +122,10 @@ export async function POST(request: Request) {
       );
     }
 
-    // Preprocess comment
-    const preprocessResult = preprocessComment(comment);
-    if (!preprocessResult.valid) {
-      return NextResponse.json(
-        { error: preprocessResult.error },
-        { status: 400 }
-      );
-    }
-
     // Verify review exists
     const { data: review, error: reviewError } = await supabase
       .from('reviews')
-      .select('id, target_type')
+      .select('id, target_type, comment')
       .eq('id', reviewId)
       .single();
 
@@ -157,6 +140,23 @@ export async function POST(request: Request) {
     if (review.target_type !== targetType) {
       return NextResponse.json(
         { error: 'Review target type does not match provided target type' },
+        { status: 400 }
+      );
+    }
+
+    const storedReviewComment = review.comment?.trim();
+    if (!storedReviewComment) {
+      return NextResponse.json(
+        { error: 'Review comment not found' },
+        { status: 400 }
+      );
+    }
+
+    // Preprocess canonical stored review comment
+    const preprocessResult = preprocessComment(storedReviewComment);
+    if (!preprocessResult.valid) {
+      return NextResponse.json(
+        { error: preprocessResult.error },
         { status: 400 }
       );
     }

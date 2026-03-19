@@ -89,7 +89,15 @@ export function CompareButton({ course }: CompareButtonProps) {
   );
 }
 
-export function ComparisonFloatingButton({ courses }: { courses: Course[] }) {
+export function ComparisonFloatingButton({
+  courses,
+  isLoading = false,
+  error = null,
+}: {
+  courses: Course[];
+  isLoading?: boolean;
+  error?: Error | null;
+}) {
   const [comparisonList, setComparisonListState] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
@@ -123,6 +131,10 @@ export function ComparisonFloatingButton({ courses }: { courses: Course[] }) {
     }
     router.push(`/courses/compare?courses=${comparisonList.join(',')}`);
   };
+
+  if (isLoading || error) {
+    return null;
+  }
 
   if (comparisonList.length === 0) {
     return null;

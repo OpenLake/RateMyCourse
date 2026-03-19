@@ -44,6 +44,13 @@ export async function POST(request: Request) {
     const body: BatchAnalysisRequest = await request.json();
     const { limit = 50, targetType, reviewIds } = body;
 
+    const maxLimit = 100;
+    const parsedLimit = Number(limit);
+    const integerLimit = Number.isFinite(parsedLimit)
+      ? Math.floor(parsedLimit)
+      : 50;
+    const safeLimit = Math.min(maxLimit, Math.max(1, integerLimit));
+
     // Check if AI service is configured
     if (!isAIServiceConfigured()) {
       return NextResponse.json(
@@ -59,12 +66,20 @@ export async function POST(request: Request) {
 
     // Filter by review IDs if provided
     if (reviewIds && reviewIds.length > 0) {
-      query = query.in('id', reviewIds);
+      query = query.in('id', reviewIds.slice(0, safeLimit));
     } else {
       // Get reviews without sentiment analysis
-      const { data: analyzedReviews } = await supabaseAdmin
+      const { data: analyzedReviews, error: analyzedReviewsError } = await supabaseAdmin
         .from('review_sentiments')
         .select('review_id');
+
+      if (analyzedReviewsError) {
+        console.error('Failed to fetch analyzed reviews:', analyzedReviewsError);
+        return NextResponse.json(
+          { error: 'Failed to fetch analyzed reviews' },
+          { status: 500 }
+        );
+      }
       
       const analyzedIds = (analyzedReviews || []).map(r => r.review_id);
       
@@ -80,7 +95,7 @@ export async function POST(request: Request) {
       query = query.eq('target_type', targetType);
     }
 
-    query = query.limit(limit);
+    query = query.limit(safeLimit);
 
     const { data: reviews, error: fetchError } = await query;
 
@@ -104,16 +119,18 @@ export async function POST(request: Request) {
       });
     }
 
+    const reviewsToProcess = reviews.slice(0, safeLimit);
+
     // Process each review
     const results = {
-      total: reviews.length,
+      total: reviewsToProcess.length,
       successful: 0,
       failed: 0,
       skipped: 0,
       errors: [] as string[],
     };
 
-    for (const review of reviews) {
+    for (const review of reviewsToProcess) {
       try {
         // Validate comment
         if (!review.comment || review.comment.length < SENTIMENT_CONFIG.preprocessing.minCommentLength) {
