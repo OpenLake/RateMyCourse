@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState, useMemo } from "react";
-import { useCourses } from "@/hooks/useCourses";
 import { useProfessors } from "@/hooks/useProfessors";
 import { Course, Professor } from "@/types";
 import ItemCard from "./ItemCard";
@@ -19,7 +18,10 @@ import { Button } from "@/components/ui/button";
 
 interface ItemListProps {
   type: "course" | "professor";
-  filters: FiltersState; // Receive filters as props
+  filters: FiltersState;
+  courses?: Course[];
+  isCoursesLoading?: boolean;
+  coursesError?: Error | null;
 }
 
 // Helper function to map difficulty string to numeric range
@@ -33,32 +35,31 @@ const getDifficultyRange = (difficultyLabel: string): [number, number] => {
   }
 };
 
-export default function ItemList({ type, filters }: ItemListProps) {
+export default function ItemList({
+  type,
+  filters,
+  courses = [],
+  isCoursesLoading = false,
+  coursesError = null,
+}: ItemListProps) {
   // Add sortBy state
   const [sortBy, setSortBy] = useState<string>("best-rated");
   
-  // 1. Get data from hooks
-  const {
-    courses,
-    isLoading: isCoursesLoading,
-    error: coursesError,
-  } = useCourses(); // This hook now returns courses WITH ratings
-
   const {
     professors,
     isLoading: isProfessorsLoading,
     error: professorsError,
-  } = useProfessors(); // This hook only returns static professor data
+  } = useProfessors();
 
-  // 2. This state will hold the final list of items WITH averages
+  // This state will hold the final list of items WITH averages
   const [itemsWithAvg, setItemsWithAvg] = useState<(Course | Professor)[]>([]);
   
-  // 3. Determine loading and error state
+  // Determine loading and error state
   const [isAggregating, setIsAggregating] = useState(false);
   const isLoading = (type === "course" ? isCoursesLoading : isProfessorsLoading) || isAggregating;
   const error = type === "course" ? coursesError : professorsError;
 
-  // 4. Handle DATA population
+  // Handle DATA population
   // EFFECT 1: For 'course' type
   useEffect(() => {
     if (type === 'course') {
