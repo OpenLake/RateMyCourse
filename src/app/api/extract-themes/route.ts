@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
+import { extractThemes, isAIServiceConfigured } from '@/lib/ai-service';
 
 export async function POST(request: NextRequest) {
   try {
@@ -9,6 +10,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Course ID is required' },
         { status: 400 }
+      );
+    }
+
+    // Check if AI service is configured
+    if (!isAIServiceConfigured()) {
+      return NextResponse.json(
+        { error: 'AI service not configured' },
+        { status: 500 }
       );
     }
 
@@ -34,130 +43,21 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Prepare review comments for Gemini
-    const reviewsText = reviews
-      .map((r, idx) => `${idx + 1}. ${r.comment}`)
-      .join('\n');
+    // Use centralized AI service to extract themes
+    const result = await extractThemes(reviews, 'course');
 
-    // Call Gemini API
-    const geminiApiKey = process.env.GEMINI_API_KEY;
-    
-    if (!geminiApiKey) {
+    if (!result.success) {
+      console.error('Theme extraction error:', result.error);
       return NextResponse.json(
-        { error: 'Gemini API key not configured' },
+        { error: result.error || 'Failed to extract themes' },
         { status: 500 }
       );
     }
 
-    const geminiResponse = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${geminiApiKey}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                {
-                  text: `You must return ONLY a JSON array. No explanations.
-
-Reviews:
-${reviewsText}
-
-Return 6-8 themes as JSON array:
-[{"tag":"theme name","count":number,"sentiment":"positive|negative|neutral"}]
-
-Example output:
-[
-{"tag":"Heavy Workload","count":5,"sentiment":"negative"},
-{"tag":"Engaging Lectures","count":3,"sentiment":"positive"}
-]`,
-                },
-              ],
-            },
-          ],
-          generationConfig: {
-            temperature: 0.2,
-            topK: 10,
-            topP: 0.8,
-            maxOutputTokens: 4096,
-          },
-          safetySettings: [
-            {
-              category: "HARM_CATEGORY_HARASSMENT",
-              threshold: "BLOCK_NONE",
-            },
-            {
-              category: "HARM_CATEGORY_HATE_SPEECH",
-              threshold: "BLOCK_NONE",
-            },
-            {
-              category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-              threshold: "BLOCK_NONE",
-            },
-            {
-              category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-              threshold: "BLOCK_NONE",
-            },
-          ],
-        }),
-      }
-    );
-
-    if (!geminiResponse.ok) {
-      const errorText = await geminiResponse.text();
-      console.error('Gemini API error status:', geminiResponse.status);
-      console.error('Gemini API error:', errorText);
-      return NextResponse.json(
-        { error: `Gemini API error: ${geminiResponse.status} - ${errorText.substring(0, 100)}` },
-        { status: 500 }
-      );
-    }
-
-    const geminiData = await geminiResponse.json();
-    const rawResponse = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || '[]';
-    const finishReason = geminiData.candidates?.[0]?.finishReason;
-    
-    console.log('Theme extraction - Response length:', rawResponse.length);
-    console.log('Theme extraction - Finish reason:', finishReason);
-    console.log('Theme extraction - Raw response preview:', rawResponse.substring(0, 150));
-    
-    // Parse the JSON response from Gemini
-    let themes = [];
-    try {
-      // Clean up the response in case Gemini adds markdown code blocks
-      let cleanedResponse = rawResponse
-        .replace(/```json\s*/g, '')
-        .replace(/```\s*/g, '')
-        .trim();
-      
-      // If response is incomplete (MAX_TOKENS), try to fix it
-      if (finishReason === 'MAX_TOKENS' && !cleanedResponse.endsWith(']')) {
-        // Try to close the JSON array properly
-        cleanedResponse = cleanedResponse.replace(/,\s*$/, '') + ']';
-      }
-      
-      themes = JSON.parse(cleanedResponse);
-      
-      // Validate and limit to top 8 themes
-      themes = themes
-        .filter((t: any) => t.tag && t.sentiment)
-        .slice(0, 8)
-        .map((t: any) => ({
-          tag: t.tag,
-          count: t.count || 1,
-          sentiment: t.sentiment
-        }));
-    } catch (parseError) {
-      console.error('Error parsing Gemini response:', parseError);
-      console.error('Raw response:', rawResponse);
-      themes = [];
-    }
+    console.log('Theme extraction - Success:', result.data?.length, 'themes extracted');
 
     return NextResponse.json({
-      themes,
+      themes: result.data || [],
       reviewCount: reviews.length
     });
 

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { SENTIMENT_CONFIG } from '@/lib/sentiment-config';
+import { analyzeSentiment, isAIServiceConfigured } from '@/lib/ai-service';
 
 // Type definitions for the sentiment analysis
 interface SentimentRequest {
@@ -65,160 +66,28 @@ function preprocessComment(comment: string): { valid: boolean; error?: string; p
 }
 
 /**
- * Call Gemini API to analyze sentiment
- */
-async function analyzeWithGemini(
-  comment: string,
-  targetType: 'course' | 'professor'
-): Promise<SentimentResult> {
-  const geminiApiKey = process.env.GEMINI_API_KEY;
-
-  if (!geminiApiKey) {
-    throw new Error('Gemini API key not configured');
-  }
-
-  // Get aspect configuration based on target type
-  const aspects = targetType === 'course' 
-    ? SENTIMENT_CONFIG.aspects.course 
-    : SENTIMENT_CONFIG.aspects.professor;
-
-  // Build aspect list for prompt
-  const aspectList = Object.keys(aspects).join(', ');
-
-  const prompt = `Analyze the sentiment of this ${targetType} review and return ONLY a JSON object (no markdown, no explanations).
-
-Review: "${comment}"
-
-Return this exact JSON structure:
-{
-  "overallSentiment": <number 1-5, where 1=very negative, 3=neutral, 5=very positive>,
-  "overallConfidence": <number 0-1, confidence in the overall sentiment>,
-  "aspectSentiments": {
-    ${Object.keys(aspects).map(aspect => `"${aspect}": {"score": <1-5>, "confidence": <0-1>}`).join(',\n    ')}
-  },
-  "primaryEmotion": <one of: "satisfied", "frustrated", "excited", "disappointed", "neutral", "overwhelmed", "grateful" or null>,
-  "emotionIntensity": <number 0-1 or null>
-}
-
-Guidelines:
-- Analyze sentiment for each aspect: ${aspectList}
-- If an aspect is not mentioned, set score to 3 (neutral) and confidence to 0
-- overallSentiment should be a weighted average of mentioned aspects
-- primaryEmotion should reflect the dominant emotional tone
-- Return valid JSON only`;
-
-  let retries = 0;
-  let lastError: Error | null = null;
-
-  while (retries < SENTIMENT_CONFIG.gemini.retryAttempts) {
-    try {
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${SENTIMENT_CONFIG.gemini.model}:generateContent?key=${geminiApiKey}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            contents: [
-              {
-                parts: [{ text: prompt }],
-              },
-            ],
-            generationConfig: {
-              temperature: SENTIMENT_CONFIG.gemini.temperature,
-              topK: SENTIMENT_CONFIG.gemini.topK,
-              topP: SENTIMENT_CONFIG.gemini.topP,
-              maxOutputTokens: SENTIMENT_CONFIG.gemini.maxOutputTokens,
-            },
-            safetySettings: [
-              { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
-              { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
-              { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
-              { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
-            ],
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`Gemini API error: ${response.status} ${response.statusText}`);
-      }
-
-      const data = await response.json();
-
-      if (!data.candidates || data.candidates.length === 0) {
-        throw new Error('No response from Gemini API');
-      }
-
-      const text = data.candidates[0]?.content?.parts?.[0]?.text;
-      if (!text) {
-        throw new Error('Empty response from Gemini API');
-      }
-
-      // Parse JSON response (handle potential markdown code blocks)
-      let jsonText = text.trim();
-      if (jsonText.startsWith('```json')) {
-        jsonText = jsonText.replace(/```json\n?/g, '').replace(/```\n?/g, '');
-      } else if (jsonText.startsWith('```')) {
-        jsonText = jsonText.replace(/```\n?/g, '');
-      }
-
-      const result = JSON.parse(jsonText);
-
-      // Validate response structure
-      if (
-        typeof result.overallSentiment !== 'number' ||
-        typeof result.overallConfidence !== 'number' ||
-        !result.aspectSentiments
-      ) {
-        throw new Error('Invalid response structure from Gemini API');
-      }
-
-      return {
-        overallSentiment: result.overallSentiment,
-        overallConfidence: result.overallConfidence,
-        aspectSentiments: result.aspectSentiments,
-        primaryEmotion: result.primaryEmotion || null,
-        emotionIntensity: result.emotionIntensity || null,
-        rawResponse: data,
-      };
-
-    } catch (error) {
-      lastError = error as Error;
-      retries++;
-      
-      if (retries < SENTIMENT_CONFIG.gemini.retryAttempts) {
-        // Wait before retrying
-        await new Promise(resolve => 
-          setTimeout(resolve, SENTIMENT_CONFIG.gemini.retryDelay * retries)
-        );
-      }
-    }
-  }
-
-  // All retries failed
-  throw new Error(`Failed to analyze sentiment after ${retries} attempts: ${lastError?.message}`);
-}
-
-/**
  * Store sentiment analysis result in database
  */
 async function storeSentimentResult(
   reviewId: string,
-  result: SentimentResult
+  overallSentiment: number,
+  overallConfidence: number,
+  aspectSentiments: any,
+  primaryEmotion: string | null,
+  emotionIntensity: number | null,
+  rawResponse: any
 ): Promise<void> {
   const { error } = await supabaseAdmin
     .from('review_sentiments')
     .upsert({
       review_id: reviewId,
-      overall_sentiment: result.overallSentiment,
-      overall_confidence: result.overallConfidence,
-      aspect_sentiments: result.aspectSentiments,
-      primary_emotion: result.primaryEmotion,
-      emotion_intensity: result.emotionIntensity,
+      overall_sentiment: overallSentiment,
+      overall_confidence: overallConfidence,
+      aspect_sentiments: aspectSentiments,
+      primary_emotion: primaryEmotion,
+      emotion_intensity: emotionIntensity,
       model_version: SENTIMENT_CONFIG.gemini.model,
-      raw_response: result.rawResponse,
+      raw_response: rawResponse,
       processed_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     }, {
@@ -292,25 +161,50 @@ export async function POST(request: Request) {
       );
     }
 
-    // Analyze sentiment with Gemini
-    const sentimentResult = await analyzeWithGemini(
+    // Check if AI service is configured
+    if (!isAIServiceConfigured()) {
+      return NextResponse.json(
+        { error: 'AI service not configured' },
+        { status: 503 }
+      );
+    }
+
+    // Analyze sentiment using centralized AI service
+    const aiResult = await analyzeSentiment(
       preprocessResult.preprocessed!,
       targetType
     );
 
+    if (!aiResult.success || !aiResult.data) {
+      return NextResponse.json(
+        { error: aiResult.error || 'Failed to analyze sentiment' },
+        { status: 500 }
+      );
+    }
+
+    const sentimentData = aiResult.data;
+
     // Store result in database (this will trigger aggregation via database triggers)
-    await storeSentimentResult(reviewId, sentimentResult);
+    await storeSentimentResult(
+      reviewId,
+      sentimentData.overallSentiment,
+      sentimentData.overallConfidence,
+      sentimentData.aspectSentiments,
+      sentimentData.primaryEmotion,
+      sentimentData.emotionIntensity,
+      aiResult.rawResponse
+    );
 
     // Return success response
     return NextResponse.json({
       success: true,
       data: {
         reviewId,
-        overallSentiment: sentimentResult.overallSentiment,
-        overallConfidence: sentimentResult.overallConfidence,
-        aspectSentiments: sentimentResult.aspectSentiments,
-        primaryEmotion: sentimentResult.primaryEmotion,
-        emotionIntensity: sentimentResult.emotionIntensity,
+        overallSentiment: sentimentData.overallSentiment,
+        overallConfidence: sentimentData.overallConfidence,
+        aspectSentiments: sentimentData.aspectSentiments,
+        primaryEmotion: sentimentData.primaryEmotion,
+        emotionIntensity: sentimentData.emotionIntensity,
       },
     });
 

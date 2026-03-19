@@ -1,95 +1,12 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { SENTIMENT_CONFIG } from '@/lib/sentiment-config';
+import { analyzeSentiment, isAIServiceConfigured } from '@/lib/ai-service';
 
 interface BatchAnalysisRequest {
   limit?: number;
   targetType?: 'course' | 'professor';
   reviewIds?: string[];
-}
-
-/**
- * Analyze sentiment with Gemini API
- */
-async function analyzeWithGemini(
-  comment: string,
-  targetType: 'course' | 'professor'
-): Promise<any> {
-  const geminiApiKey = process.env.GEMINI_API_KEY;
-  if (!geminiApiKey) {
-    throw new Error('Gemini API key not configured');
-  }
-
-  const aspects = targetType === 'course' 
-    ? SENTIMENT_CONFIG.aspects.course 
-    : SENTIMENT_CONFIG.aspects.professor;
-
-  const aspectList = Object.keys(aspects).join(', ');
-
-  const prompt = `Analyze the sentiment of this ${targetType} review and return ONLY a JSON object (no markdown, no explanations).
-
-Review: "${comment}"
-
-Return this exact JSON structure:
-{
-  "overallSentiment": <number 1-5>,
-  "overallConfidence": <number 0-1>,
-  "aspectSentiments": {
-    ${Object.keys(aspects).map(aspect => `"${aspect}": {"score": <1-5>, "confidence": <0-1>}`).join(',\n    ')}
-  },
-  "primaryEmotion": <"satisfied"|"frustrated"|"excited"|"disappointed"|"neutral"|"overwhelmed"|"grateful"|null>,
-  "emotionIntensity": <number 0-1 or null>
-}
-
-Guidelines:
-- Analyze sentiment for: ${aspectList}
-- If an aspect is not mentioned, set score to 3 and confidence to 0
-- Return valid JSON only`;
-
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${SENTIMENT_CONFIG.gemini.model}:generateContent?key=${geminiApiKey}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: {
-          temperature: SENTIMENT_CONFIG.gemini.temperature,
-          topK: SENTIMENT_CONFIG.gemini.topK,
-          topP: SENTIMENT_CONFIG.gemini.topP,
-          maxOutputTokens: SENTIMENT_CONFIG.gemini.maxOutputTokens,
-        },
-        safetySettings: [
-          { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
-          { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
-          { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
-          { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
-        ],
-      }),
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error(`Gemini API error: ${response.status}`);
-  }
-
-  const data = await response.json();
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-  
-  if (!text) {
-    throw new Error('Empty response from Gemini');
-  }
-
-  // Parse JSON (handle markdown)
-  let jsonText = text.trim();
-  if (jsonText.startsWith('```json')) {
-    jsonText = jsonText.replace(/```json\n?/g, '').replace(/```\n?/g, '');
-  } else if (jsonText.startsWith('```')) {
-    jsonText = jsonText.replace(/```\n?/g, '');
-  }
-
-  const result = JSON.parse(jsonText);
-  return { ...result, rawResponse: data };
 }
 
 /**
@@ -126,6 +43,14 @@ export async function POST(request: Request) {
   try {
     const body: BatchAnalysisRequest = await request.json();
     const { limit = 50, targetType, reviewIds } = body;
+
+    // Check if AI service is configured
+    if (!isAIServiceConfigured()) {
+      return NextResponse.json(
+        { error: 'AI service not configured' },
+        { status: 503 }
+      );
+    }
 
     // Build query to get reviews needing analysis
     let query = supabaseAdmin
@@ -196,14 +121,25 @@ export async function POST(request: Request) {
           continue;
         }
 
-        // Analyze sentiment
-        const sentimentResult = await analyzeWithGemini(
+        // Analyze sentiment using centralized AI service
+        const aiResult = await analyzeSentiment(
           review.comment,
           review.target_type
         );
 
+        if (!aiResult.success || !aiResult.data) {
+          throw new Error(aiResult.error || 'Sentiment analysis failed');
+        }
+
         // Store result
-        await storeSentiment(review.id, sentimentResult);
+        await storeSentiment(review.id, {
+          overallSentiment: aiResult.data.overallSentiment,
+          overallConfidence: aiResult.data.overallConfidence,
+          aspectSentiments: aiResult.data.aspectSentiments,
+          primaryEmotion: aiResult.data.primaryEmotion,
+          emotionIntensity: aiResult.data.emotionIntensity,
+          rawResponse: aiResult.rawResponse,
+        });
 
         results.successful++;
 
