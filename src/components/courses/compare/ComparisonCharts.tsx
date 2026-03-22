@@ -23,6 +23,8 @@ export default function ComparisonCharts({ courses }: ComparisonChartsProps) {
     return null;
   }
 
+  const getSeriesKey = (course: Course) => `${course.code}-${course.id}`;
+
   // Color palette for courses
   const colors = [
     '#3b82f6', // blue
@@ -35,22 +37,22 @@ export default function ComparisonCharts({ courses }: ComparisonChartsProps) {
   const ratingsData = [
     {
       metric: 'Overall',
-      ...courses.reduce((acc, course, idx) => {
-        acc[course.code] = course.overall_rating;
+      ...courses.reduce((acc, course) => {
+        acc[getSeriesKey(course)] = course.overall_rating;
         return acc;
       }, {} as Record<string, number>),
     },
     {
       metric: 'Difficulty',
-      ...courses.reduce((acc, course, idx) => {
-        acc[course.code] = course.difficulty_rating;
+      ...courses.reduce((acc, course) => {
+        acc[getSeriesKey(course)] = course.difficulty_rating;
         return acc;
       }, {} as Record<string, number>),
     },
     {
       metric: 'Workload',
-      ...courses.reduce((acc, course, idx) => {
-        acc[course.code] = course.workload_rating;
+      ...courses.reduce((acc, course) => {
+        acc[getSeriesKey(course)] = course.workload_rating;
         return acc;
       }, {} as Record<string, number>),
     },
@@ -111,7 +113,8 @@ export default function ComparisonCharts({ courses }: ComparisonChartsProps) {
               {courses.map((course, idx) => (
                 <Bar
                   key={course.id}
-                  dataKey={course.code}
+                  dataKey={getSeriesKey(course)}
+                  name={course.code}
                   fill={colors[idx % colors.length]}
                   radius={[4, 4, 0, 0]}
                 />
