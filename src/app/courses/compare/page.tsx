@@ -80,7 +80,7 @@ export default function CourseComparisonPage() {
             <AlertTitle>How to use this tool</AlertTitle>
             <AlertDescription className="text-sm">
               Select up to 4 courses to compare their ratings, difficulty, workload, and student reviews.
-              Use the comparison table and charts to make data-driven decisions about your course selection.
+              Use the side-by-side table, rating chart, and quick takeaways to make data-driven decisions about your course selection.
             </AlertDescription>
           </Alert>
 
@@ -136,7 +136,7 @@ export default function CourseComparisonPage() {
               {/* Comparison Charts */}
               <div>
                 <h2 className="text-2xl font-black font-mono mb-4 flex items-center gap-2">
-                  📊 Visual Metrics
+                  📊 Visual Summary
                 </h2>
                 <ComparisonCharts courses={selectedCourses} />
               </div>
