@@ -2,6 +2,9 @@
 import { useState } from "react";
 import Filters, { FiltersState } from "@/components/courses/Filters";
 import ItemList from "@/components/courses/ItemList";
+import { ComparisonFloatingButton } from "@/components/courses/CompareButton";
+import CompareCoursesButton from "@/components/courses/CompareCoursesButton";
+import { useCourses } from "@/hooks/useCourses";
 
 // Define the initial state for filters
 const initialFilters: FiltersState = {
@@ -13,6 +16,7 @@ const initialFilters: FiltersState = {
 
 export default function CoursesPage() {
   const [filters, setFilters] = useState<FiltersState>(initialFilters);
+  const { courses } = useCourses();
 
   const handleFilterChange = (newFilters: FiltersState) => {
     setFilters(newFilters);
@@ -52,15 +56,24 @@ export default function CoursesPage() {
         {/* Main Content */}
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
           <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6 items-start">
-            <Filters
-              type="course"
-              currentFilters={filters}
-              onFilterChange={handleFilterChange}
-            />
+            {/* Left Sidebar */}
+            <div className="space-y-4">
+              <Filters
+                type="course"
+                currentFilters={filters}
+                onFilterChange={handleFilterChange}
+              />
+              <CompareCoursesButton />
+            </div>
+            
+            {/* Right Content */}
             <ItemList type="course" filters={filters} />
           </div>
         </div>
       </div>
+
+      {/* Floating Comparison Button */}
+      <ComparisonFloatingButton courses={courses} />
     </div>
   );
 }
