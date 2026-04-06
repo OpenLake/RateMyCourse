@@ -4,6 +4,8 @@ _This file is auto-generated from the repository collaborators list._
 
 | Name          | GitHub Handle    | Role             | Tenure | Time Period | 
 |---------------|------------------|------------------|---|---|
-| Rajeev      | [@rajeev-sr](https://github.com/rajeev-sr) | Mentor (Hacktoberfest, FOSS Overflow) | 2025-26 | August 2025 - Present | 
+| Rajeev      | [@rajeev-sr](https://github.com/rajeev-sr) | Mentor (Sprint-M25, Hacktoberfest-25, FOSS Overflow 2025-26) | 2025-26 | August 2025 - March 2026 | 
+| Akshat Gupta      | [@Akshats-git](https://github.com/Akshats-git) | Formal Mentee (FOSS Overflow 2025-26) | 2025-26 | February 2026 - March 2026 | 
+| Alan Eapen Panicker      | [@alSN0W](https://github.com/alSN0W) | Informal Mentee (FOSS Overflow 2025-26) | 2025-26 | February 2026 - March 2026 | 
 | Lakshay Gupta      | [@lakshayg2005](https://github.com/lakshayg2005) | Maintainer (DevLabs-25) | 2025-26 | June 2025 - July 2025 | 
-| Amay      | [@amaydixit11](https://github.com/amaydixit11) | Coordinator | 2025-26 | May 2025 - July 2025 |
+| Amay Dixit     | [@amaydixit11](https://github.com/amaydixit11) | Coordinator | 2025-26 | May 2025 - July 2025 |
