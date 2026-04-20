@@ -7,6 +7,9 @@ import CoursePageHeader from "@/components/courses/course_page/CoursePageHeader"
 import CoursePageStats from "@/components/courses/course_page/CoursePageStats";
 import CoursePageReviews from "@/components/courses/course_page/CoursePageReviews";
 import RateThisCourse from "@/components/courses/course_page/RateThisCourse";
+import AddToComparison from "@/components/courses/course_page/AddToComparison";
+import CourseSummary from "@/components/courses/course_page/CourseSummary";
+import CourseKeyThemes from "@/components/courses/course_page/CourseKeyThemes";
 import Example from "@/components/courses/course_page/CoursePageLoader";
 
 export default function CoursePage({ params }: { params: { courseId: string } }) {
@@ -17,7 +20,6 @@ export default function CoursePage({ params }: { params: { courseId: string } })
 
   const course = courses.find((course) => course.id === params.courseId);
 
-  /* ---------- Fetch Course UUID from Supabase ---------- */
   useEffect(() => {
     if (!course?.code) return;
 
@@ -38,7 +40,6 @@ export default function CoursePage({ params }: { params: { courseId: string } })
     fetchCourseUUID();
   }, [course?.code]);
 
-  /* ---------- Fetch Ratings to Compute Avg + Count ---------- */
   useEffect(() => {
     if (!courseUUID) return;
 
@@ -79,9 +80,7 @@ export default function CoursePage({ params }: { params: { courseId: string } })
   return (
     <div className="container px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 min-h-[calc(100vh-6rem)] mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-10">
-        {/* Left Section */}
         <div className="lg:col-span-8 space-y-6 sm:space-y-8">
-          {/* Course Header with modern styling */}
           <div className="bg-gradient-to-br dark:from-blue-600/20 dark:to-purple-700/20 border border-blue-500/30 rounded-2xl p-8 backdrop-blur-md shadow-2xl  shadow-blue-500/10 hover:shadow-blue-500/20 transition-all duration-300 ">
             <CoursePageHeader
               course={course}
@@ -90,20 +89,36 @@ export default function CoursePage({ params }: { params: { courseId: string } })
             />
           </div>
 
-          {/* Stats Grid - 2x2 Layout */}
           <div className=" rounded-2xl p-6 backdrop-blur-md shadow-xl transition-all duration-300 border border-border bg-gradient-to-b from-background to-muted/40 hover:shadow-primary/20">
             <CoursePageStats reviewCount={reviewCount} />
           </div>
 
-          {/* Reviews Section with modern container */}
+          {courseUUID && (
+            <div className="rounded-2xl backdrop-blur-md shadow-xl transition-all duration-300">
+              <CourseSummary 
+                courseId={courseUUID} 
+                courseCode={course.code}
+                courseTitle={course.title}
+              />
+            </div>
+          )}
+
           <div className="rounded-2xl p-6 backdrop-blur-md shadow-xl transition-all duration-300 border border-border bg-gradient-to-b from-background to-muted/40 hover:shadow-primary/20">
             <CoursePageReviews id={courseUUID || course.id} reviewCount={reviewCount} />
           </div>
         </div>
 
-        {/* Right Section - Sticky Sidebar */}
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-8 space-y-6">
+            {courseUUID && (
+              <CourseKeyThemes 
+                courseId={courseUUID} 
+                courseCode={course.code}
+              />
+            )}
+            
+            <AddToComparison course={course} />
+            
             <div className="rounded-2xl p-6 backdrop-blur-md shadow-xl transition-all duration-300 border border-border bg-gradient-to-b from-background to-muted/40 hover:shadow-primary/20">
               {courseUUID && <RateThisCourse courseId={courseUUID} />}
             </div>

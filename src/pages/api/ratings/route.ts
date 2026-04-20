@@ -4,6 +4,44 @@ import { supabaseAdmin } from '@/lib/supabase-admin';
 import { createFuzzyTimestamp, sanitizeContent } from '@/lib/anonymization';
 import { RatingInsert } from '@/types/supabase';
 
+/**
+ * Trigger sentiment analysis asynchronously (fire and forget)
+ * This function calls the sentiment analysis API in the background
+ */
+async function analyzeSentimentAsync(
+  reviewId: string,
+  comment: string,
+  targetType: 'course' | 'professor'
+): Promise<void> {
+  try {
+    // Get the base URL for internal API calls
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    
+    const response = await fetch(`${baseUrl}/api/analyze-sentiment`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        reviewId,
+        comment,
+        targetType,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Sentiment analysis failed');
+    }
+
+    const result = await response.json();
+    console.log('Sentiment analysis completed for review:', reviewId, result);
+  } catch (error) {
+    console.error('Failed to analyze sentiment:', error);
+    // Don't throw - we don't want to fail the rating submission
+  }
+}
+
 // POST /api/ratings - Create a new rating
 export async function POST(request: Request) {
   try {
@@ -111,6 +149,15 @@ export async function POST(request: Request) {
     
     // Update the rating statistics view or trigger
     // This would typically be handled by a database trigger
+    
+    // Trigger sentiment analysis if comment is provided
+    if (sanitizedComment && sanitizedComment.length > 10) {
+      // Call sentiment analysis asynchronously (don't wait for it)
+      analyzeSentimentAsync(data.id, sanitizedComment, targetType).catch((err) => {
+        console.error('Error in background sentiment analysis:', err);
+        // Log error but don't fail the rating submission
+      });
+    }
     
     return NextResponse.json({
       success: true,
