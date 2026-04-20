@@ -92,15 +92,19 @@ CREATE TABLE reviews (
 );
 
 -- Create the votes table
+-- UPDATED: Now tracks auth_id to prevent duplicate votes from same user
 CREATE TABLE votes (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   review_id UUID NOT NULL REFERENCES reviews(id) ON DELETE CASCADE,
   anonymous_id UUID NOT NULL,
+  auth_id UUID NOT NULL, -- Track real user to prevent duplicates
   vote_type TEXT NOT NULL CHECK (vote_type IN ('helpful', 'unhelpful')),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   
-  -- Ensure a user can only vote once per review
-  UNIQUE (review_id, anonymous_id)
+  -- Ensure a user can only vote once per review (using anonymous_id for backward compatibility)
+  UNIQUE (review_id, anonymous_id),
+  -- NEW: Prevent same real user from voting twice (even with different anonymous_ids)
+  UNIQUE (review_id, auth_id)
 );
 
 -- Create the flags table
@@ -120,7 +124,8 @@ CREATE TABLE flags (
 CREATE INDEX idx_reviews_target ON reviews(target_id, target_type);
 CREATE INDEX idx_reviews_anonymous_id ON reviews(anonymous_id);
 CREATE INDEX idx_votes_review_id ON votes(review_id);
-CREATE INDEX idx_flagsMathematics-I_review_id ON flags(review_id);
+CREATE INDEX idx_votes_auth_id ON votes(auth_id); -- NEW: Index for auth_id lookups
+CREATE INDEX idx_flags_review_id ON flags(review_id);
 CREATE INDEX idx_flags_status ON flags(status);
 
 -- Create function to update course ratings
@@ -252,8 +257,13 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Create function to update review votes
+-- IMPORTANT: SECURITY DEFINER allows this function to bypass RLS policies
+-- This is necessary so the trigger can update the reviews table
 CREATE OR REPLACE FUNCTION update_review_votes() 
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER 
+SECURITY DEFINER
+SET search_path = public
+AS $$
 BEGIN
   IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
     UPDATE reviews
@@ -444,26 +454,28 @@ CREATE POLICY review_delete ON reviews
   );
 
 -- Vote policies
-CREATE POLICY vote_select ON votes 
-  FOR SELECT USING (true);
+CREATE POLICY "Allow public to read votes" 
+ON votes FOR SELECT 
+USING (true);
 
-CREATE POLICY vote_insert ON votes 
-  FOR INSERT WITH CHECK (
-    auth.uid() IS NOT NULL AND 
-    anonymous_id = get_anonymous_id()
-  );
+-- Authenticated users can insert votes with their own auth_id
+CREATE POLICY "Authenticated users can insert their own votes" 
+ON votes FOR INSERT 
+TO authenticated
+WITH CHECK (auth_id = auth.uid());
 
-CREATE POLICY vote_update ON votes 
-  FOR UPDATE USING (
-    anonymous_id = get_anonymous_id()
-  ) WITH CHECK (
-    anonymous_id = get_anonymous_id()
-  );
+-- Users can update their own votes
+CREATE POLICY "Users can update their own votes" 
+ON votes FOR UPDATE 
+TO authenticated
+USING (auth_id = auth.uid())
+WITH CHECK (auth_id = auth.uid());
 
-CREATE POLICY vote_delete ON votes 
-  FOR DELETE USING (
-    anonymous_id = get_anonymous_id() OR is_admin()
-  );
+-- Users can delete their own votes
+CREATE POLICY "Users can delete their own votes" 
+ON votes FOR DELETE 
+TO authenticated
+USING (auth_id = auth.uid());
 
 -- Flag policies
 CREATE POLICY flag_select ON flags 
@@ -481,40 +493,32 @@ CREATE POLICY flag_update ON flags
 CREATE POLICY flag_delete ON flags 
   FOR DELETE USING (is_admin());
 
--- 
--- 
--- 
--- 
--- THIS IS THE CORRECTED FUNCTION
--- 
--- 
--- 
--- 
 -- Create function to create an anonymous user on signup
 CREATE OR REPLACE FUNCTION handle_new_user()
 RETURNS TRIGGER AS $$
 DECLARE
   new_salt TEXT;
   new_hash TEXT;
+  existing_user_count INT;
 BEGIN
-  -- Generate a salt
-  -- We explicitly call the function inside the 'extensions' schema
-  new_salt := encode(extensions.gen_random_bytes(16), 'hex');
+  -- Check if user already exists in our users table
+  SELECT COUNT(*) INTO existing_user_count 
+  FROM public.users 
+  WHERE auth_id = NEW.id;
   
-  -- Create verification hash (placeholder)
-  -- We explicitly call the function inside the 'extensions' schema
-  new_hash := encode(extensions.digest(NEW.email || new_salt, 'sha256'), 'hex');
-  
-  -- Insert new user
-  INSERT INTO public.users (auth_id, verification_hash, salt)
-  VALUES (NEW.id, new_hash, new_salt);
+  -- Only create if doesn't exist
+  IF existing_user_count = 0 THEN
+    -- Generate a salt
+    new_salt := encode(extensions.gen_random_bytes(16), 'hex');
+    
+    -- Create verification hash
+    new_hash := encode(extensions.digest(NEW.email || new_salt, 'sha256'), 'hex');
+    
+    -- Insert new user
+    INSERT INTO public.users (auth_id, verification_hash, salt)
+    VALUES (NEW.id, new_hash, new_salt);
+  END IF;
   
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
-
--- Trigger to create user profile after auth user is created
-CREATE TRIGGER on_auth_user_created
-  AFTER INSERT ON auth.users
-  FOR EACH ROW EXECUTE FUNCTION handle_new_user();
-  
