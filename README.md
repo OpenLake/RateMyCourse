@@ -32,6 +32,8 @@ As a new project, there's currently no code to look at, but you can still get in
 
 ## 👥 Maintainers
 
+- [@siddhisingh9](https://github.com/siddhisingh9)  
+- [@harshita-sl](https://github.com/harshita-sl)  
 - [@amaydixit11](https://github.com/amaydixit11)  
 - [@rajeev-sr](https://github.com/rajeev-sr)  
 - [@divyansh1705](https://github.com/divyansh1705)  
