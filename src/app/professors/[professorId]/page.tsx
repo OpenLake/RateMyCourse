@@ -6,9 +6,7 @@ import { supabase } from '@/lib/supabase';
 import RateThisProfessor from '../../../components/professors/professor_page/RateThisProfessor';
 import ProfessorPageHeader from '../../../components/professors/professor_page/ProfessorPageHeader';
 import ProfessorPageStats from '../../../components/professors/professor_page/ProfessorPageStats';
-import ProfessorPageCourses from '../../../components/professors/professor_page/ProfessorPageCourses';
 import ProfessorPageReviews from '../../../components/professors/professor_page/ProfessorPageReviews';
-import PainOMeter from '@/components/courses/PainOMeter';
 import { useProfessors } from '@/hooks/useProfessors';
 
 export default function ProfessorPage({ params }: { params: { professorId: string } }) {
@@ -18,7 +16,6 @@ export default function ProfessorPage({ params }: { params: { professorId: strin
 
   const prof = professors.find((p) => p.id === params.professorId);
 
-  /* ---------- Fetch Ratings for Professor ---------- */
   useEffect(() => {
     if (!prof?.id) return;
 
@@ -55,7 +52,6 @@ export default function ProfessorPage({ params }: { params: { professorId: strin
   return (
     <div className="container px-4 md:px-6 py-4 mx-auto flex flex-col min-h-full">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1">
-        {/* Left column */}
         <div className="col-span-12 lg:col-span-8 space-y-4">
           <ProfessorPageHeader
             professor={prof}
@@ -63,17 +59,10 @@ export default function ProfessorPage({ params }: { params: { professorId: strin
             reviewCount={reviewCount}
           />
           <ProfessorPageStats professor={prof} reviewCount={reviewCount} />
-          {/* <ProfessorPageCourses courses={prof.course_ids} /> */}
           <ProfessorPageReviews id={prof.id} reviewCount={reviewCount} />
         </div>
-        {/* Right sidebar */}
         <div className="col-span-12 lg:col-span-4 space-y-4">
           <RateThisProfessor professor={prof} />
-          {/* <PainOMeter
-            difficulty={prof.averageDifficulty ?? 5}
-            workload={prof.averageWorkload ?? 5}
-            rating={prof.overall_rating ?? 0}
-          /> */}
         </div>
       </div>
     </div>

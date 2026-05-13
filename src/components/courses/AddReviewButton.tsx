@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/lib/supabase";
 import toast from "react-hot-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { triggerSentimentAnalysis } from "@/lib/sentiment-utils";
 
 interface AddReviewButtonProps {
   courseId: string;
@@ -84,6 +85,18 @@ export default function AddReviewButton({ courseId }: AddReviewButtonProps) {
         if (updateError) {
           toast.error(`Failed to update review: ${updateError.message}`);
           return;
+        }
+
+        // Trigger sentiment analysis for the updated comment
+        if (review.comment && review.comment.length > 10) {
+          triggerSentimentAnalysis(
+            existingReview.id,
+            review.comment,
+            "course"
+          ).catch((err) => {
+            console.error("Failed to analyze sentiment:", err);
+            // Don't show error to user, sentiment analysis is background process
+          });
         }
       } else {
         // No existing review - user must submit rating first

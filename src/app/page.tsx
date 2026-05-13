@@ -6,7 +6,6 @@ import { BookOpen, Users } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import dynamic from 'next/dynamic';
 
-// Import Typewriter dynamically to prevent SSR issues
 const Typewriter = dynamic(() => import('typewriter-effect'), { ssr: false });
 
 export default function Home() {
@@ -18,7 +17,6 @@ export default function Home() {
   useEffect(() => {
     setIsMounted(true);
     const fetchCounts = async () => {
-      // Fetch course count
       const { count: coursesCnt, error: coursesError } = await supabase
         .from("courses")
         .select("*", { count: "exact", head: true });
@@ -30,7 +28,6 @@ export default function Home() {
         setCourseCount(coursesCnt || 0);
       }
 
-      // Fetch professor count
       const { count: profCnt, error: profError } = await supabase
         .from("professors")
         .select("*", { count: "exact", head: true });
@@ -42,7 +39,6 @@ export default function Home() {
         setProfessorCount(profCnt || 0);
       }
 
-      // Fetch reviews count
       const { count: reviewsCnt, error: reviewsError } = await supabase
         .from("reviews")
         .select("*", { count: "exact", head: true });
@@ -60,14 +56,11 @@ export default function Home() {
 
   return (
     <main className="relative bg-background min-h-screen font-sans overflow-hidden">
-      {/* Texture overlay - adjusted for light/dark modes */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1zbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC4xNSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-40 dark:opacity-60" />
 
-      {/* Noise texture - adjusted for light/dark modes */}
       <div className="absolute inset-0 bg-noise opacity-[0.06] dark:opacity-[0.1] pointer-events-none" />
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1zbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuODUiIG51bU9jdGF2ZXM9IjQiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2UpIiBvcGFjaXR5PSIwLjQiLz48L3N2Zz4=')] opacity-10 dark:opacity-20 mix-blend-soft-light pointer-events-none" />
 
-      {/* Gradient accents - adjusted for light/dark modes and responsive */}
       <div className="absolute top-10 sm:top-20 -left-20 sm:-left-40 w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] bg-primary/10 dark:bg-primary/20 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-20 sm:bottom-40 -right-20 sm:-right-40 w-[250px] sm:w-[500px] h-[250px] sm:h-[500px] bg-primary/8 dark:bg-primary/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] sm:w-[400px] h-[200px] sm:h-[400px] bg-primary/5 dark:bg-primary/10 rounded-full blur-3xl" />
@@ -121,37 +114,6 @@ export default function Home() {
               )}
             </div>
           </div>
-
-          {/* <div className="flex flex-col sm:flex-row w-full max-w-2xl gap-3 mt-4">
-            <div className="relative flex-1">
-              <SearchIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <input
-                type="text"
-                placeholder="Search for courses or professors..."
-                className="pl-12 pr-4 py-3 w-full rounded-lg border border-input bg-card/80 backdrop-blur-sm shadow-md focus:ring-2 focus:ring-ring/30 focus:border-ring transition-all"
-              />
-            </div>
-            <Link
-              href="/courses"
-              className={buttonVariants({ 
-                size: "lg",
-                className: "px-8 py-3 font-medium shadow-md"
-              })}
-            >
-              Search
-            </Link>
-          </div> */}
-          {/* <Link
-              href="/review/new"
-              className={buttonVariants({ 
-                variant: "secondary",
-                size: "lg",
-                className: "shadow-md font-medium"
-              })}
-            >
-              <PenLine className="h-4 w-4 mr-2" />
-              Write Your Review!
-            </Link> */}
 
           <div className="grid grid-cols-3 gap-2 sm:gap-4 w-full max-w-2xl border border-border/60 rounded-lg p-4 sm:p-6 md:p-8 bg-card/50 hover:border-primary/30 hover:bg-card/60 transition-all duration-300 backdrop-blur-sm">
             <div className="flex flex-col items-center space-y-1 sm:space-y-2 group cursor-default">

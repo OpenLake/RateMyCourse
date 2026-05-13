@@ -16,7 +16,6 @@ export default function Dashboard() {
   const [loadingReviews, setLoadingReviews] = useState(true);
   const [loadingRatings, setLoadingRatings] = useState(true);
 
-  // Redirect to sign in if not authenticated
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       router.push('/auth/signin');
@@ -24,7 +23,6 @@ export default function Dashboard() {
     }
   }, [isLoading, isAuthenticated, router]);
 
-  /* ------------ Fetch REVIEWS (anonymous_id) ------------ */
   useEffect(() => {
     if (!anonymousId) return;
 
@@ -47,7 +45,6 @@ export default function Dashboard() {
     fetchUserReviews();
   }, [anonymousId]);
 
-  /* ------------ Fetch RATINGS (anonymous_id) ------------ */
   useEffect(() => {
     if (!anonymousId) return;
 
@@ -56,7 +53,7 @@ export default function Dashboard() {
       const { data, error } = await supabase
         .from('ratings')
         .select('id, target_id, overall_rating, workload_rating, difficulty_rating, created_at')
-        .eq('anonymous_id', anonymousId) // using anonymous_id
+        .eq('anonymous_id', anonymousId)
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -91,7 +88,6 @@ export default function Dashboard() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* User Profile Card */}
         <div className="bg-white shadow rounded-lg p-6 mb-8">
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-blue-100 rounded-full">
@@ -127,7 +123,6 @@ export default function Dashboard() {
           )}
         </div>
 
-        {/* Rate Courses Card */}
         <div className="bg-white shadow rounded-lg p-6 mb-8">
           <h2 className="text-lg font-medium text-gray-900 mb-4">Rate Courses</h2>
           <p className="text-gray-600 mb-4">
@@ -141,15 +136,13 @@ export default function Dashboard() {
           </Link>
         </div>
 
-        {/* Reviews and Ratings Side by Side */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Reviews Section */}
           <div className="bg-white shadow rounded-lg p-6">
             <h2 className="text-lg font-medium text-gray-900 mb-4">Your Reviews</h2>
             {loadingReviews ? (
               <p className="text-gray-600">Loading your reviews...</p>
             ) : userReviews.length === 0 ? (
-              <p className="text-gray-600">You haven't submitted any reviews yet.</p>
+              <p className="text-gray-600">You have not submitted any reviews yet.</p>
             ) : (
               <ul className="divide-y divide-gray-200">
                 {userReviews.map((review) => (
@@ -168,13 +161,12 @@ export default function Dashboard() {
             )}
           </div>
 
-          {/* Ratings Section */}
           <div className="bg-white shadow rounded-lg p-6">
             <h2 className="text-lg font-medium text-gray-900 mb-4">Your Ratings</h2>
             {loadingRatings ? (
               <p className="text-gray-600">Loading your ratings...</p>
             ) : userRatings.length === 0 ? (
-              <p className="text-gray-600">You haven't submitted any ratings yet.</p>
+              <p className="text-gray-600">You have not submitted any ratings yet.</p>
             ) : (
               <ul className="divide-y divide-gray-200">
                 {userRatings.map((rating) => (
