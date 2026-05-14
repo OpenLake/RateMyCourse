@@ -3,23 +3,24 @@ import { supabase } from '@/lib/supabase';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { createFuzzyTimestamp, sanitizeContent } from '@/lib/anonymization';
 import { RatingInsert } from '@/types/supabase';
+import { analyzeSentiment } from '@/lib/sentiment';
 
 // POST /api/ratings - Create a new rating
 export async function POST(request: Request) {
   try {
     // Get session to verify authentication
     const { data: { session } } = await supabase.auth.getSession();
-    
+
     if (!session?.user?.id) {
       return NextResponse.json(
         { error: 'Authentication required' },
         { status: 401 }
       );
     }
-    
+
     // Get JSON data from request
     const json = await request.json();
-    const { 
+    const {
       targetId,
       targetType,
       ratingMetrics,
@@ -27,7 +28,7 @@ export async function POST(request: Request) {
       semester,
       year
     } = json;
-    
+
     // Validate required fields
     if (!targetId || !targetType || !ratingMetrics || !semester || !year) {
       return NextResponse.json(
@@ -35,7 +36,7 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-    
+
     // Validate target type
     if (targetType !== 'course' && targetType !== 'professor') {
       return NextResponse.json(
@@ -43,14 +44,14 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-    
+
     // Get the anonymous ID for the authenticated user
     const { data: anonymousData, error: anonymousError } = await supabase
       .from('users')
       .select('anonymous_id')
       .eq('auth_id', session.user.id)
       .single();
-    
+
     if (anonymousError || !anonymousData?.anonymous_id) {
       console.error('Error fetching anonymous ID:', anonymousError);
       return NextResponse.json(
@@ -58,11 +59,14 @@ export async function POST(request: Request) {
         { status: 500 }
       );
     }
-    
+
     // Process the rating data
     const sanitizedComment = comment ? sanitizeContent(comment) : null;
     const displayDate = createFuzzyTimestamp();
-    
+
+    // Analyze sentiment of the comment (neutral if no comment)
+    const sentiment = analyzeSentiment(sanitizedComment ?? '', ratingMetrics?.overall);
+
     // Check if user has already rated this target
     const { data: existingRating, error: checkError } = await supabase
       .from('ratings')
@@ -71,7 +75,7 @@ export async function POST(request: Request) {
       .eq('target_id', targetId)
       .eq('target_type', targetType)
       .single();
-    
+
     // If user has already rated, return error
     if (existingRating) {
       return NextResponse.json(
@@ -79,7 +83,7 @@ export async function POST(request: Request) {
         { status: 409 }
       );
     }
-    
+
     // Create the rating
     const ratingData: RatingInsert = {
       anonymous_id: anonymousData.anonymous_id,
@@ -87,20 +91,21 @@ export async function POST(request: Request) {
       target_type: targetType,
       rating_metrics: ratingMetrics,
       comment: sanitizedComment,
+      sentiment_label: sentiment.label,
       semester,
       year,
       display_date: displayDate,
       helpfulness_score: 0,
       is_flagged: false
     };
-    
+
     // Use admin client to create rating (to bypass RLS if needed)
     const { data, error } = await supabaseAdmin
       .from('ratings')
       .insert(ratingData)
       .select('id')
       .single();
-    
+
     if (error) {
       console.error('Error creating rating:', error);
       return NextResponse.json(
@@ -108,18 +113,16 @@ export async function POST(request: Request) {
         { status: 500 }
       );
     }
-    
-    // Update the rating statistics view or trigger
-    // This would typically be handled by a database trigger
-    
+
     return NextResponse.json({
       success: true,
       data: {
         id: data.id,
-        displayDate
+        displayDate,
+        sentimentLabel: sentiment.label,
       }
     });
-    
+
   } catch (error) {
     console.error('Unexpected error in ratings API:', error);
     return NextResponse.json(
@@ -139,7 +142,7 @@ export async function GET(request: Request) {
     const pageSize = parseInt(searchParams.get('pageSize') || '10');
     const sortBy = searchParams.get('sortBy') || 'created_at';
     const sortOrder = searchParams.get('sortOrder') || 'desc';
-    
+
     // Validate required params
     if (!targetId || !targetType) {
       return NextResponse.json(
@@ -147,7 +150,7 @@ export async function GET(request: Request) {
         { status: 400 }
       );
     }
-    
+
     // Validate target type
     if (targetType !== 'course' && targetType !== 'professor') {
       return NextResponse.json(
@@ -155,33 +158,31 @@ export async function GET(request: Request) {
         { status: 400 }
       );
     }
-    
+
     // Calculate pagination
     const from = (page - 1) * pageSize;
     const to = from + pageSize - 1;
-    
+
     // Query ratings
     let query = supabase
       .from('ratings')
-      .select('id, rating_metrics, comment, semester, year, display_date, created_at, helpfulness_score')
+      .select('id, rating_metrics, comment, sentiment_label, semester, year, display_date, created_at, helpfulness_score')
       .eq('target_id', targetId)
       .eq('target_type', targetType)
       .eq('is_flagged', false)
       .range(from, to);
-    
+
     // Apply sorting
     if (sortBy === 'helpfulness') {
       query = query.order('helpfulness_score', { ascending: sortOrder === 'asc' });
     } else if (sortBy === 'date') {
       query = query.order('created_at', { ascending: sortOrder === 'asc' });
     } else if (sortBy === 'rating') {
-      // For rating, we need to sort by the overall metric within the rating_metrics JSONB field
-      // This might need a different approach depending on your database
       query = query.order('rating_metrics->overall', { ascending: sortOrder === 'asc' });
     }
 
     const { data: ratings, error, count } = await query;
-    
+
     if (error) {
       console.error('Error fetching ratings:', error);
       return NextResponse.json(
@@ -189,7 +190,7 @@ export async function GET(request: Request) {
         { status: 500 }
       );
     }
-    
+
     // Get total count for pagination
     const { count: totalCount, error: countError } = await supabase
       .from('ratings')
@@ -197,11 +198,11 @@ export async function GET(request: Request) {
       .eq('target_id', targetId)
       .eq('target_type', targetType)
       .eq('is_flagged', false);
-    
+
     if (countError) {
       console.error('Error counting ratings:', countError);
     }
-    
+
     return NextResponse.json({
       data: ratings,
       meta: {
@@ -211,7 +212,7 @@ export async function GET(request: Request) {
         totalPages: Math.ceil((totalCount || 0) / pageSize)
       }
     });
-    
+
   } catch (error) {
     console.error('Unexpected error in ratings API:', error);
     return NextResponse.json(

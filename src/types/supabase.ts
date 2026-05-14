@@ -143,6 +143,7 @@ export interface Database {
             approachability?: number
           }
           comment: string | null
+          sentiment_label: 'positive' | 'negative' | 'neutral' | null
           semester: string
           year: number
           display_date: string
@@ -165,6 +166,7 @@ export interface Database {
             approachability?: number
           }
           comment?: string | null
+          sentiment_label?: 'positive' | 'negative' | 'neutral' | null
           semester: string
           year: number
           display_date: string
@@ -187,6 +189,7 @@ export interface Database {
             approachability?: number
           }
           comment?: string | null
+          sentiment_label?: 'positive' | 'negative' | 'neutral' | null
           semester?: string
           year?: number
           display_date?: string
