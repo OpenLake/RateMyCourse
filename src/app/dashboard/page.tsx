@@ -12,9 +12,7 @@ export default function Dashboard() {
   const router = useRouter();
 
   const [userReviews, setUserReviews] = useState<any[]>([]);
-  const [userRatings, setUserRatings] = useState<any[]>([]);
   const [loadingReviews, setLoadingReviews] = useState(true);
-  const [loadingRatings, setLoadingRatings] = useState(true);
 
   // Redirect to sign in if not authenticated
   useEffect(() => {
@@ -32,7 +30,7 @@ export default function Dashboard() {
       setLoadingReviews(true);
       const { data, error } = await supabase
         .from('reviews')
-        .select('id, target_id, comment, created_at, rating_value')
+        .select('id, target_id, target_type, comment, created_at, rating_value, difficulty_rating, workload_rating, knowledge_rating, teaching_rating, approachability_rating')
         .eq('anonymous_id', anonymousId)
         .order('created_at', { ascending: false });
 
@@ -45,29 +43,6 @@ export default function Dashboard() {
     };
 
     fetchUserReviews();
-  }, [anonymousId]);
-
-  /* ------------ Fetch RATINGS (anonymous_id) ------------ */
-  useEffect(() => {
-    if (!anonymousId) return;
-
-    const fetchUserRatings = async () => {
-      setLoadingRatings(true);
-      const { data, error } = await supabase
-        .from('ratings')
-        .select('id, target_id, overall_rating, workload_rating, difficulty_rating, created_at')
-        .eq('anonymous_id', anonymousId) // using anonymous_id
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.error('Error fetching user ratings:', error.message);
-      } else {
-        setUserRatings(data || []);
-      }
-      setLoadingRatings(false);
-    };
-
-    fetchUserRatings();
   }, [anonymousId]);
 
   const handleSignOut = async () => {
@@ -119,7 +94,7 @@ export default function Dashboard() {
                     </code>
                   </p>
                   <p className="text-xs text-gray-500 mt-1">
-                    Your reviews and ratings are stored anonymously.
+                    Your reviews are stored anonymously.
                   </p>
                 </div>
               </div>
@@ -141,61 +116,59 @@ export default function Dashboard() {
           </Link>
         </div>
 
-        {/* Reviews and Ratings Side by Side */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Reviews Section */}
-          <div className="bg-white shadow rounded-lg p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">Your Reviews</h2>
-            {loadingReviews ? (
-              <p className="text-gray-600">Loading your reviews...</p>
-            ) : userReviews.length === 0 ? (
-              <p className="text-gray-600">You haven't submitted any reviews yet.</p>
-            ) : (
-              <ul className="divide-y divide-gray-200">
-                {userReviews.map((review) => (
-                  <li key={review.id} className="py-3">
-                    <p className="text-sm font-medium text-gray-900">{review.target_id}</p>
-                    <p className="text-xs text-gray-500">
-                      {new Date(review.created_at).toLocaleString('en-IN', {
-                        dateStyle: 'medium',
-                        timeStyle: 'short',
-                      })}
-                    </p>
-                    <p className="text-sm text-gray-700 mt-1">{review.comment || 'No comment provided.'}</p>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-
-          {/* Ratings Section */}
-          <div className="bg-white shadow rounded-lg p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">Your Ratings</h2>
-            {loadingRatings ? (
-              <p className="text-gray-600">Loading your ratings...</p>
-            ) : userRatings.length === 0 ? (
-              <p className="text-gray-600">You haven't submitted any ratings yet.</p>
-            ) : (
-              <ul className="divide-y divide-gray-200">
-                {userRatings.map((rating) => (
-                  <li key={rating.id} className="py-3">
-                    <p className="text-sm font-medium text-gray-900">{rating.target_id}</p>
-                    <p className="text-xs text-gray-500">
-                      {new Date(rating.created_at).toLocaleString('en-IN', {
-                        dateStyle: 'medium',
-                        timeStyle: 'short',
-                      })}
-                    </p>
-                    <p className="text-sm text-gray-700 mt-1">
-                      <span className="font-medium text-blue-600">Overall:</span> {rating.overall_rating ?? 'N/A'} |{' '}
-                      <span className="font-medium text-green-600">Workload:</span> {rating.workload_rating ?? 'N/A'} |{' '}
-                      <span className="font-medium text-red-600">Difficulty:</span> {rating.difficulty_rating ?? 'N/A'}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+        {/* Reviews Section */}
+        <div className="bg-white shadow rounded-lg p-6">
+          <h2 className="text-lg font-medium text-gray-900 mb-4">Your Reviews</h2>
+          {loadingReviews ? (
+            <p className="text-gray-600">Loading your reviews...</p>
+          ) : userReviews.length === 0 ? (
+            <p className="text-gray-600">You haven't submitted any reviews yet.</p>
+          ) : (
+            <ul className="divide-y divide-gray-200">
+              {userReviews.map((review) => (
+                <li key={review.id} className="py-3">
+                  <p className="text-sm font-medium text-gray-900">
+                    {review.target_id} <span className="text-xs text-gray-500">({review.target_type})</span>
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {new Date(review.created_at).toLocaleString('en-IN', {
+                      dateStyle: 'medium',
+                      timeStyle: 'short',
+                    })}
+                  </p>
+                  <p className="text-sm text-gray-700 mt-1">{review.comment || 'No comment provided.'}</p>
+                  <p className="text-sm text-gray-700 mt-1">
+                    <span className="font-medium text-blue-600">Overall:</span> {review.rating_value ?? 'N/A'}
+                    {review.difficulty_rating !== null && review.difficulty_rating !== undefined && (
+                      <>
+                        {' '}| <span className="font-medium text-red-600">Difficulty:</span> {review.difficulty_rating}
+                      </>
+                    )}
+                    {review.workload_rating !== null && review.workload_rating !== undefined && (
+                      <>
+                        {' '}| <span className="font-medium text-green-600">Workload:</span> {review.workload_rating}
+                      </>
+                    )}
+                    {review.knowledge_rating !== null && review.knowledge_rating !== undefined && (
+                      <>
+                        {' '}| <span className="font-medium text-purple-600">Knowledge:</span> {review.knowledge_rating}
+                      </>
+                    )}
+                    {review.teaching_rating !== null && review.teaching_rating !== undefined && (
+                      <>
+                        {' '}| <span className="font-medium text-indigo-600">Teaching:</span> {review.teaching_rating}
+                      </>
+                    )}
+                    {review.approachability_rating !== null && review.approachability_rating !== undefined && (
+                      <>
+                        {' '}| <span className="font-medium text-amber-600">Approachability:</span> {review.approachability_rating}
+                      </>
+                    )}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </main>
     </div>
