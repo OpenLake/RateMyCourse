@@ -5,7 +5,6 @@ import { useCourses } from "@/hooks/useCourses";
 import { useProfessors } from "@/hooks/useProfessors";
 import { Course, Professor } from "@/types";
 import ItemCard from "./ItemCard";
-import { supabase } from "@/lib/supabase";
 import { FiltersState } from "./Filters";
 import departmentProperties from "@/constants/department";
 import { ArrowUpDown, TrendingUp, MessageSquare, Zap, Flame } from "lucide-react";
@@ -54,8 +53,7 @@ export default function ItemList({ type, filters }: ItemListProps) {
   const [itemsWithAvg, setItemsWithAvg] = useState<(Course | Professor)[]>([]);
   
   // 3. Determine loading and error state
-  const [isAggregating, setIsAggregating] = useState(false);
-  const isLoading = (type === "course" ? isCoursesLoading : isProfessorsLoading) || isAggregating;
+  const isLoading = type === "course" ? isCoursesLoading : isProfessorsLoading;
   const error = type === "course" ? coursesError : professorsError;
 
   // 4. Handle DATA population
@@ -68,61 +66,7 @@ export default function ItemList({ type, filters }: ItemListProps) {
 
   // EFFECT 2: For 'professor' type
   useEffect(() => {
-    if (type === 'professor' && professors.length > 0) {
-      setIsAggregating(true);
-      
-      const fetchAverages = async () => {
-        const ids = professors.map((i) => i.id);
-        if (ids.length === 0) {
-          setItemsWithAvg(professors);
-          setIsAggregating(false);
-          return;
-        }
-
-        const { data: ratings, error } = await supabase
-          .from("ratings")
-          .select("target_id, overall_rating, workload_rating, difficulty_rating")
-          .eq("target_type", "professor") // Fetch ratings for professors
-          .in("target_id", ids);
-
-        if (error) {
-          console.error("Error fetching professor averages:", error.message);
-          setItemsWithAvg(professors); // fallback to static data
-          setIsAggregating(false);
-          return;
-        }
-
-        // Aggregate averages
-        const averages = (ratings || []).reduce((acc, r) => {
-          if (!acc[r.target_id]) {
-            acc[r.target_id] = { overall: [], workload: [], difficulty: [] };
-          }
-          if (r.overall_rating !== null) acc[r.target_id].overall.push(r.overall_rating);
-          if (r.workload_rating !== null) acc[r.target_id].workload.push(r.workload_rating);
-          if (r.difficulty_rating !== null) acc[r.target_id].difficulty.push(r.difficulty_rating);
-          return acc;
-        }, {} as Record<string, { overall: number[]; workload: number[]; difficulty: number[] }>);
-
-        // Merge averages with professors
-        const calculateAverage = (arr: number[]) => arr.length > 0 ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
-        
-        const merged = professors.map((prof) => {
-          const avgData = averages[prof.id];
-          return {
-            ...prof,
-            overall_rating: calculateAverage(avgData?.overall || []),
-            workload_rating: calculateAverage(avgData?.workload || []),
-            difficulty_rating: calculateAverage(avgData?.difficulty || []),
-          };
-        });
-
-        setItemsWithAvg(merged);
-        setIsAggregating(false);
-      };
-
-      fetchAverages();
-    } else if (type === 'professor') {
-      // Handle case where professors array is empty
+    if (type === 'professor') {
       setItemsWithAvg(professors);
     }
   }, [type, professors]); // Run when professors array changes

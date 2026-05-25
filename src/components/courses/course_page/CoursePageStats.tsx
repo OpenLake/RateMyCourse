@@ -1,16 +1,40 @@
-import { Award, Check, Star, Users, TrendingUp } from "lucide-react";
+import { Flame, MessageSquare, Star, Zap } from "lucide-react";
 import React from "react";
 
 interface CoursePageStatsProps {
+  overallRating: number;
+  difficultyRating: number;
+  workloadRating: number;
   reviewCount: number;
 }
 
-const CoursePageStats = ({ reviewCount }: CoursePageStatsProps) => {
+const CoursePageStats = ({
+  overallRating,
+  difficultyRating,
+  workloadRating,
+  reviewCount,
+}: CoursePageStatsProps) => {
   const stats = [
-    { label: "Students", value: "143", icon: <Users className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500" /> },
-    { label: "Completion Rate", value: "92%", icon: <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-green-500" /> },
-    { label: "Avg. Grade", value: "B+", icon: <Award className="w-4 h-4 sm:w-5 sm:h-5 text-purple-500" /> },
-    { label: "Reviews", value: reviewCount, icon: <Star className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500" /> },
+    {
+      label: "Overall Rating",
+      value: `${overallRating.toFixed(1)}/5`,
+      icon: <Star className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500" />,
+    },
+    {
+      label: "Difficulty",
+      value: `${difficultyRating.toFixed(1)}/5`,
+      icon: <Flame className="w-4 h-4 sm:w-5 sm:h-5 text-rose-500" />,
+    },
+    {
+      label: "Workload",
+      value: `${workloadRating.toFixed(1)}/5`,
+      icon: <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500" />,
+    },
+    {
+      label: "Reviews",
+      value: reviewCount.toString(),
+      icon: <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500" />,
+    },
   ];
 
   return (

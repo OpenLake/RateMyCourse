@@ -120,7 +120,7 @@ CREATE TABLE flags (
 CREATE INDEX idx_reviews_target ON reviews(target_id, target_type);
 CREATE INDEX idx_reviews_anonymous_id ON reviews(anonymous_id);
 CREATE INDEX idx_votes_review_id ON votes(review_id);
-CREATE INDEX idx_flagsMathematics-I_review_id ON flags(review_id);
+CREATE INDEX idx_flags_mathematics_i_review_id ON flags(review_id); 
 CREATE INDEX idx_flags_status ON flags(status);
 
 -- Create function to update course ratings

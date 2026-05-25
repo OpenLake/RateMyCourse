@@ -54,23 +54,6 @@ export interface Professor {
   grade?: Grade; // optional for consistency
 }
 
-export interface Rating {
-  id: string; // uuid
-  user_id: string;
-  target_id: string;
-  target_type: 'course' | 'professor';
-
-
-  overall_rating: number; // 5 star
-  difficulty_rating: number | null; // slider 10 points    
-  workload_rating: number | null;
-
-
-  knowledge_rating: number | null;    
-  teaching_rating: number | null;      
-  approachability_rating: number | null;
-}
-
 export interface ProfessorCourse {  
   professor_id: string;
   course_id: string;

@@ -1,45 +1,41 @@
 'use client';
 import React from 'react';
-import { Star, Users, Check, Award } from 'lucide-react';
-import { Professor } from '@/types';
+import { Star, Check, Award, BookOpen } from 'lucide-react';
 
 interface ProfessorPageStatsProps {
-  professor?: Professor; // make optional
   reviewCount: number;
-  averageRating?: number;
-  knowledgeRating?: number;
-  approachabilityRating?: number;
+  averageRating: number;
+  knowledgeRating: number;
+  teachingRating: number;
+  approachabilityRating: number;
 }
 
-
-const ProfessorPageStats = ({ professor }: ProfessorPageStatsProps) => {
-  if (!professor) {
-    return (
-      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-muted dark:border-gray-700 p-4 text-center text-muted-foreground dark:text-gray-400">
-        Loading stats...
-      </div>
-    );
-  }
-
+const ProfessorPageStats = ({
+  reviewCount,
+  averageRating,
+  knowledgeRating,
+  teachingRating,
+  approachabilityRating,
+}: ProfessorPageStatsProps) => {
   const stats = [
     {
       label: 'Overall Rating',
-      value: `${professor.overall_rating?.toFixed(1) ?? 0}/5`,
+      value: `${averageRating.toFixed(1)}/5`,
       icon: <Star className="w-4 h-4" />,
     },
     {
-      label: 'Reviews',
-      value: professor.review_count ?? 0,
-      icon: <Users className="w-4 h-4" />,
-    },
-    {
       label: 'Knowledge',
-      value: `${professor.knowledge_rating?.toFixed(1) ?? 0}/5`,
+      value: `${knowledgeRating.toFixed(1)}/5`,
       icon: <Check className="w-4 h-4" />,
     },
     {
+      label: 'Teaching',
+      value: `${teachingRating.toFixed(1)}/5`,
+      icon: <BookOpen className="w-4 h-4" />,
+    },
+    {
       label: 'Approachability',
-      value: `${professor.approachability_rating?.toFixed(1) ?? 0}/5`,
+      value: `${approachabilityRating.toFixed(1)}/5`,
       icon: <Award className="w-4 h-4" />,
     },
   ];
@@ -68,6 +64,11 @@ const ProfessorPageStats = ({ professor }: ProfessorPageStatsProps) => {
                 <div className="font-medium text-sm text-gray-900 dark:text-gray-100">
                   {stat.value}
                 </div>
+                {stat.label === 'Overall Rating' && (
+                  <div className="text-[10px] text-muted-foreground dark:text-gray-500">
+                    {reviewCount} reviews
+                  </div>
+                )}
               </div>
             </div>
           ))}

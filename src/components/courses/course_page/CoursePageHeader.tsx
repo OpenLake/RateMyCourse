@@ -6,10 +6,11 @@ import React from 'react';
 interface CoursePageHeaderProps {
   course: Course;
   averageRating: number;      // dynamic avg
+  difficultyRating: number;   // dynamic avg
   reviewCount: number;        // dynamic count
 }
 
-const CoursePageHeader = ({ course, averageRating, reviewCount }: CoursePageHeaderProps) => {
+const CoursePageHeader = ({ course, averageRating, difficultyRating, reviewCount }: CoursePageHeaderProps) => {
   return (
     <div>
       <div className="relative z-10">
@@ -47,7 +48,7 @@ const CoursePageHeader = ({ course, averageRating, reviewCount }: CoursePageHead
                   Difficulty:
                 </span>
                 <DifficultyBadge
-                  difficulty={course.difficulty_rating ?? 0}
+                  difficulty={difficultyRating}
                   showText
                 />
               </div>

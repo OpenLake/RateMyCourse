@@ -6,7 +6,7 @@ import { ChevronRight, ChevronDown } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 interface CoursePageReviewsProps {
-  id: string; // Course ID
+  id: string | null; // Course UUID
   reviewCount: number;
 }
 
@@ -50,6 +50,12 @@ const CoursePageReviews = ({ id, reviewCount }: CoursePageReviewsProps) => {
 
   useEffect(() => {
     const fetchReviews = async () => {
+      if (!id) {
+        setReviews([]);
+        setLoading(false);
+        return;
+      }
+
       setLoading(true);
 
       // Fetch all reviews

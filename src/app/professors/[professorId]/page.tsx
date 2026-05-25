@@ -14,6 +14,9 @@ import { useProfessors } from '@/hooks/useProfessors';
 export default function ProfessorPage({ params }: { params: { professorId: string } }) {
   const { professors, isLoading, error } = useProfessors();
   const [averageRating, setAverageRating] = useState(0);
+  const [knowledgeRating, setKnowledgeRating] = useState(0);
+  const [teachingRating, setTeachingRating] = useState(0);
+  const [approachabilityRating, setApproachabilityRating] = useState(0);
   const [reviewCount, setReviewCount] = useState(0);
 
   const prof = professors.find((p) => p.id === params.professorId);
@@ -25,7 +28,7 @@ export default function ProfessorPage({ params }: { params: { professorId: strin
     const fetchRatings = async () => {
       const { data, error } = await supabase
         .from('reviews')
-        .select('rating_value')
+        .select('rating_value, knowledge_rating, teaching_rating, approachability_rating')
         .eq('target_id', prof.id)
         .eq('target_type', 'professor');
 
@@ -35,12 +38,39 @@ export default function ProfessorPage({ params }: { params: { professorId: strin
       }
 
       if (data && data.length > 0) {
-        const total = data.reduce((sum, r) => sum + (r.rating_value || 0), 0);
+        const total = data.reduce((sum, r) => sum + (r.rating_value ?? 0), 0);
         const avg = total / data.length;
+
+        const knowledgeValues = data
+          .map((r) => r.knowledge_rating)
+          .filter((value): value is number => typeof value === 'number');
+        const teachingValues = data
+          .map((r) => r.teaching_rating)
+          .filter((value): value is number => typeof value === 'number');
+        const approachabilityValues = data
+          .map((r) => r.approachability_rating)
+          .filter((value): value is number => typeof value === 'number');
+
+        const knowledgeAvg = knowledgeValues.length
+          ? knowledgeValues.reduce((sum, value) => sum + value, 0) / knowledgeValues.length
+          : 0;
+        const teachingAvg = teachingValues.length
+          ? teachingValues.reduce((sum, value) => sum + value, 0) / teachingValues.length
+          : 0;
+        const approachabilityAvg = approachabilityValues.length
+          ? approachabilityValues.reduce((sum, value) => sum + value, 0) / approachabilityValues.length
+          : 0;
+
         setAverageRating(parseFloat(avg.toFixed(1)));
+        setKnowledgeRating(parseFloat(knowledgeAvg.toFixed(1)));
+        setTeachingRating(parseFloat(teachingAvg.toFixed(1)));
+        setApproachabilityRating(parseFloat(approachabilityAvg.toFixed(1)));
         setReviewCount(data.length);
       } else {
         setAverageRating(0);
+        setKnowledgeRating(0);
+        setTeachingRating(0);
+        setApproachabilityRating(0);
         setReviewCount(0);
       }
     };
@@ -62,7 +92,13 @@ export default function ProfessorPage({ params }: { params: { professorId: strin
             averageRating={averageRating}
             reviewCount={reviewCount}
           />
-          <ProfessorPageStats professor={prof} reviewCount={reviewCount} />
+          <ProfessorPageStats
+            averageRating={averageRating}
+            reviewCount={reviewCount}
+            knowledgeRating={knowledgeRating}
+            teachingRating={teachingRating}
+            approachabilityRating={approachabilityRating}
+          />
           {/* <ProfessorPageCourses courses={prof.course_ids} /> */}
           <ProfessorPageReviews id={prof.id} reviewCount={reviewCount} />
         </div>
