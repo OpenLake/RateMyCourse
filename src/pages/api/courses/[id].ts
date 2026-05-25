@@ -24,19 +24,19 @@ export default async function handler(
         return res.status(404).json({ error: 'Course not found' });
       }
       
-      // Get the ratings for this course
-      const { data: ratings, error: ratingsError } = await supabaseAdmin
-        .from('ratings')
+      // Get the reviews for this course
+      const { data: reviews, error: reviewsError } = await supabaseAdmin
+        .from('reviews')
         .select('*')
         .eq('target_id', id)
         .eq('target_type', 'course');
       
-      if (ratingsError) throw ratingsError;
+      if (reviewsError) throw reviewsError;
       
-      // Return the course with its ratings
+      // Return the course with its reviews
       return res.status(200).json({
         ...course,
-        ratings: ratings || []
+        reviews: reviews || []
       });
     } catch (error) {
       console.error('Error fetching course:', error);
