@@ -9,7 +9,7 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      user: {
+      users: {
         Row: {
           id: string
           auth_id: string
@@ -45,7 +45,10 @@ export interface Database {
           title: string
           department: string
           credits: number
-          description: string | null
+          overall_rating: number
+          difficulty_rating: number
+          workload_rating: number
+          review_count: number
           created_at: string
           updated_at: string
         }
@@ -55,7 +58,10 @@ export interface Database {
           title: string
           department: string
           credits: number
-          description?: string | null
+          overall_rating?: number
+          difficulty_rating?: number
+          workload_rating?: number
+          review_count?: number
           created_at?: string
           updated_at?: string
         }
@@ -65,7 +71,10 @@ export interface Database {
           title?: string
           department?: string
           credits?: number
-          description?: string | null
+          overall_rating?: number
+          difficulty_rating?: number
+          workload_rating?: number
+          review_count?: number
           created_at?: string
           updated_at?: string
         }
@@ -79,6 +88,11 @@ export interface Database {
           department: string
           avatar_url: string | null
           website: string | null
+          overall_rating: number
+          knowledge_rating: number
+          teaching_rating: number
+          approachability_rating: number
+          review_count: number
           research_interests: string[] | null
           created_at: string
           updated_at: string
@@ -91,6 +105,11 @@ export interface Database {
           department: string
           avatar_url?: string | null
           website?: string | null
+          overall_rating?: number
+          knowledge_rating?: number
+          teaching_rating?: number
+          approachability_rating?: number
+          review_count?: number
           research_interests?: string[] | null
           created_at?: string
           updated_at?: string
@@ -103,126 +122,110 @@ export interface Database {
           department?: string
           avatar_url?: string | null
           website?: string | null
+          overall_rating?: number
+          knowledge_rating?: number
+          teaching_rating?: number
+          approachability_rating?: number
+          review_count?: number
           research_interests?: string[] | null
           created_at?: string
           updated_at?: string
         }
       }
-      professor_courses: {
+      professors_courses: {
         Row: {
-          id: string
           professor_id: string
           course_id: string
-          created_at: string
         }
         Insert: {
-          id?: string
           professor_id: string
           course_id: string
-          created_at?: string
         }
         Update: {
-          id?: string
           professor_id?: string
           course_id?: string
-          created_at?: string
         }
       }
-      ratings: {
+      reviews: {
         Row: {
           id: string
           anonymous_id: string
           target_id: string
           target_type: 'course' | 'professor'
-          rating_metrics: {
-            overall: number
-            difficulty?: number
-            workload?: number
-            knowledge?: number
-            teaching?: number
-            approachability?: number
-          }
+          rating_value: number
           comment: string | null
-          semester: string
-          year: number
-          display_date: string
+          votes: number
+          is_flagged: boolean
           created_at: string
           updated_at: string
-          helpfulness_score: number
-          is_flagged: boolean
+          difficulty_rating: number | null
+          workload_rating: number | null
+          knowledge_rating: number | null
+          teaching_rating: number | null
+          approachability_rating: number | null
         }
         Insert: {
           id?: string
           anonymous_id: string
           target_id: string
           target_type: 'course' | 'professor'
-          rating_metrics: {
-            overall: number
-            difficulty?: number
-            workload?: number
-            knowledge?: number
-            teaching?: number
-            approachability?: number
-          }
+          rating_value: number
           comment?: string | null
-          semester: string
-          year: number
-          display_date: string
+          votes?: number
+          is_flagged?: boolean
           created_at?: string
           updated_at?: string
-          helpfulness_score?: number
-          is_flagged?: boolean
+          difficulty_rating?: number | null
+          workload_rating?: number | null
+          knowledge_rating?: number | null
+          teaching_rating?: number | null
+          approachability_rating?: number | null
         }
         Update: {
           id?: string
           anonymous_id?: string
           target_id?: string
           target_type?: 'course' | 'professor'
-          rating_metrics?: {
-            overall: number
-            difficulty?: number
-            workload?: number
-            knowledge?: number
-            teaching?: number
-            approachability?: number
-          }
+          rating_value?: number
           comment?: string | null
-          semester?: string
-          year?: number
-          display_date?: string
+          votes?: number
+          is_flagged?: boolean
           created_at?: string
           updated_at?: string
-          helpfulness_score?: number
-          is_flagged?: boolean
+          difficulty_rating?: number | null
+          workload_rating?: number | null
+          knowledge_rating?: number | null
+          teaching_rating?: number | null
+          approachability_rating?: number | null
         }
       }
-      rating_votes: {
+      votes: {
         Row: {
           id: string
-          rating_id: string
+          review_id: string
           anonymous_id: string
           vote_type: 'helpful' | 'unhelpful'
           created_at: string
         }
         Insert: {
           id?: string
-          rating_id: string
+          review_id: string
           anonymous_id: string
           vote_type: 'helpful' | 'unhelpful'
           created_at?: string
         }
         Update: {
           id?: string
-          rating_id?: string
+          review_id?: string
           anonymous_id?: string
           vote_type?: 'helpful' | 'unhelpful'
           created_at?: string
         }
       }
-      rating_flags: {
+      flags: {
         Row: {
           id: string
-          rating_id: string
+          review_id: string
           anonymous_id: string
           reason: string
           status: 'pending' | 'reviewed' | 'dismissed' | 'removed'
@@ -230,7 +233,7 @@ export interface Database {
         }
         Insert: {
           id?: string
-          rating_id: string
+          review_id: string
           anonymous_id: string
           reason: string
           status?: 'pending' | 'reviewed' | 'dismissed' | 'removed'
@@ -238,33 +241,10 @@ export interface Database {
         }
         Update: {
           id?: string
-          rating_id?: string
+          review_id?: string
           anonymous_id?: string
           reason?: string
           status?: 'pending' | 'reviewed' | 'dismissed' | 'removed'
-          created_at?: string
-        }
-      }
-      departments: {
-        Row: {
-          id: string
-          name: string
-          code: string
-          color: string
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          name: string
-          code: string
-          color: string
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          name?: string
-          code?: string
-          color?: string
           created_at?: string
         }
       }
@@ -315,7 +295,7 @@ export interface Database {
 }
 
 // Type definitions for application-level models
-export type AnonymousVerification = Database['public']['Tables']['user']['Row']
+export type AnonymousVerification = Database['public']['Tables']['users']['Row']
 export type Course = Database['public']['Tables']['courses']['Row'] & {
   rating?: {
     overall: number
@@ -348,18 +328,15 @@ export type Professor = Database['public']['Tables']['professors']['Row'] & {
 export type ProfessorInsert = Database['public']['Tables']['professors']['Insert']
 export type ProfessorUpdate = Database['public']['Tables']['professors']['Update']
 
-export type Rating = Database['public']['Tables']['ratings']['Row']
-export type RatingInsert = Database['public']['Tables']['ratings']['Insert']
-export type RatingUpdate = Database['public']['Tables']['ratings']['Update']
+export type Review = Database['public']['Tables']['reviews']['Row']
+export type ReviewInsert = Database['public']['Tables']['reviews']['Insert']
+export type ReviewUpdate = Database['public']['Tables']['reviews']['Update']
 
-export type Vote = Database['public']['Tables']['rating_votes']['Row']
-export type VoteInsert = Database['public']['Tables']['rating_votes']['Insert']
+export type Vote = Database['public']['Tables']['votes']['Row']
+export type VoteInsert = Database['public']['Tables']['votes']['Insert']
 
-export type Flag = Database['public']['Tables']['rating_flags']['Row']
-export type FlagInsert = Database['public']['Tables']['rating_flags']['Insert']
-
-export type Department = Database['public']['Tables']['departments']['Row']
-export type DepartmentInsert = Database['public']['Tables']['departments']['Insert']
+export type Flag = Database['public']['Tables']['flags']['Row']
+export type FlagInsert = Database['public']['Tables']['flags']['Insert']
 
 export type CourseStats = Database['public']['Views']['course_stats']['Row']
 export type ProfessorStats = Database['public']['Views']['professor_stats']['Row']
