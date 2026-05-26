@@ -94,7 +94,7 @@ const CoursePageReviews = ({ id, reviewCount }: CoursePageReviewsProps) => {
         <h2 className="font-semibold text-gray-900 dark:text-gray-100">
           Student Reviews
         </h2>
-        <AddReviewButton courseId={id} />
+        {id && <AddReviewButton courseId={id} />}
       </div>
 
       {/* Reviews list */}
