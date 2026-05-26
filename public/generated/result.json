@@ -965,6 +965,153 @@
       "department": "Electronics and Communication Engineering"
     },
     {
+      "id": "ecl201",
+      "code": "ECL201",
+      "title": "Digital Design",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl202",
+      "code": "ECL202",
+      "title": "Signals and Systems",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl203",
+      "code": "ECL203",
+      "title": "Introduction to Electronics",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl204",
+      "code": "ECL204",
+      "title": "Network Theory",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl211",
+      "code": "ECL211",
+      "title": "Microcontroller and Embedded Systems",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl212",
+      "code": "ECL212",
+      "title": "Digital Signal Processing",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl213",
+      "code": "ECL213",
+      "title": "Communication Systems",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl214",
+      "code": "ECL214",
+      "title": "Solid State Devices",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl301",
+      "code": "ECL301",
+      "title": "Digital Communication",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl302",
+      "code": "ECL302",
+      "title": "Electromagnetic Theory",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl303",
+      "code": "ECL303",
+      "title": "Control System Engineering",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl304",
+      "code": "ECL304",
+      "title": "Analog Electronic Circuits",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl311",
+      "code": "ECL311",
+      "title": "VLSI Technology",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecl312",
+      "code": "ECL312",
+      "title": "FPGA for Digital Design",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecp211",
+      "code": "ECP211",
+      "title": "Microcontroller and Embedded Systems Lab",
+      "credits": "1.5",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecp212",
+      "code": "ECP212",
+      "title": "Digital Signal Processing Lab",
+      "credits": "1.5",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecp301",
+      "code": "ECP301",
+      "title": "Communication Lab",
+      "credits": "1.5",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecp304",
+      "code": "ECP304",
+      "title": "Analog Electronics Lab",
+      "credits": "1.5",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecp305",
+      "code": "ECP305",
+      "title": "Digital Electronics Lab",
+      "credits": "1",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ecp411",
+      "code": "ECP411",
+      "title": "Device Fabrication and VLSI Lab",
+      "credits": "1.5",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
+      "id": "ugq301",
+      "code": "UGQ301",
+      "title": "Interdisciplinary Undergraduate Project",
+      "credits": "3",
+      "department": "Electronics and Communication Engineering"
+    },
+    {
       "id": "ecl501",
       "code": "ECL501",
       "title": "Computer Communications",
