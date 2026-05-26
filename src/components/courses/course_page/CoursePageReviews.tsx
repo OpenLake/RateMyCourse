@@ -50,7 +50,8 @@ const CoursePageReviews = ({ id, reviewCount }: CoursePageReviewsProps) => {
 
   useEffect(() => {
     const fetchReviews = async () => {
-      if (!id) {
+      const targetId = id;
+      if (!targetId) {
         setReviews([]);
         setLoading(false);
         return;
@@ -67,7 +68,7 @@ const CoursePageReviews = ({ id, reviewCount }: CoursePageReviewsProps) => {
           comment,
           created_at
         `)
-        .eq("target_id", id)
+        .eq("target_id", targetId)
         .eq("target_type", "course")
         .order("created_at", { ascending: false });
 
