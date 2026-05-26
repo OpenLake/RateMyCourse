@@ -1239,5 +1239,220 @@
     "website": "https://www.iitbhilai.ac.in/index.php?pid=anurags",
     "avatar_url": "",
     "department": "Department of Mathematics"
+  },
+  {
+    "name": "Dr. Ritika Verma",
+    "post": "Assistant Professor (Grade-II)",
+    "email": "ritikaverma@iitbhilai.ac.in",
+    "research_interests": [
+      "Trauma studies",
+      "Postcolonialism",
+      "Partition of 1947",
+      "Indian literature",
+      "Women's writing"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=ritikaverma",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_ritikaverma",
+    "department": "Liberal Arts"
+  },
+  {
+    "name": "Dr. Bharat Talwar",
+    "post": "Assistant Professor (Grade-I)",
+    "email": "btalwar@iitbhilai.ac.in",
+    "research_interests": [
+      "Operator algebras"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=btalwar",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_btalwar",
+    "department": "Mathematics"
+  },
+  {
+    "name": "Dr. Ravi Kashikar",
+    "post": "Assistant Professor",
+    "email": "ravikashikar@iitbhilai.ac.in",
+    "research_interests": [
+      "Computational materials science",
+      "Electronic structure",
+      "Phase transitions",
+      "Topological insulators",
+      "Ferroelectric ordering",
+      "Halide perovskites"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=ravikashikar",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_ravikashikar",
+    "department": "Physics"
+  },
+  {
+    "name": "Dr. Ashish Kumar Tripathi",
+    "post": "Assistant Professor",
+    "email": "atripathi@iitbhilai.ac.in",
+    "research_interests": [
+      "Osteoimmunology",
+      "Osteoporosis",
+      "Bone loss mechanisms",
+      "HIV and sickle cell disease",
+      "Bioactive molecules"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=atripathi_bsbme",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_atripathi",
+    "department": "Bioscience and Biomedical Engineering"
+  },
+  {
+    "name": "Dr. Henu Kumar Verma",
+    "post": "Assistant Professor",
+    "email": "henuverma@iitbhilai.ac.in",
+    "research_interests": [
+      "Sickle cell disease",
+      "Hemoglobinopathies",
+      "Fetal hemoglobin regulation",
+      "Pain crisis mechanisms",
+      "Infection susceptibility"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=henuverma_bsbme",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_henuverma",
+    "department": "Bioscience and Biomedical Engineering"
+  },
+  {
+    "name": "Dr. Yogesh Pratap Singh",
+    "post": "Assistant Professor",
+    "email": "yogeshsingh@iitbhilai.ac.in",
+    "research_interests": [
+      "Robotics",
+      "Multibody dynamics",
+      "Vibration control",
+      "Parallel mechanisms",
+      "Gough-Stewart platforms",
+      "Micro-vibration isolation",
+      "Medical robotics"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=profile_yogeshsingh",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_yogeshsingh",
+    "department": "Mechatronics Engineering"
+  },
+  {
+    "name": "Dr. Milan Kumar Jena",
+    "post": "Assistant Professor",
+    "email": "milanjena@iitbhilai.ac.in",
+    "research_interests": [
+      "Computational materials science",
+      "Quantum transport",
+      "Molecular electronics",
+      "DFT/NEGF simulations",
+      "AI/ML for materials discovery",
+      "Energy materials",
+      "Nanoelectronics",
+      "Biosensing"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=profile_milanjena",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_milanjena",
+    "department": "Materials Science and Metallurgical Engineering"
+  },
+  {
+    "name": "Dr. Amit Kumar Mishra",
+    "post": "Assistant Professor (Grade-I)",
+    "email": "amitmishra@iitbhilai.ac.in",
+    "research_interests": [
+      "Energy storage materials",
+      "Nanofluids",
+      "Thermal-optical properties",
+      "Thermoelectric applications"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=profile_amitmishra",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_amitmishra",
+    "department": "Materials Science and Metallurgical Engineering"
+  },
+  {
+    "name": "Dr. Karthikeyan Elumalai",
+    "post": "Assistant Professor (Grade-I)",
+    "email": "karthikeyan@iitbhilai.ac.in",
+    "research_interests": [
+      "Signal processing",
+      "Geophysical data processing",
+      "Terahertz time-domain spectroscopy",
+      "Hyperspectral image processing"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=karthikeyan",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_karthikeyan",
+    "department": "Electronics and Communication Engineering"
+  },
+  {
+    "name": "Dr. Sandeep Kumar Soni",
+    "post": "Assistant Professor (Grade-I)",
+    "email": "sandeepsoni@iitbhilai.ac.in",
+    "research_interests": [
+      "Control theory",
+      "Nonlinear systems",
+      "Time-delay systems",
+      "Multi-agent systems",
+      "Event-triggered control",
+      "Sliding mode control",
+      "Intelligent control"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=sandeepsoni",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_sandeepsoni",
+    "department": "Electrical Engineering"
+  },
+  {
+    "name": "Dr. Snehanjan Acharyya",
+    "post": "Assistant Professor",
+    "email": "snehanjan@iitbhilai.ac.in",
+    "research_interests": [
+      "Gas and chemical sensors",
+      "Semiconductor devices",
+      "Nanomaterials",
+      "Instrumentation",
+      "Machine learning"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=snehanjan",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_snehanjan",
+    "department": "Electrical Engineering"
+  },
+  {
+    "name": "Dr. Torsha Moitra",
+    "post": "Assistant Professor (Grade-I)",
+    "email": "torsha@iitbhilai.ac.in",
+    "research_interests": [
+      "Theoretical chemistry",
+      "Quantum chemistry software",
+      "Ultrafast dynamics",
+      "Relativistic electronic structure",
+      "Coupled-cluster methods",
+      "Spectroscopy"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=torsha",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_torsha",
+    "department": "Chemistry"
+  },
+  {
+    "name": "Dr. Sampad Laha",
+    "post": "Assistant Professor (Grade-II)",
+    "email": "sampad@iitbhilai.ac.in",
+    "research_interests": [
+      "Experimental bio-microfluidics",
+      "Blood-vessel mimicking platforms",
+      "Micro-scale fluid flow",
+      "Fluid-structure interactions",
+      "Electrokinetics",
+      "Paper-based microfluidics",
+      "Point-of-care diagnostics"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=sampad",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_sampad",
+    "department": "Mechanical Engineering"
+  },
+  {
+    "name": "Dr. Neetika Ahlawat",
+    "post": "Assistant Professor",
+    "email": "neetika@iitbhilai.ac.in",
+    "research_interests": [
+      "Evolutionary biology",
+      "Host-pathogen interactions",
+      "Genetic basis of adaptation",
+      "Genetic variation in populations",
+      "Health and disease"
+    ],
+    "website": "https://www.iitbhilai.ac.in/index.php?pid=neetika_bsbme",
+    "avatar_url": "https://www.iitbhilai.ac.in/index.php?pid=img_neetika",
+    "department": "Bioscience and Biomedical Engineering"
   }
 ]
