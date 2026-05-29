@@ -9,6 +9,7 @@ import { BookOpen, Users, ChevronRight, BookMarked } from 'lucide-react';
 import { Course, Professor } from '@/types';
 import departmentProperties from '@/constants/department';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { CompareButton } from './CompareButton';
 
 interface ItemCardProps {
   item: Course | Professor;
@@ -184,12 +185,28 @@ export default function ItemCard({ item, className, type }: ItemCardProps) {
         </CardContent>
 
         <CardFooter className="px-4 py-3 bg-background/40 backdrop-blur-sm border-t border-border/40 flex justify-between items-center group-hover:bg-primary/5 transition-all duration-300">
-          <div className="text-xs font-bold font-mono tracking-wide text-primary">
-            View Details
-          </div>
-          <div className="p-1.5 rounded-md bg-primary/10 group-hover:bg-primary/20 group-hover:translate-x-1 transition-all duration-300">
-            <ChevronRight className="h-3.5 w-3.5 text-primary" />
-          </div>
+          {type === 'course' ? (
+            <>
+              <CompareButton course={item as Course} />
+              <div className="flex items-center gap-2">
+                <div className="text-xs font-bold font-mono tracking-wide text-primary">
+                  View Details
+                </div>
+                <div className="p-1.5 rounded-md bg-primary/10 group-hover:bg-primary/20 group-hover:translate-x-1 transition-all duration-300">
+                  <ChevronRight className="h-3.5 w-3.5 text-primary" />
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="text-xs font-bold font-mono tracking-wide text-primary">
+                View Details
+              </div>
+              <div className="p-1.5 rounded-md bg-primary/10 group-hover:bg-primary/20 group-hover:translate-x-1 transition-all duration-300">
+                <ChevronRight className="h-3.5 w-3.5 text-primary" />
+              </div>
+            </>
+          )}
         </CardFooter>
       </Card>
     </Link>
