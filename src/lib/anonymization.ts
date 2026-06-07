@@ -151,7 +151,7 @@ export const enhancedSanitizeContent = (content: string): string => {
   // Remove URLs that might contain identifying information
   sanitized = sanitized.replace(
     /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/g,
-    'https://www.imdb.com/title/tt3042542/'
+    '[URL REMOVED]'
   );
   
   // Remove specific academic terms that could identify the time period
