@@ -14,6 +14,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/lib/supabase";
+import { enhancedSanitizeContent } from "@/lib/anonymization";
 import toast from "react-hot-toast";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -81,7 +82,7 @@ export default function AddReviewButtonProfessor({
       const { error: updateError } = await supabase
         .from("reviews")
         .update({
-          comment: review.comment || null,
+          comment: review.comment ? enhancedSanitizeContent(review.comment) : null,
           updated_at: new Date().toISOString(),
         })
         .eq("id", existingReview.id);
