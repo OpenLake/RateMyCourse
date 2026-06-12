@@ -4,6 +4,7 @@ import { BookOpen, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ModeToggle } from '@/components/theme/mode-toggle';
 import { LoginButton } from '@/components/auth/login-button';
+import MobileNav from './MobileNav';
 
 export default function Header() {
   return (
@@ -29,6 +30,8 @@ export default function Header() {
 
           {/* Modern action buttons */}
           <div className="flex items-center gap-1.5 sm:gap-2">
+            
+            <MobileNav />
             
             {/* Theme Toggle */}
             <ModeToggle />

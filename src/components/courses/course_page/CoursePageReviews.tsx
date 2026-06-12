@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import AddReviewButton from "../AddReviewButton";
 import { ChevronRight, ChevronDown } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { ReviewSkeleton } from "@/components/ui/skeleton";
 
 interface CoursePageReviewsProps {
   id: string | null; // Course UUID
@@ -100,9 +101,11 @@ const CoursePageReviews = ({ id, reviewCount }: CoursePageReviewsProps) => {
       {/* Reviews list */}
       <div className="p-3 space-y-3">
         {loading ? (
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Loading reviews...
-          </p>
+          <div className="space-y-3">
+            <ReviewSkeleton />
+            <ReviewSkeleton />
+            <ReviewSkeleton />
+          </div>
         ) : reviews.length === 0 ? (
           <p className="text-sm text-gray-500 dark:text-gray-400">
             No reviews yet for this course.

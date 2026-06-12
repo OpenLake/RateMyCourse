@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import toast from 'react-hot-toast';
+import confetti from 'canvas-confetti';
 
 // ---------------- STAR SELECTOR ----------------
 const StarSelector = ({ rating, setRating }: { rating: number; setRating: (val: number) => void }) => {
@@ -24,12 +25,12 @@ const StarSelector = ({ rating, setRating }: { rating: number; setRating: (val: 
     const id = `half-grad-${i}`;
 
     stars.push(
-      <div key={i} className="relative w-6 h-6" onMouseLeave={() => setHovered(null)}>
+      <div key={i} className="relative w-8 h-8 sm:w-6 sm:h-6" onMouseLeave={() => setHovered(null)}>
         <Tooltip title={`${hovered ?? rating} stars`} placement="top" arrow>
           <div className="relative w-full h-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`w-6 h-6 transition-transform duration-150 ${starColor} ${
+              className={`w-8 h-8 sm:w-6 sm:h-6 transition-transform duration-150 ${starColor} ${
                 hovered !== null ? 'scale-110' : ''
               }`}
               viewBox="0 0 24 24"
@@ -63,7 +64,7 @@ const StarSelector = ({ rating, setRating }: { rating: number; setRating: (val: 
     );
   }
 
-  return <div className="flex gap-1">{stars}</div>;
+  return <div className="flex gap-2 sm:gap-1">{stars}</div>;
 };
 
 // ---------------- SLIDER ----------------
@@ -183,6 +184,7 @@ const RateThisCourse = ({ courseId }: { courseId: string }) => {
         toast.error(`Failed to submit rating: ${insertError.message}`);
       } else {
         toast.success('Rating submitted successfully!');
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
         setHasSubmitted(true);
       }
     } catch (error) {
