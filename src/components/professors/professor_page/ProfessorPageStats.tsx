@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { Star, Check, Award, BookOpen } from 'lucide-react';
+import ProfessorRadar from '../ProfessorRadar';
 
 interface ProfessorPageStatsProps {
   reviewCount: number;
@@ -73,6 +74,14 @@ const ProfessorPageStats = ({
             </div>
           ))}
         </div>
+        {reviewCount > 0 && (
+          <ProfessorRadar
+            overall={averageRating}
+            knowledge={knowledgeRating}
+            teaching={teachingRating}
+            approachability={approachabilityRating}
+          />
+        )}
       </div>
     </div>
   );

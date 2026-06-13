@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import AddReviewButtonProfessor from "@/components/professors/AddReviewButtonProfessor";
 import { ChevronRight, ChevronDown } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { ReviewSkeleton } from "@/components/ui/skeleton";
 
 interface ProfessorPageReviewsProps {
   id: string; // Professor ID
@@ -93,9 +94,11 @@ const ProfessorPageReviews = ({ id, reviewCount }: ProfessorPageReviewsProps) =>
       {/* Reviews List */}
       <div className="p-3 space-y-3">
         {loading ? (
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Loading reviews...
-          </p>
+          <div className="space-y-3">
+            <ReviewSkeleton />
+            <ReviewSkeleton />
+            <ReviewSkeleton />
+          </div>
         ) : reviews.length === 0 ? (
           <p className="text-sm text-gray-500 dark:text-gray-400">
             No reviews yet for this professor.

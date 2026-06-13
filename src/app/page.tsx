@@ -4,6 +4,8 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { BookOpen, Users } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import SearchBar from "@/components/common/SearchBar";
+import TrendingSection from "@/components/common/TrendingSection";
 import dynamic from 'next/dynamic';
 
 // Import Typewriter dynamically to prevent SSR issues
@@ -122,36 +124,9 @@ export default function Home() {
             </div>
           </div>
 
-          {/* <div className="flex flex-col sm:flex-row w-full max-w-2xl gap-3 mt-4">
-            <div className="relative flex-1">
-              <SearchIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <input
-                type="text"
-                placeholder="Search for courses or professors..."
-                className="pl-12 pr-4 py-3 w-full rounded-lg border border-input bg-card/80 backdrop-blur-sm shadow-md focus:ring-2 focus:ring-ring/30 focus:border-ring transition-all"
-              />
-            </div>
-            <Link
-              href="/courses"
-              className={buttonVariants({ 
-                size: "lg",
-                className: "px-8 py-3 font-medium shadow-md"
-              })}
-            >
-              Search
-            </Link>
-          </div> */}
-          {/* <Link
-              href="/review/new"
-              className={buttonVariants({ 
-                variant: "secondary",
-                size: "lg",
-                className: "shadow-md font-medium"
-              })}
-            >
-              <PenLine className="h-4 w-4 mr-2" />
-              Write Your Review!
-            </Link> */}
+          <div className="w-full max-w-2xl px-4 sm:px-0">
+            <SearchBar />
+          </div>
 
           <div className="grid grid-cols-3 gap-2 sm:gap-4 w-full max-w-2xl border border-border/60 rounded-lg p-4 sm:p-6 md:p-8 bg-card/50 hover:border-primary/30 hover:bg-card/60 transition-all duration-300 backdrop-blur-sm">
             <div className="flex flex-col items-center space-y-1 sm:space-y-2 group cursor-default">
@@ -179,6 +154,8 @@ export default function Home() {
               </p>
             </div>
           </div>
+
+          <TrendingSection />
 
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto px-4 sm:px-0">
             <Link
