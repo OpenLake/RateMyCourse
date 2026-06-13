@@ -12,13 +12,6 @@ const supabase = createBrowserClient<Database>(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-// DEBUG: Check auth session at module load
-supabase.auth.getSession().then(res => {
-  console.log("📦 [supabase.ts] Initial session:", res);
-}).catch(err => {
-  console.error("❌ [supabase.ts] Session fetch error:", err);
-});
-
 export { supabase };
 // export const supabase = createBrowserClient<Database>(supabaseUrl, supabaseAnonKey);
 
