@@ -393,7 +393,7 @@ CREATE POLICY course_insert ON courses
   FOR INSERT WITH CHECK (is_admin());
 
 CREATE POLICY course_update ON courses 
-  FOR UPDATE USING (true) WITH CHECK (true);
+  FOR UPDATE USING (is_admin()) WITH CHECK (is_admin());
 
 CREATE POLICY course_delete ON courses 
   FOR DELETE USING (is_admin());
@@ -406,7 +406,7 @@ CREATE POLICY professor_insert ON professors
   FOR INSERT WITH CHECK (is_admin());
 
 CREATE POLICY professor_update ON professors 
-  FOR UPDATE USING (true) WITH CHECK (true);
+  FOR UPDATE USING (is_admin()) WITH CHECK (is_admin());
 
 CREATE POLICY professor_delete ON professors 
   FOR DELETE USING (is_admin());
